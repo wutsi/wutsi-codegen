@@ -36,7 +36,7 @@ internal class KotlinMapperTest {
         context = Context(
             apiName = "Test",
             basePackage = "com.wutsi.codegen.test",
-            outputDirectory = "./target"
+            outputDirectory = "./target/codegen"
         )
     )
 

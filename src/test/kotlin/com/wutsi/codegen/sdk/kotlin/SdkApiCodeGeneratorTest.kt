@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 internal class SdkApiCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = "./target",
+        outputDirectory = "./target/codegen",
         basePackage = "com.wutsi.test"
     )
 

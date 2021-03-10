@@ -2,8 +2,8 @@ Generate the API SDK in Kotlin from an OpenAPIV3 schemas
 
 This generator generates:
 - ``pom.xml``: Maven pom file with all the dependencies
-- Data classes for each of the API schemas, generated into the directory `<output-dir>/generated-sources/kotlin`, in the package `<base-package>.model`
-- The API service class, generated into the directory `<output-dir>/generated-sources/kotlin`, in the package `<base-package>`
+- Data classes for each of the API schemas, generated into the directory `<output-dir>`, in the package `<base-package>.model`
+- The API service class, generated into the directory `<output-dir>`, in the package `<base-package>`
 
 ### Usage
 ```

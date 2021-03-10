@@ -13,7 +13,6 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
-import kotlinx.serialization.Serializable
 import java.io.File
 import java.time.LocalDate
 import java.time.OffsetDateTime
@@ -47,7 +46,7 @@ class SdkModelCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     }
 
     private fun generateModel(type: Type, context: Context) {
-        val file = File(context.outputDirectory + "/generated-sources/kotlin")
+        val file = File(context.outputDirectory)
         System.out.println("Generating ${type.packageName}.${type.name} to $file")
         FileSpec.builder(type.packageName, type.name)
             .addType(toModelTypeSpec(type))
@@ -58,7 +57,6 @@ class SdkModelCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     fun toModelTypeSpec(type: Type): TypeSpec {
         val spec = TypeSpec.classBuilder(type.name)
             .addModifiers(KModifier.DATA)
-            .addAnnotation(Serializable::class)
             .primaryConstructor(
                 FunSpec.constructorBuilder()
                     .addParameters(type.fields.map { toParameterSpec(it) })
