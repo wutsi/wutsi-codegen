@@ -191,7 +191,7 @@ internal class KotlinMapperTest {
     }
 
     @Test
-    fun `map request`() {
+    fun `toRequest`() {
         val mediaType = MediaType()
         mediaType.schema = Schema<String>()
         mediaType.schema.`$ref` = "#/components/schemas/TestResponse"

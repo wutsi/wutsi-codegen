@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 internal class SdkModelCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = "./target/codegen",
+        outputDirectory = System.getProperty("user.home") + "/wutsi/codegen",
         basePackage = "com.wutsi.test"
     )
 
@@ -156,9 +156,9 @@ internal class SdkModelCodeGeneratorTest {
         )
 
         // Model files
-        assertTrue(File("target/codegen/com/wutsi/test/model/ErrorResponse.kt").exists())
-        assertTrue(File("target/codegen/com/wutsi/test/model/CreateLikeRequest.kt").exists())
-        assertTrue(File("target/codegen/com/wutsi/test/model/CreateLikeResponse.kt").exists())
-        assertTrue(File("target/codegen/com/wutsi/test/model/GetStatsResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
     }
 }

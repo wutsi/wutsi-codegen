@@ -1,15 +1,17 @@
-Generate the API SDK in Kotlin from an OpenAPIV3 schemas
+Generate the API SDK in Kotlin from an OpenAPIV3 schemas, that uses [feign](https://github.com/OpenFeign/feign) as HTTP client binder.
 
 This generator generates:
-- ``pom.xml``: Maven pom file with all the dependencies
-- Data classes for each of the API schemas, generated into the directory `<output-dir>`, in the package `<base-package>.model`
-- The API service class, generated into the directory `<output-dir>`, in the package `<base-package>`
+- Data classes for each of the API schemas, generated in the directory `<output-dir>/src/main/kotlin`, in the package `<base-package>.model`
+- The API service class, generated in the directory `<output-dir>/src/main/kotlin`, in the package `<base-package>`
+- The `pom.xml` generated in the directory `<output-dir>`
 
 ### Usage
 ```
-java -jar wutsi-codegen sdk -i <openapi-file-url> -o <output-dir> -p <base-package> -a <api-name>
+java -jar wutsi-codegen sdk
+    -i <openapi-file-url>
+    -o <output-dir>
+    -p <base-package>
+    -a <maven-artifact-name>
+    -g <maven-group>
+    -n <api-name>
 ```
-
-### Dependencies
-- [feign](https://github.com/OpenFeign/feign): HTTP client binder
-- [Kotlin Serialization](https://github.com/Kotlin/kotlinx.serialization)

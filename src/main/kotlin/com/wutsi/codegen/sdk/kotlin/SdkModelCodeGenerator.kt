@@ -46,7 +46,7 @@ class SdkModelCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     }
 
     private fun generateModel(type: Type, context: Context) {
-        val file = File(context.outputDirectory)
+        val file = File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}kotlin")
         System.out.println("Generating ${type.packageName}.${type.name} to $file")
         FileSpec.builder(type.packageName, type.name)
             .addType(toModelTypeSpec(type))

@@ -24,7 +24,7 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     }
 
     private fun generateAPI(api: API, context: Context) {
-        val file = File(context.outputDirectory)
+        val file = File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}kotlin")
         System.out.println("Generating ${api.packageName}.${api.name} to $file")
 
         FileSpec.builder(api.packageName, api.name)

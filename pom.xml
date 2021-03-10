@@ -14,7 +14,7 @@
   <properties>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <jacoco.threshold.line>0.95</jacoco.threshold.line>
-    <jacoco.threshold.class>0.70</jacoco.threshold.class>
+    <jacoco.threshold.class>0.80</jacoco.threshold.class>
 
     <feign.version>11.0</feign.version>
     <junit.version>5.6.0</junit.version>
@@ -247,8 +247,6 @@
         <configuration>
           <excludes>
             <exclude>**/model/*</exclude>
-            <exclude>**/test/*</exclude>
-            <exclude>**/test/**/*</exclude>
           </excludes>
           <rules>
             <rule implementation="org.jacoco.maven.RuleConfiguration">
