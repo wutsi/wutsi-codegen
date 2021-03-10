@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+    title: Like API
+    description: This api used for managing likes on links
+    version: '1.0'
+servers:
+    -   url: 'https://com-wutsi-prod-like.herokuapp.com'
+        description: Production
+    -   url: 'https://com-wutsi-int-like.herokuapp.com'
+        description: Sandbox
+paths:
+    /v1/likes:
+        post:
+            operationId: create
+            summary: Add a Like to a link
+            requestBody:
+                description: Like request
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateLikeRequest'
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateLikeResponse'
+                default:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+            security:
+                -   api_key: [ ]
+            tags:
+                - Like
+    /v1/likes/stats:
+        get:
+            operationId: stats
+            summary: Returns the Like statistics of a link
+            parameters:
+                -   in: query
+                    name: link
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetStatsResponse'
+                '404':
+                    description: Link is not valid
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                default:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+            security:
+                -   api_key: [ ]
+            tags:
+                - Like
+    '/v1/likes/{id}':
+        delete:
+            operationId: delete
+            summary: Unlike a link
+            parameters:
+                -   in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: number
+                        format: int64
+            responses:
+                '200':
+                    description: Success
+            security:
+                -   api_key: [ ]
+            tags:
+                - Like
+components:
+    schemas:
+        CreateLikeRequest:
+            type: object
+            properties:
+                link:
+                    type: string
+                    format: uri
+            required:
+                - link
+        CreateLikeResponse:
+            type: object
+            properties:
+                likeId:
+                    type: number
+                    format: int64
+                    nullable: false
+        ErrorResponse:
+            type: object
+            properties:
+                type:
+                    type: string
+                    format: uri
+                    nullable: false
+                description:
+                    type: string
+                    nullable: false
+        GetStatsResponse:
+            type: object
+            properties:
+                link:
+                    type: string
+                    format: uri
+                    nullable: false
+                count:
+                    type: number
+                    format: int64
+                    nullable: false
+                countText:
+                    type: string
+                    nullable: false
+    securitySchemes:
+        api_key:
+            type: apiKey
+            in: header
+            name: x-wutsi-api-key
