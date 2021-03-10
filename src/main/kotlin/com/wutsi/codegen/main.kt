@@ -1,7 +1,7 @@
 package com.wutsi.codegen
 
-import com.wutsi.codegen.kotlin.KotlinMapper
-import com.wutsi.codegen.kotlin.SdkCodeGenerator
+import com.wutsi.codegen.sdk.kotlin.KotlinMapper
+import com.wutsi.codegen.sdk.kotlin.SdkCodeGenerator
 import io.swagger.v3.parser.OpenAPIV3Parser
 
 fun main(args: Array<String>) {

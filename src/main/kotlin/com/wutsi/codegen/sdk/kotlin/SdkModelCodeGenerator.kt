@@ -1,4 +1,4 @@
-package com.wutsi.codegen.kotlin
+package com.wutsi.codegen.sdk.kotlin
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec

@@ -1,4 +1,4 @@
-package com.wutsi.codegen.kotlin
+package com.wutsi.codegen.sdk.kotlin
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.model.Field
