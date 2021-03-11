@@ -49,17 +49,11 @@ class KotlinMapper(private val context: Context) {
         )
     }
 
-    private val typeRegistry = mutableMapOf<String, Type>()
-
     fun toAPI(openAPI: OpenAPI) = Api(
         packageName = context.basePackage,
         name = toCamelCase("${context.apiName}API", true),
         endpoints = toEndpoints(openAPI)
     )
-
-    fun register(ref: String, type: Type) {
-        typeRegistry[ref] = type
-    }
 
     fun toEndpoints(openAPI: OpenAPI): List<Endpoint> {
         val endpoints = mutableListOf<Endpoint>()
@@ -98,7 +92,7 @@ class KotlinMapper(private val context: Context) {
             requests.add(
                 Request(
                     contentType = contentType,
-                    type = typeRegistry[media.schema.`$ref`]!!,
+                    type = context.getType(media.schema.`$ref`)!!,
                     required = body.required?.let { it } ?: false,
                 )
             )
@@ -115,7 +109,7 @@ class KotlinMapper(private val context: Context) {
             return null
 
         val ref = response.content.values.toList()[0].schema.`$ref`
-        return typeRegistry[ref]
+        return context.getType(ref)
     }
 
     fun toParameter(parameter: Parameter) = EndpointParameter(

@@ -32,7 +32,6 @@ internal class SdkPomCodeGeneratorTest {
         assertTrue(file.exists())
 
         val result = file.readText()
-//        System.out.println(result)
         val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/sdk/kotlin/pom.xml"))
         assertEquals(expected.trimIndent(), result.trimIndent())
     }

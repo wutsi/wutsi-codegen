@@ -1,17 +1,39 @@
-Generate the API SDK in Kotlin from an OpenAPIV3 schemas, that usesSdkCodeGeneratorTest [feign](https://github.com/OpenFeign/feign) as HTTP client binder.
+Generate the API SDK in Kotlin from an OpenAPIV3 schemas.
 
-This generator generates:
-- Data classes for each of the API schemas, generated in the directory `<output-dir>/src/main/kotlin`, in the package `<base-package>.model`
-- The API service class, generated in the directory `<output-dir>/src/main/kotlin`, in the package `<base-package>`
-- The `pom.xml` generated in the directory `<output-dir>`
-
-### Usage
+## Usage
 ```
 java -jar wutsi-codegen sdk
     -i <openapi-file-url>
-    -o <output-dir>
+    -n <api-name>
     -p <base-package>
+    -o <output-dir>
     -a <artifact-id>
     -g <group-id>
-    -n <api-name>
+
+  <openapi-file-url> REQUIRED - URL of the OpenAPI file
+  -n <api-name>      REQUIRED - Name of the API
+  -p <base-package>  REQUIRED - Base package of the SDK
+  -o <output-dir>    OPTIONAL - Output directory to the generate files will be stored. Default = ./out.
+  -o <artifact-id>   OPTIONAL - ID of the maven artifact. Default = <api-name>
+  -o <group-id>      OPTIONAL - ID of the maven group. Default = <base-package>
 ```
+
+## Output
+The SDK generator will generate the following files.
+- The Maven descriptor `pom.xml`.
+  - It's located in the directory `<output-dir>`
+  - It has the following information:
+    - The `version` = `info.version` in the OpenAPI file
+    - The `artifactId` = `<artifact-id>` provided in the command line
+    - The `groupId` = `<group-id>` provided in the command line
+- The API class, based on [feign](https://github.com/OpenFeign/feign):
+  - It's located in the directory `<output-dir>/src/main/kotlin`
+  - The classname is `<base-package>.<api-name>API`
+  - It exposes a function for each endpoint of the API
+- The Model classes to represent the entities of the API
+  - They are located in the directory `<output-dir>/src/main/kotlin`
+  - Their package name `<base-package>.model`
+
+## Dependencies
+- [feign](https://github.com/OpenFeign/feign) as HTTP client binder.
+- [javax.validation](https://mvnrepository.com/artifact/javax.validation/validation-api).

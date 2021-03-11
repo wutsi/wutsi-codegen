@@ -200,7 +200,7 @@ internal class KotlinMapperTest {
         mediaType.schema.`$ref` = "#/components/schemas/TestResponse"
 
         val type = Type(packageName = "x.y.z", name = "XXX")
-        mapper.register(mediaType.schema.`$ref`, type)
+        context.register(mediaType.schema.`$ref`, type)
 
         val requestBody = RequestBody()
         requestBody.content = Content()
@@ -221,7 +221,7 @@ internal class KotlinMapperTest {
         mediaType.schema.`$ref` = "#/components/schemas/TestResponse"
 
         val type = Type(packageName = "x.y.z", name = "XXX")
-        mapper.register(mediaType.schema.`$ref`, type)
+        context.register(mediaType.schema.`$ref`, type)
 
         val operation = Operation()
         operation.operationId = "get-by-id"

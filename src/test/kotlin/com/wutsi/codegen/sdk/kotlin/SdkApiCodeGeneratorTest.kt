@@ -8,7 +8,11 @@ import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.ParameterType.PATH
 import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
+import io.swagger.v3.parser.OpenAPIV3Parser
+import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.test.assertTrue
 
 internal class SdkApiCodeGeneratorTest {
     val context = Context(
@@ -96,5 +100,26 @@ internal class SdkApiCodeGeneratorTest {
             }
         """.trimIndent()
         kotlin.test.assertEquals(expected, spec.toString().trimIndent())
+    }
+
+    @Test
+    fun testGenerate() {
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+
+        context.register("#/components/schemas/ErrorResponse", Type(packageName = "${context.basePackage}.model", name = "ErrorResponse"))
+        context.register("#/components/schemas/CreateLikeRequest", Type(packageName = "${context.basePackage}.model", name = "CreateLikeRequest"))
+        context.register("#/components/schemas/CreateLikeResponse", Type(packageName = "${context.basePackage}.model", name = "CreateLikeResponse"))
+        context.register("#/components/schemas/GetStatsResponse", Type(packageName = "${context.basePackage}.model", name = "GetStatsResponse"))
+
+        codegen.generate(
+            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
+            context = context
+        )
+
+        // API
+        assertTrue(
+            File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists(),
+            "${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt"
+        )
     }
 }

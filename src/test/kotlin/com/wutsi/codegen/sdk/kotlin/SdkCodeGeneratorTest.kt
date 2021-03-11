@@ -3,11 +3,10 @@ package com.wutsi.codegen.sdk.kotlin
 import com.wutsi.codegen.Context
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.test.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 internal class SdkCodeGeneratorTest {
     val context = Context(
@@ -29,24 +28,22 @@ internal class SdkCodeGeneratorTest {
         )
 
         // List all the files
-        System.out.println(">>> Files generated")
+        var kt = 0
+        var pom = 0
         Files.walk(Paths.get(context.outputDirectory))
             .filter(Files::isRegularFile)
-            .forEach(System.out::println)
+            .forEach {
+                var filepath = it.toFile().absolutePath
+                if (filepath.endsWith(".kt")) {
+                    System.out.println(">> Class generated: $filepath")
+                    kt++
+                } else if (filepath.endsWith("pom.xml")) {
+                    System.out.println(">> pom generated: $filepath")
+                    pom++
+                }
+            }
 
-        // Model files
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
-
-        // POM
-        assertTrue(File("${context.outputDirectory}/pom.xml").exists(), "${context.outputDirectory}/pom.xml")
-
-        // API
-        assertTrue(
-            File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists(),
-            "${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt"
-        )
+        assertEquals(1, pom)
+        assertEquals(5, kt) // 4 model files, 1 API file
     }
 }

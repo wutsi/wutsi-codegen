@@ -40,7 +40,7 @@ class SdkModelCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
             val type = mapper.toType(name, schema)
             result.add(type)
 
-            mapper.register("#/components/schemas/$name", type)
+            context.register("#/components/schemas/$name", type)
         }
         return result
     }
