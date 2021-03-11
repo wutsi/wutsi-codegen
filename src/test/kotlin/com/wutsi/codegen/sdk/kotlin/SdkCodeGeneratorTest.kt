@@ -41,9 +41,12 @@ internal class SdkCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
 
         // API
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists())
+        assertTrue(
+            File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists(),
+            "${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt"
+        )
 
         // POM
-        assertTrue(File("${context.outputDirectory}/pom.xml").exists())
+        assertTrue(File("${context.outputDirectory}/pom.xml").exists(), "${context.outputDirectory}/pom.xml")
     }
 }
