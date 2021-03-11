@@ -50,9 +50,17 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCode
             )
             .addParameters(endpoint.parameters.map { toParameter(it) })
 
-        if (endpoint.response != null) {
-            builder.returns(ClassName(endpoint.response.packageName, endpoint.response.name))
+        if (endpoint.request != null) {
+            val type = endpoint.request.type
+            builder.addParameter(
+                ParameterSpec
+                    .builder("request", ClassName(type.packageName, type.name))
+                    .build()
+            )
         }
+
+        if (endpoint.response != null)
+            builder.returns(ClassName(endpoint.response.packageName, endpoint.response.name))
 
         return builder.build()
     }
