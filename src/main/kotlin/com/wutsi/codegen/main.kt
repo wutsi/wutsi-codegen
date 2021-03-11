@@ -1,7 +1,7 @@
 package com.wutsi.codegen
 
 import com.wutsi.codegen.kotlin.KotlinMapper
-import com.wutsi.codegen.kotlin.sdk.SdkCodeGenerator
+import com.wutsi.codegen.kotlin.server.ServerCodeGenerator
 import io.swagger.v3.parser.OpenAPIV3Parser
 
 fun main(args: Array<String>) {
@@ -11,8 +11,8 @@ fun main(args: Array<String>) {
     val context = Context(
         apiName = "Like",
         basePackage = "com.wutsi.codegen.test",
-        outputDirectory = "./target/codegen/sdk"
+        outputDirectory = "./target/codegen/server"
     )
-    //ServerCodeGenerator(KotlinMapper(context)).generate(spec, context)
-    SdkCodeGenerator(KotlinMapper(context)).generate(spec, context)
+    ServerCodeGenerator(KotlinMapper(context)).generate(spec, context)
+    // SdkCodeGenerator(KotlinMapper(context)).generate(spec, context)
 }
