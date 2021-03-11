@@ -3,10 +3,9 @@ package com.wutsi.codegen.sdk.kotlin
 import com.wutsi.codegen.Context
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class SdkCodeGeneratorTest {
     val context = Context(
@@ -27,23 +26,16 @@ internal class SdkCodeGeneratorTest {
             context = context
         )
 
-        // List all the files
-        var kt = 0
-        var pom = 0
-        Files.walk(Paths.get(context.outputDirectory))
-            .filter(Files::isRegularFile)
-            .forEach {
-                var filepath = it.toFile().absolutePath
-                if (filepath.endsWith(".kt")) {
-                    System.out.println(">> Class generated: $filepath")
-                    kt++
-                } else if (filepath.endsWith("pom.xml")) {
-                    System.out.println(">> pom generated: $filepath")
-                    pom++
-                }
-            }
+        // POM
+        assertTrue(File("${context.outputDirectory}/pom.xml").exists())
 
-        assertEquals(1, pom)
-        assertEquals(5, kt) // 4 model files, 1 API file
+        // API
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists())
+
+        // Model files
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
     }
 }

@@ -51,13 +51,13 @@ class KotlinMapper(private val context: Context) {
 
     fun toAPI(openAPI: OpenAPI) = Api(
         packageName = context.basePackage,
-        name = toCamelCase("${context.apiName}API", true),
+        name = toCamelCase("${context.apiName}Api", true),
         endpoints = toEndpoints(openAPI)
     )
 
     fun toEndpoints(openAPI: OpenAPI): List<Endpoint> {
         val endpoints = mutableListOf<Endpoint>()
-        openAPI.paths.forEach { path, item ->
+        openAPI.paths?.forEach { path, item ->
             if (item.post != null) {
                 endpoints.add(toEndpoint(path, "POST", item.post))
             } else if (item.delete != null) {

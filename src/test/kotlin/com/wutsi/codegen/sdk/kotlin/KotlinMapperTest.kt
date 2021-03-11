@@ -335,6 +335,14 @@ internal class KotlinMapperTest {
         assertEquals("wutsi-test", result["artifactId"])
     }
 
+    @Test
+    fun `toApi`() {
+        val result = mapper.toAPI(createOpenAPI())
+
+        assertEquals("TestApi", result.name)
+        assertEquals(context.basePackage, result.packageName)
+    }
+
     private fun createOpenAPI(): OpenAPI {
         val openAPI = OpenAPI()
         openAPI.info = Info()
