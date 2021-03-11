@@ -1,6 +1,7 @@
-package com.wutsi.codegen.sdk.kotlin
+package com.wutsi.codegen.kotlin.sdk
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter

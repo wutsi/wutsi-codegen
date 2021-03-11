@@ -1,6 +1,7 @@
-package com.wutsi.codegen.sdk.kotlin
+package com.wutsi.codegen.kotlin.sdk
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.parser.OpenAPIV3Parser

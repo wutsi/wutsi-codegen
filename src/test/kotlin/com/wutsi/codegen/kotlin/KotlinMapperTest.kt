@@ -1,4 +1,4 @@
-package com.wutsi.codegen.sdk.kotlin
+package com.wutsi.codegen.kotlin
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.model.ParameterType

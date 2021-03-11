@@ -11,11 +11,11 @@ java -jar wutsi-codegen sdk
     -g <group-id>
 
   <openapi-file-url> REQUIRED - URL of the OpenAPI file
-  -n <api-name>      REQUIRED - Name of the API
-  -p <base-package>  REQUIRED - Base package of the SDK
-  -o <output-dir>    OPTIONAL - Output directory to the generate files will be stored. Default = ./out.
-  -o <artifact-id>   OPTIONAL - ID of the maven artifact. Default = <api-name>
-  -o <group-id>      OPTIONAL - ID of the maven group. Default = <base-package>
+  <api-name>         REQUIRED - Name of the API
+  <base-package>     REQUIRED - Base package of the SDK
+  <output-dir>       OPTIONAL - Output directory to the generate files will be stored. Default = ./out.
+  <artifact-id>      OPTIONAL - ID of the maven artifact. Default = <api-name>
+  <group-id>         OPTIONAL - ID of the maven group. Default = <base-package>
 ```
 
 ## Output

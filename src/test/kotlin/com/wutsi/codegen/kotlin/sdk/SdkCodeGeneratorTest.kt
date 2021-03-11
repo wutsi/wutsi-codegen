@@ -1,6 +1,7 @@
-package com.wutsi.codegen.sdk.kotlin
+package com.wutsi.codegen.kotlin.sdk
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
 import java.io.File

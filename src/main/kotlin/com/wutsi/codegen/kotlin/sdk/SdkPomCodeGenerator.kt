@@ -1,8 +1,9 @@
-package com.wutsi.codegen.sdk.kotlin
+package com.wutsi.codegen.kotlin.sdk
 
 import com.github.mustachejava.DefaultMustacheFactory
 import com.wutsi.codegen.CodeGenerator
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 import java.io.FileWriter

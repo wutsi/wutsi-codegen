@@ -1,4 +1,4 @@
-package com.wutsi.codegen.sdk.kotlin
+package com.wutsi.codegen.kotlin.sdk
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
@@ -10,6 +10,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.wutsi.codegen.CodeGenerator
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
