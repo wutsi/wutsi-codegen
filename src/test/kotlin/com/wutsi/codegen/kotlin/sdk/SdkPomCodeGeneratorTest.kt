@@ -13,7 +13,7 @@ import kotlin.test.assertTrue
 internal class SdkPomCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = System.getProperty("user.home") + "/wutsi/codegen/sdk",
+        outputDirectory = "./target/wutsi/codegen/sdk",
         basePackage = "com.wutsi.test",
         artifactId = "wutsi-test",
         groupId = "x.y.z",
