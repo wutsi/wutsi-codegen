@@ -11,7 +11,7 @@ java -jar wutsi-codegen sdk
     -i <openapi-file-url>
     -o <output-dir>
     -p <base-package>
-    -a <maven-artifact-name>
-    -g <maven-group>
+    -a <artifact-id>
+    -g <group-id>
     -n <api-name>
 ```

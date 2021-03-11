@@ -8,6 +8,10 @@ fun main(args: Array<String>) {
     val spec = OpenAPIV3Parser().read("https://wutsi-openapi.s3.amazonaws.com/like_api.yaml")
     System.out.println(spec)
 
-    val context = Context(apiName = "Test", basePackage = "com.wutsi.codegen.test", outputDirectory = "./target")
+    val context = Context(
+        apiName = "Test",
+        basePackage = "com.wutsi.codegen.test",
+        outputDirectory = "./target"
+    )
     SdkCodeGenerator(KotlinMapper(context)).generate(spec, context)
 }

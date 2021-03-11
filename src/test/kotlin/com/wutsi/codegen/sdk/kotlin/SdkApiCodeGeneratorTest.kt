@@ -1,7 +1,7 @@
 package com.wutsi.codegen.sdk.kotlin
 
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.model.API
+import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Field
@@ -23,7 +23,7 @@ internal class SdkApiCodeGeneratorTest {
 
     @Test
     fun testToAPITypeSpec() {
-        val api = API(
+        val api = Api(
             packageName = "com.wutsi.test",
             name = "Test",
             endpoints = listOf(

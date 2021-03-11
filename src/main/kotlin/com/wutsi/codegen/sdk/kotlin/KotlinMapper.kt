@@ -1,7 +1,7 @@
 package com.wutsi.codegen.sdk.kotlin
 
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.model.API
+import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Field
@@ -51,7 +51,7 @@ class KotlinMapper(private val context: Context) {
 
     private val typeRegistry = mutableMapOf<String, Type>()
 
-    fun toAPI(openAPI: OpenAPI) = API(
+    fun toAPI(openAPI: OpenAPI) = Api(
         packageName = context.basePackage,
         name = toCamelCase("${context.apiName}API", true),
         endpoints = toEndpoints(openAPI)
@@ -163,8 +163,18 @@ class KotlinMapper(private val context: Context) {
         return result
     }
 
+    fun toPom(openAPI: OpenAPI) = mapOf(
+        "artifactId" to toString(context.artifactId, toSnakeCase(context.apiName.toLowerCase())),
+        "groupId" to toString(context.groupId, context.basePackage),
+        "jdkVersion" to context.jdkVersion,
+        "version" to toString(openAPI.info?.version, "1.0.0")
+    )
+
     private fun toPackage(basePackage: String, suffix: String): String =
         if (basePackage.isNullOrEmpty()) suffix else "$basePackage.$suffix"
+
+    private fun toString(value: String?, default: String): String =
+        value ?: default
 
     private fun toCamelCase(str: String, capitalizeFirstLetter: Boolean): String {
         val buff = StringBuilder()
@@ -182,6 +192,19 @@ class KotlinMapper(private val context: Context) {
                 }
             } else {
                 part = true
+            }
+        }
+        return buff.toString()
+    }
+
+    private fun toSnakeCase(str: String): String {
+        val buff = StringBuilder()
+        for (i in 0..str.length - 1) {
+            val ch = str[i]
+            if (!ch.isLetterOrDigit()) {
+                buff.append("-")
+            } else {
+                buff.append(ch)
             }
         }
         return buff.toString()

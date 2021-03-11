@@ -32,7 +32,7 @@ internal class SdkCodeGeneratorTest {
         System.out.println(">>> Files generated")
         Files.walk(Paths.get(context.outputDirectory))
             .filter(Files::isRegularFile)
-            .forEach(System.out::println);
+            .forEach(System.out::println)
 
         // Model files
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
@@ -42,5 +42,8 @@ internal class SdkCodeGeneratorTest {
 
         // API
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists())
+
+        // POM
+        assertTrue(File("${context.outputDirectory}/pom.xml").exists())
     }
 }

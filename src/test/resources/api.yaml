@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
     title: Like API
     description: This api used for managing likes on links
-    version: '1.0'
+    version: '1.0.0'
 servers:
     -   url: 'https://com-wutsi-prod-like.herokuapp.com'
         description: Production

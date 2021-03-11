@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.PathItem
 import io.swagger.v3.oas.models.Paths
+import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.media.Content
 import io.swagger.v3.oas.models.media.MediaType
 import io.swagger.v3.oas.models.media.Schema
@@ -32,13 +33,15 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 internal class KotlinMapperTest {
-    private val mapper = KotlinMapper(
-        context = Context(
-            apiName = "Test",
-            basePackage = "com.wutsi.codegen.test",
-            outputDirectory = "./target/codegen"
-        )
+    private val context = Context(
+        apiName = "Test",
+        basePackage = "com.wutsi.codegen.test",
+        outputDirectory = "./target/codegen",
+        artifactId = "wutsi-test",
+        groupId = "x.y.z",
+        jdkVersion = "1.8"
     )
+    private val mapper = KotlinMapper(context)
 
     @Test
     fun `toType`() {
@@ -275,6 +278,68 @@ internal class KotlinMapperTest {
 
         val endpoint = result[0]
         assertEquals(method, endpoint.method.toLowerCase())
+    }
+
+    @Test
+    fun `toPom`() {
+        val openAPI = createOpenAPI()
+
+        val result = mapper.toPom(openAPI)
+
+        assertEquals(4, result.size)
+        assertEquals(openAPI.info.version, result["version"])
+        assertEquals(context.artifactId, result["artifactId"])
+        assertEquals(context.groupId, result["groupId"])
+        assertEquals(context.jdkVersion, result["jdkVersion"])
+    }
+
+    @Test
+    fun `toPom - no version`() {
+        val result = mapper.toPom(OpenAPI())
+        assertEquals("1.0.0", result["version"])
+    }
+
+    @Test
+    fun `toPom - no groupId`() {
+        val openAPI = createOpenAPI()
+
+        val context = Context(
+            apiName = "Test",
+            basePackage = "com.wutsi.codegen.test",
+            outputDirectory = "./target/codegen",
+            artifactId = "wutsi-test",
+            groupId = null,
+            jdkVersion = "1.8"
+        )
+        val mapper = KotlinMapper(context)
+
+        val result = mapper.toPom(openAPI)
+        assertEquals(context.basePackage, result["groupId"])
+    }
+
+    @Test
+    fun `toPom - no artifactId`() {
+        val openAPI = createOpenAPI()
+
+        val context = Context(
+            apiName = "Wutsi Test",
+            basePackage = "com.wutsi.codegen.test",
+            outputDirectory = "./target/codegen",
+            artifactId = null,
+            groupId = "x.y.z",
+            jdkVersion = "1.8"
+        )
+        val mapper = KotlinMapper(context)
+
+        val result = mapper.toPom(openAPI)
+        assertEquals("wutsi-test", result["artifactId"])
+    }
+
+    private fun createOpenAPI(): OpenAPI {
+        val openAPI = OpenAPI()
+        openAPI.info = Info()
+        openAPI.info.version = "1.3.7"
+        return openAPI
     }
 
     private fun createPaths(method: String): Paths {

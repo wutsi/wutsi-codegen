@@ -9,7 +9,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.wutsi.codegen.CodeGenerator
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.model.API
+import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import feign.Param
@@ -23,7 +23,7 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
         generateAPI(api, context)
     }
 
-    private fun generateAPI(api: API, context: Context) {
+    private fun generateAPI(api: Api, context: Context) {
         val file = File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}kotlin")
         System.out.println("Generating ${api.packageName}.${api.name} to $file")
 
@@ -33,7 +33,7 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
             .writeTo(file)
     }
 
-    fun toAPITypeSpec(api: API): TypeSpec {
+    fun toAPITypeSpec(api: Api): TypeSpec {
         val spec = TypeSpec.interfaceBuilder(api.name)
             .addFunctions(api.endpoints.map { toFunSpec(it) })
             .build()
