@@ -12,12 +12,14 @@ import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.Test
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.test.assertTrue
 
 internal class SdkApiCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = "./target/codegen",
+        outputDirectory = System.getProperty("user.home") + "/wutsi/codegen",
         basePackage = "com.wutsi.test"
     )
 
@@ -115,6 +117,12 @@ internal class SdkApiCodeGeneratorTest {
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
             context = context
         )
+
+        Files.walk(Paths.get(context.outputDirectory))
+            .filter(Files::isRegularFile)
+            .forEach {
+                System.out.println(it)
+            }
 
         // API
         assertTrue(
