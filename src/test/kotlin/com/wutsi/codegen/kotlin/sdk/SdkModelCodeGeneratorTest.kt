@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
 internal class SdkModelCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = System.getProperty("user.home") + "/wutsi/codegen",
+        outputDirectory = "./target/wutsi/codegen/sdk",
         basePackage = "com.wutsi.test"
     )
 

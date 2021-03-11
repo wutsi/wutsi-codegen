@@ -7,8 +7,8 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier.ABSTRACT
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.wutsi.codegen.CodeGenerator
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
@@ -16,16 +16,15 @@ import com.wutsi.codegen.model.EndpointParameter
 import feign.Param
 import feign.RequestLine
 import io.swagger.v3.oas.models.OpenAPI
-import java.io.File
 
-class SdkApiCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
+class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
         val api = mapper.toAPI(openAPI)
         generateAPI(api, context)
     }
 
     private fun generateAPI(api: Api, context: Context) {
-        val file = File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}kotlin")
+        val file = getSourceDirectory(context)
         System.out.println("Generating ${api.packageName}.${api.name} to $file")
 
         FileSpec.builder(api.packageName, api.name)
@@ -51,9 +50,17 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
             )
             .addParameters(endpoint.parameters.map { toParameter(it) })
 
-        if (endpoint.response != null) {
-            builder.returns(ClassName(endpoint.response.packageName, endpoint.response.name))
+        if (endpoint.request != null) {
+            val type = endpoint.request.type
+            builder.addParameter(
+                ParameterSpec
+                    .builder("request", ClassName(type.packageName, type.name))
+                    .build()
+            )
         }
+
+        if (endpoint.response != null)
+            builder.returns(ClassName(endpoint.response.packageName, endpoint.response.name))
 
         return builder.build()
     }

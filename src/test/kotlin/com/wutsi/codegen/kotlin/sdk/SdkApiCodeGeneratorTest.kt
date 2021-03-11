@@ -18,7 +18,7 @@ import kotlin.test.assertTrue
 internal class SdkApiCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = System.getProperty("user.home") + "/wutsi/codegen",
+        outputDirectory = "./target/wutsi/codegen/sdk",
         basePackage = "com.wutsi.test"
     )
 
@@ -97,7 +97,7 @@ internal class SdkApiCodeGeneratorTest {
               public fun deleteById(@feign.Param("id") id: kotlin.Long): kotlin.Unit
 
               @feign.RequestLine("POST /foo")
-              public fun create(): com.wutsi.test.model.CreateFooResponse
+              public fun create(request: com.wutsi.test.model.CreateFooRequest): com.wutsi.test.model.CreateFooResponse
             }
         """.trimIndent()
         kotlin.test.assertEquals(expected, spec.toString().trimIndent())
