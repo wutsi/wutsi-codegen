@@ -8,13 +8,12 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import com.wutsi.codegen.CodeGenerator
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
-import java.io.File
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import javax.validation.constraints.Max
@@ -25,7 +24,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
-class SdkModelCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
+class SdkModelCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
         val models = loadModels(openAPI, context)
         models.forEach { generateModel(it, context) }
@@ -47,7 +46,7 @@ class SdkModelCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     }
 
     private fun generateModel(type: Type, context: Context) {
-        val file = File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}kotlin")
+        val file = getSourceDirectory(context)
         System.out.println("Generating ${type.packageName}.${type.name} to $file")
         FileSpec.builder(type.packageName, type.name)
             .addType(toModelTypeSpec(type))
