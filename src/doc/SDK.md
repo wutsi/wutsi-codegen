@@ -1,4 +1,4 @@
-Generate the API SDK in Kotlin from an OpenAPIV3 schemas, that uses [feign](https://github.com/OpenFeign/feign) as HTTP client binder.
+Generate the API SDK in Kotlin from an OpenAPIV3 schemas, that usesSdkCodeGeneratorTest [feign](https://github.com/OpenFeign/feign) as HTTP client binder.
 
 This generator generates:
 - Data classes for each of the API schemas, generated in the directory `<output-dir>/src/main/kotlin`, in the package `<base-package>.model`

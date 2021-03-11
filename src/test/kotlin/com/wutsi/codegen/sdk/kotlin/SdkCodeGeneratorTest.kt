@@ -4,6 +4,8 @@ import com.wutsi.codegen.Context
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -25,6 +27,12 @@ internal class SdkCodeGeneratorTest {
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
             context = context
         )
+
+        // List all the files
+        System.out.println(">>> Files generated")
+        Files.walk(Paths.get(context.outputDirectory))
+            .filter(Files::isRegularFile)
+            .forEach(System.out::println);
 
         // Model files
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
