@@ -9,9 +9,10 @@ fun main(args: Array<String>) {
     System.out.println(spec)
 
     val context = Context(
-        apiName = "Test",
+        apiName = "Like",
         basePackage = "com.wutsi.codegen.test",
-        outputDirectory = "./target"
+        outputDirectory = "./target/codegen/sdk"
     )
+    //ServerCodeGenerator(KotlinMapper(context)).generate(spec, context)
     SdkCodeGenerator(KotlinMapper(context)).generate(spec, context)
 }

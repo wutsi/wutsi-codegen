@@ -86,7 +86,7 @@ internal class SdkApiCodeGeneratorTest {
             )
         )
 
-        val spec = codegen.toAPITypeSpec(api)
+        val spec = codegen.toTypeSpec(api)
 
         val expected = """
             public interface Test {
