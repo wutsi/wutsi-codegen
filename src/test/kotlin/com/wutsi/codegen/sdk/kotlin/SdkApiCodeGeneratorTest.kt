@@ -11,7 +11,6 @@ import com.wutsi.codegen.model.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.Test
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.test.assertTrue
@@ -118,16 +117,17 @@ internal class SdkApiCodeGeneratorTest {
             context = context
         )
 
+        var found = false
         Files.walk(Paths.get(context.outputDirectory))
             .filter(Files::isRegularFile)
             .forEach {
+                val filepath = it.toFile().absolutePath
+                if (filepath.endsWith("TestApi.kt"))
+                    found = (filepath == "${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt")
                 System.out.println(it)
             }
 
         // API
-        assertTrue(
-            File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists(),
-            "${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt"
-        )
+        assertTrue(found)
     }
 }
