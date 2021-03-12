@@ -2,8 +2,11 @@
 
 ## [0.0.4] 2021-03-12
 ### Added
-- Add server code generators
-- Remove `groupId` and `artifactId` from the context
+- Server code generators
+- Github maven deployment
+
+### Removed
+- `groupId` and `artifactId` from the context
 
 ## [0.0.3] 2021-03-11
 ### Fixed
