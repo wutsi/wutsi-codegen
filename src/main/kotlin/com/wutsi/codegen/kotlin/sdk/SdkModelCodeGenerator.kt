@@ -67,7 +67,7 @@ class SdkModelCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCo
 
     fun toParameterSpec(field: Field): ParameterSpec {
         val builder = ParameterSpec.builder(field.name, field.type.asTypeName().copy(field.nullable))
-            .addAnnotations(toAnnotationSpecs(field))
+            .addAnnotations(toValidationAnnotationSpecs(field))
 
         val default = defaultValue(field)
         if (default != null)

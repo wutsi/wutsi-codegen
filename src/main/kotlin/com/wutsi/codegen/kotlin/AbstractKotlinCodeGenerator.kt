@@ -17,7 +17,7 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
     protected fun getSourceDirectory(context: Context): File =
         File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}kotlin")
 
-    fun toAnnotationSpecs(field: Field): List<AnnotationSpec> {
+    fun toValidationAnnotationSpecs(field: Field): List<AnnotationSpec> {
         val annotations = mutableListOf<AnnotationSpec>()
         if (field.required) {
             if (field.type == String::class) {

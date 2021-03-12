@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.OpenAPI
 class ServerCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     override fun generate(openAPI: OpenAPI, context: Context) {
         SdkModelCodeGenerator(mapper).loadModels(openAPI, context)
+        ServerDelegateCodeGenerator(mapper).generate(openAPI, context)
         ServerControllerCodeGenerator(mapper).generate(openAPI, context)
     }
 }
