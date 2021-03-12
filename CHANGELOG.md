@@ -3,6 +3,7 @@
 ## [0.0.4] 2021-03-12
 ### Added
 - Add server controller generator
+- Add server delegate generator
 
 ## [0.0.3] 2021-03-11
 ### Fixed

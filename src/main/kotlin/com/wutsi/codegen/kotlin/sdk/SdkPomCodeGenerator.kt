@@ -12,7 +12,7 @@ import java.io.InputStreamReader
 class SdkPomCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
         val pom = mapper.toPom(openAPI)
-        val reader = InputStreamReader(SdkPomCodeGenerator::class.java.getResourceAsStream("/sdk/kotlin/pom.xml.mustache"))
+        val reader = InputStreamReader(SdkPomCodeGenerator::class.java.getResourceAsStream("/kotlin/sdk/pom.xml.mustache"))
         reader.use {
             val writer = FileWriter(File(context.outputDirectory, "pom.xml"))
             writer.use {
