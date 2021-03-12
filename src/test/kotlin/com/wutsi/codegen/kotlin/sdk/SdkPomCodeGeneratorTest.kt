@@ -15,19 +15,28 @@ internal class SdkPomCodeGeneratorTest {
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/sdk",
         basePackage = "com.wutsi.test",
-        artifactId = "wutsi-test",
-        groupId = "x.y.z",
         jdkVersion = "1.8"
     )
 
+    val codegen = SdkPomCodeGenerator(KotlinMapper(context))
+
+    @Test
+    fun `toPom`() {
+        val openAPI = createOpenAPI()
+        val result = codegen.toPom(openAPI, context)
+
+        assertEquals(4, result.size)
+        assertEquals(openAPI.info.version, result["version"])
+        assertEquals("test-sdk", result["artifactId"])
+        assertEquals(context.basePackage, result["groupId"])
+        assertEquals(context.jdkVersion, result["jdkVersion"])
+    }
+
     @Test
     fun generate() {
-        val openAPI = OpenAPI()
-        openAPI.info = Info()
-        openAPI.info.version = "1.3.7"
+        val openAPI = createOpenAPI()
 
-        val codegen = SdkPomCodeGenerator(KotlinMapper(context))
-        codegen.generate(OpenAPI(), context)
+        codegen.generate(openAPI, context)
 
         val file = File("${context.outputDirectory}/pom.xml")
         assertTrue(file.exists())
@@ -35,5 +44,12 @@ internal class SdkPomCodeGeneratorTest {
         val result = file.readText()
         val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/kotlin/sdk/pom.xml"))
         assertEquals(expected.trimIndent(), result.trimIndent())
+    }
+
+    private fun createOpenAPI(): OpenAPI {
+        val openAPI = OpenAPI()
+        openAPI.info = Info()
+        openAPI.info.version = "1.3.7"
+        return openAPI
     }
 }

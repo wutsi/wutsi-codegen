@@ -12,7 +12,6 @@ import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
 import com.wutsi.codegen.util.CaseUtil.toCamelCase
-import com.wutsi.codegen.util.CaseUtil.toSnakeCase
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.media.Schema
@@ -159,16 +158,6 @@ class KotlinMapper(private val context: Context) {
         return result
     }
 
-    fun toPom(openAPI: OpenAPI) = mapOf(
-        "artifactId" to toString(context.artifactId, toSnakeCase(context.apiName.toLowerCase())),
-        "groupId" to toString(context.groupId, context.basePackage),
-        "jdkVersion" to context.jdkVersion,
-        "version" to toString(openAPI.info?.version, "1.0.0")
-    )
-
     private fun toPackage(basePackage: String, suffix: String): String =
         if (basePackage.isNullOrEmpty()) suffix else "$basePackage.$suffix"
-
-    private fun toString(value: String?, default: String): String =
-        value ?: default
 }
