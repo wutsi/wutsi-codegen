@@ -38,7 +38,6 @@ internal class ServerControllerCodeGeneratorTest {
 
     @Test
     fun `toRequestMappingClass`() {
-        val field = Field(name = "bar", String::class)
         assertEquals(GetMapping::class, codegen.toRequestMappingClass(Endpoint(name = "xx", path = "xx", method = "GET")))
         assertEquals(PostMapping::class, codegen.toRequestMappingClass(Endpoint(name = "xx", path = "xx", method = "post")))
         assertEquals(DeleteMapping::class, codegen.toRequestMappingClass(Endpoint(name = "xx", path = "xx", method = "DELETE")))
@@ -188,7 +187,7 @@ internal class ServerControllerCodeGeneratorTest {
 
     @Test
     fun testGenerate() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
 
         context.register("#/components/schemas/ErrorResponse", Type(packageName = "${context.basePackage}.model", name = "ErrorResponse"))
         context.register("#/components/schemas/CreateLikeRequest", Type(packageName = "${context.basePackage}.model", name = "CreateLikeRequest"))

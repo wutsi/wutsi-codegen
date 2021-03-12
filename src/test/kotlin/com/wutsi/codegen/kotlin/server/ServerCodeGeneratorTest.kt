@@ -7,6 +7,7 @@ import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.Test
 import java.io.File
+import kotlin.test.assertTrue
 
 internal class ServerCodeGeneratorTest {
     val context = Context(
@@ -21,20 +22,23 @@ internal class ServerCodeGeneratorTest {
 
     @Test
     fun testGenerate() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
         codegen.generate(
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
             context = context
         )
 
         // Controller
-        kotlin.test.assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/CreateController.kt").exists())
-        kotlin.test.assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/DeleteController.kt").exists())
-        kotlin.test.assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/StatsController.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/CreateController.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/DeleteController.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/StatsController.kt").exists())
 
         // Controller
-        kotlin.test.assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/CreateDelegate.kt").exists())
-        kotlin.test.assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/DeleteDelegate.kt").exists())
-        kotlin.test.assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/StatsDelegate.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/CreateDelegate.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/DeleteDelegate.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/StatsDelegate.kt").exists())
+
+        // Pom
+        assertTrue(File("${context.outputDirectory}/pom.xml").exists())
     }
 }

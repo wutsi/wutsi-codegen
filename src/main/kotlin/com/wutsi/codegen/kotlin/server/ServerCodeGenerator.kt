@@ -11,5 +11,6 @@ class ServerCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
         SdkModelCodeGenerator(mapper).loadModels(openAPI, context)
         ServerDelegateCodeGenerator(mapper).generate(openAPI, context)
         ServerControllerCodeGenerator(mapper).generate(openAPI, context)
+        ServerPomCodeGenerator(mapper).generate(openAPI, context)
     }
 }

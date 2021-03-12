@@ -21,7 +21,7 @@ internal class SdkCodeGeneratorTest {
 
     @Test
     fun testGenerate() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
         codegen.generate(
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
             context = context
