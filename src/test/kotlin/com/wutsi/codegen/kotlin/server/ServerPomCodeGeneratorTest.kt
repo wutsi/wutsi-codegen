@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.util.FileSystemUtils
 import java.io.File
+import java.nio.file.Files
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -28,7 +29,7 @@ internal class ServerPomCodeGeneratorTest {
     }
 
     @Test
-    fun generate() {
+    fun `generate`() {
         val openAPI = createOpenAPI()
 
         codegen.generate(openAPI, context)
@@ -39,6 +40,25 @@ internal class ServerPomCodeGeneratorTest {
         val result = file.readText()
         val expected = IOUtils.toString(ServerPomCodeGenerator::class.java.getResourceAsStream("/kotlin/server/pom.xml"))
         assertEquals(expected.trimIndent(), result.trimIndent())
+    }
+
+    @Test
+    fun `generate - do not overwrite`() {
+        val openAPI = createOpenAPI()
+
+        var path = "${context.outputDirectory}/pom.xml"
+        File(path).parentFile.mkdirs()
+        Files.write(
+            File(path).toPath(),
+            "xxx".toByteArray()
+        )
+
+        val delay = 5000L
+        Thread.sleep(delay)
+        codegen.generate(openAPI, context)
+
+        val file = File(path)
+        assertTrue(System.currentTimeMillis() - file.lastModified() >= delay)
     }
 
     private fun createOpenAPI(): OpenAPI {

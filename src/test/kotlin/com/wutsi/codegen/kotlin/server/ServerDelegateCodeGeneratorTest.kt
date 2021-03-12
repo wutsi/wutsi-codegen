@@ -147,13 +147,11 @@ internal class ServerDelegateCodeGeneratorTest {
 
         val delay = 5000L
         Thread.sleep(delay)
-
         codegen.generate(
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
             context = context
         )
 
-        // Controller
         val file = File(path)
         assertTrue(System.currentTimeMillis() - file.lastModified() >= delay)
     }
