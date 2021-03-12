@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.io.File
 import javax.validation.Valid
 import kotlin.reflect.KClass
 
@@ -85,6 +86,8 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
             builder.addStatement("return $statement")
         return builder.build()
     }
+
+    override fun canGenerate(directory: File, packageName: String, className: String): Boolean = true
 
     fun toRequestMappingClass(endpoint: Endpoint): KClass<out Annotation> =
         when (endpoint.method.toUpperCase()) {

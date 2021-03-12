@@ -9,6 +9,7 @@ import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.util.CaseUtil
+import java.io.File
 
 class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGenerator(mapper) {
     override fun className(endpoint: Endpoint): String =
@@ -34,4 +35,9 @@ class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGene
 
     override fun funCodeBloc(endpoint: Endpoint): CodeBlock =
         CodeBlock.builder().build()
+
+    override fun canGenerate(directory: File, packageName: String, className: String): Boolean {
+        val relativePath = "$packageName.$className".replace('.', File.separatorChar)
+        return !File(directory.absolutePath + File.separator + relativePath + ".kt").exists()
+    }
 }

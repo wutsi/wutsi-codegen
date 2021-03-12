@@ -1,24 +1,31 @@
-package com.wutsi.codegen.kotlin.sdk
+package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
 import org.apache.commons.io.IOUtils
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.util.FileSystemUtils
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-internal class SdkPomCodeGeneratorTest {
+internal class ServerPomCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = "./target/wutsi/codegen/sdk",
+        outputDirectory = "./target/wutsi/codegen/server",
         basePackage = "com.wutsi.test",
         jdkVersion = "1.8"
     )
 
-    val codegen = SdkPomCodeGenerator(KotlinMapper(context))
+    val codegen = ServerPomCodeGenerator(KotlinMapper(context))
+
+    @BeforeEach
+    fun setUp() {
+        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+    }
 
     @Test
     fun generate() {
@@ -30,7 +37,7 @@ internal class SdkPomCodeGeneratorTest {
         assertTrue(file.exists())
 
         val result = file.readText()
-        val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/kotlin/sdk/pom.xml"))
+        val expected = IOUtils.toString(ServerPomCodeGenerator::class.java.getResourceAsStream("/kotlin/server/pom.xml"))
         assertEquals(expected.trimIndent(), result.trimIndent())
     }
 

@@ -11,8 +11,11 @@ import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.util.FileSystemUtils
 import java.io.File
+import java.nio.file.Files
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -101,8 +104,13 @@ internal class ServerDelegateCodeGeneratorTest {
         )
     }
 
+    @BeforeEach
+    fun setUp() {
+        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+    }
+
     @Test
-    fun testGenerate() {
+    fun `generate`() {
         val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
 
         context.register("#/components/schemas/ErrorResponse", Type(packageName = "${context.basePackage}.model", name = "ErrorResponse"))
@@ -119,5 +127,34 @@ internal class ServerDelegateCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/CreateDelegate.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/DeleteDelegate.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/StatsDelegate.kt").exists())
+    }
+
+    @Test
+    fun `generate - do not overwrite`() {
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+
+        context.register("#/components/schemas/ErrorResponse", Type(packageName = "${context.basePackage}.model", name = "ErrorResponse"))
+        context.register("#/components/schemas/CreateLikeRequest", Type(packageName = "${context.basePackage}.model", name = "CreateLikeRequest"))
+        context.register("#/components/schemas/CreateLikeResponse", Type(packageName = "${context.basePackage}.model", name = "CreateLikeResponse"))
+        context.register("#/components/schemas/GetStatsResponse", Type(packageName = "${context.basePackage}.model", name = "GetStatsResponse"))
+
+        val path = "${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/CreateDelegate.kt"
+        File(path).parentFile.mkdirs()
+        Files.write(
+            File(path).toPath(),
+            "xxx".toByteArray()
+        )
+
+        val delay = 5000L
+        Thread.sleep(delay)
+
+        codegen.generate(
+            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
+            context = context
+        )
+
+        // Controller
+        val file = File(path)
+        assertTrue(System.currentTimeMillis() - file.lastModified() >= delay)
     }
 }

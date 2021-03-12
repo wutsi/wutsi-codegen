@@ -14,6 +14,7 @@ import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Request
 import io.swagger.v3.oas.models.OpenAPI
+import java.io.File
 
 abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
     companion object {
@@ -37,21 +38,27 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
 
     protected abstract fun funCodeBloc(endpoint: Endpoint): CodeBlock
 
+    protected abstract fun canGenerate(directory: File, packageName: String, className: String): Boolean
+
     override fun generate(openAPI: OpenAPI, context: Context) {
         val api = mapper.toAPI(openAPI)
-        api.endpoints.forEach { generateController(it, context) }
+        api.endpoints.forEach { generateClass(it, context) }
     }
 
-    fun generateController(endpoint: Endpoint, context: Context) {
+    fun generateClass(endpoint: Endpoint, context: Context): Boolean {
         val file = getSourceDirectory(context)
         val packageName = packageName(endpoint, context)
         val classname = className(endpoint)
-        System.out.println("Generating $packageName.$classname to $file")
+        if (!canGenerate(file, packageName, classname)) {
+            return false
+        }
 
+        System.out.println("Generating $packageName.$classname to $file")
         FileSpec.builder(packageName, classname)
             .addType(toTypeSpec(endpoint, context))
             .build()
             .writeTo(file)
+        return true
     }
 
     fun toTypeSpec(endpoint: Endpoint, context: Context): TypeSpec {
