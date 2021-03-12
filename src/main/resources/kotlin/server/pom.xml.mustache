@@ -87,6 +87,25 @@
     </dependency>
   </dependencies>
 
+  <repositories>
+    <repository>
+      <id>maven</id>
+      <name>maven</name>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>central</id>
+      <name>bintray</name>
+      <url>http://jcenter.bintray.com</url>
+    </repository>
+  {{#githubUser}}
+    <repository>
+      <id>{{sdkArtifactId}}</id>
+      <url>https://maven.pkg.github.com/{{githubUser}}/{{sdkArtifactId}}</url>
+    </repository>
+  {{/githubUser}}
+  </repositories>
+
   <build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>

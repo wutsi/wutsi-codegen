@@ -21,7 +21,7 @@ internal class SdkPomCodeGeneratorTest {
     val codegen = SdkPomCodeGenerator(KotlinMapper(context))
 
     @Test
-    fun generate() {
+    fun `generate`() {
         val openAPI = createOpenAPI()
 
         codegen.generate(openAPI, context)
@@ -31,6 +31,27 @@ internal class SdkPomCodeGeneratorTest {
 
         val result = file.readText()
         val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/kotlin/sdk/pom.xml"), "utf-8")
+        assertEquals(expected.trimIndent(), result.trimIndent())
+    }
+
+    @Test
+    fun `generate with github`() {
+        val openAPI = createOpenAPI()
+        val context = Context(
+            apiName = "Test",
+            outputDirectory = "./target/wutsi/codegen/sdk",
+            basePackage = "com.wutsi.test",
+            jdkVersion = "1.8",
+            githubUser = "foo"
+        )
+
+        codegen.generate(openAPI, context)
+
+        val file = File("${context.outputDirectory}/pom.xml")
+        assertTrue(file.exists())
+
+        val result = file.readText()
+        val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/kotlin/sdk/pom-distribution.xml"), "utf-8")
         assertEquals(expected.trimIndent(), result.trimIndent())
     }
 

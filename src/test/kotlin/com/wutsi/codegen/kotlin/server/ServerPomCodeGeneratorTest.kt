@@ -18,7 +18,8 @@ internal class ServerPomCodeGeneratorTest {
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/server",
         basePackage = "com.wutsi.test",
-        jdkVersion = "1.8"
+        jdkVersion = "1.8",
+        githubUser = "foo"
     )
 
     val codegen = ServerPomCodeGenerator(KotlinMapper(context))

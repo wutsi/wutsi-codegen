@@ -10,7 +10,7 @@ import java.io.InputStreamReader
 abstract class AbstractPomCodeGenerator(protected val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
     protected abstract fun getTemplatePath(): String
 
-    protected abstract fun toPom(openAPI: OpenAPI, context: Context): Map<String, String>
+    protected abstract fun toPom(openAPI: OpenAPI, context: Context): Map<String, String?>
 
     protected abstract fun canGenerate(context: Context): Boolean
 

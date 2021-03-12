@@ -7,11 +7,13 @@ java -jar wutsi-codegen server
     -n <api-name>
     -p <base-package>
     -o <output-dir>
+    -g <github-user>
 
   <openapi-file-url> REQUIRED - URL of the OpenAPI file
   <api-name>         REQUIRED - Name of the API
   <base-package>     REQUIRED - Base package of the SDK
   <output-dir>       OPTIONAL - Output directory to the generate files will be stored. Default = ./out.
+  <github-user>      OPTIONAL - Github username.
 ```
 
 ## Output

@@ -11,7 +11,8 @@ class SdkPomCodeGenerator(mapper: KotlinMapper) : AbstractPomCodeGenerator(mappe
         "artifactId" to artifactId(context),
         "groupId" to context.basePackage,
         "jdkVersion" to context.jdkVersion,
-        "version" to openAPI.info!!.version
+        "version" to openAPI.info?.version,
+        "githubUser" to context.githubUser
     )
 
     override fun getTemplatePath(): String = "/kotlin/sdk/pom.xml.mustache"

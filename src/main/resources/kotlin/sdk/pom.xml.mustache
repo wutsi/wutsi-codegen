@@ -41,6 +41,16 @@
     </dependency>
   </dependencies>
 
+{{#githubUser}}
+  <distributionManagement>
+    <repository>
+      <id>{{artifactId}}</id>
+      <name>GitHub Maven Packages</name>
+      <url>https://maven.pkg.github.com/{{githubUser}}/{{artifactId}}</url>
+    </repository>
+  </distributionManagement>
+{{/githubUser}}
+
   <build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
