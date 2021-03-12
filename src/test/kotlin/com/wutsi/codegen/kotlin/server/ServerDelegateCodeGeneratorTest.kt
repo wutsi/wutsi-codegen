@@ -89,7 +89,7 @@ internal class ServerDelegateCodeGeneratorTest {
             )
         )
 
-        val result = codegen.toTypeSpec(endpoint)
+        val result = codegen.toTypeSpec(endpoint, context)
         assertEquals(
             """
                 public class CreateDelegate {

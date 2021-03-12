@@ -1,6 +1,8 @@
 package com.wutsi.codegen.kotlin.server
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Endpoint
@@ -26,4 +28,10 @@ class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGene
 
     override fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec> =
         emptyList()
+
+    override fun constructorSpec(endpont: Endpoint, context: Context): FunSpec =
+        FunSpec.constructorBuilder().build()
+
+    override fun funCodeBloc(endpoint: Endpoint): CodeBlock =
+        CodeBlock.builder().build()
 }

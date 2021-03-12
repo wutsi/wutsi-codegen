@@ -2,6 +2,7 @@ package com.wutsi.codegen.kotlin.server
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
@@ -14,10 +15,15 @@ import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Request
 import io.swagger.v3.oas.models.OpenAPI
 
-abstract class AbstractServerCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
-    protected abstract fun className(endpoint: Endpoint): String
+abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
+    companion object {
+        const val REQUEST_VARIABLE = "request"
+        const val INVOKE_FUNCTION = "invoke"
+    }
 
-    protected abstract fun packageName(endpoint: Endpoint, context: Context): String
+    abstract fun className(endpoint: Endpoint): String
+
+    abstract fun packageName(endpoint: Endpoint, context: Context): String
 
     protected abstract fun classAnnotations(endpoint: Endpoint): List<AnnotationSpec>
 
@@ -26,6 +32,10 @@ abstract class AbstractServerCodeGenerator(private val mapper: KotlinMapper) : A
     protected abstract fun requestBodyAnnotations(requestBody: Request?): List<AnnotationSpec>
 
     protected abstract fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec>
+
+    protected abstract fun constructorSpec(endpoint: Endpoint, context: Context): FunSpec
+
+    protected abstract fun funCodeBloc(endpoint: Endpoint): CodeBlock
 
     override fun generate(openAPI: OpenAPI, context: Context) {
         val api = mapper.toAPI(openAPI)
@@ -39,13 +49,16 @@ abstract class AbstractServerCodeGenerator(private val mapper: KotlinMapper) : A
         System.out.println("Generating $packageName.$classname to $file")
 
         FileSpec.builder(packageName, classname)
-            .addType(toTypeSpec(endpoint))
+            .addType(toTypeSpec(endpoint, context))
             .build()
             .writeTo(file)
     }
 
-    fun toTypeSpec(endpoint: Endpoint): TypeSpec {
+    fun toTypeSpec(endpoint: Endpoint, context: Context): TypeSpec {
         val spec = TypeSpec.classBuilder(className(endpoint))
+            .primaryConstructor(
+                constructorSpec(endpoint, context)
+            )
             .addAnnotations(classAnnotations(endpoint))
             .addFunction(toFunSpec(endpoint))
             .build()
@@ -53,15 +66,16 @@ abstract class AbstractServerCodeGenerator(private val mapper: KotlinMapper) : A
     }
 
     fun toFunSpec(endpoint: Endpoint): FunSpec {
-        val builder = FunSpec.builder("invoke")
+        val builder = FunSpec.builder(INVOKE_FUNCTION)
             .addAnnotations(functionAnnotations(endpoint))
             .addParameters(endpoint.parameters.map { toParameter(it) })
+            .addCode(funCodeBloc(endpoint))
 
         if (endpoint.request != null) {
             val type = endpoint.request.type
             builder.addParameter(
                 ParameterSpec
-                    .builder("request", ClassName(type.packageName, type.name))
+                    .builder(REQUEST_VARIABLE, ClassName(type.packageName, type.name))
                     .addAnnotations(requestBodyAnnotations(endpoint.request))
                     .build()
             )

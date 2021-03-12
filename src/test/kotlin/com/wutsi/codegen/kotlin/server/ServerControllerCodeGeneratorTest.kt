@@ -120,8 +120,7 @@ internal class ServerControllerCodeGeneratorTest {
         assertEquals(
             """
                 @org.springframework.web.bind.`annotation`.PostMapping("/v1/foo")
-                public fun invoke(@javax.validation.Valid @org.springframework.web.bind.`annotation`.RequestBody request: com.wutsi.test.model.CreateFooRquest): com.wutsi.test.model.CreateFooResponse {
-                }
+                public fun invoke(@javax.validation.Valid @org.springframework.web.bind.`annotation`.RequestBody request: com.wutsi.test.model.CreateFooRquest): com.wutsi.test.model.CreateFooResponse = delegate.invoke(request)
             """.trimIndent(),
             result.toString().trimIndent()
         )
@@ -147,6 +146,7 @@ internal class ServerControllerCodeGeneratorTest {
             """
                 @org.springframework.web.bind.`annotation`.PostMapping("/v1/foo")
                 public fun invoke(@org.springframework.web.bind.`annotation`.RequestParam(name="bar", required="false") bar: kotlin.String): kotlin.Unit {
+                  delegate.invoke(request, bar)
                 }
             """.trimIndent(),
             result.toString().trimIndent()
@@ -169,13 +169,16 @@ internal class ServerControllerCodeGeneratorTest {
             )
         )
 
-        val result = codegen.toTypeSpec(endpoint)
+        val result = codegen.toTypeSpec(endpoint, context)
         assertEquals(
             """
                 @org.springframework.web.bind.`annotation`.RestController
-                public class CreateController {
+                public class CreateController(
+                  `delegate`: com.wutsi.test.`delegate`.CreateDelegate
+                ) {
                   @org.springframework.web.bind.`annotation`.PostMapping("/v1/foo")
                   public fun invoke(@org.springframework.web.bind.`annotation`.RequestParam(name="bar", required="false") bar: kotlin.String): kotlin.Unit {
+                    delegate.invoke(request, bar)
                   }
                 }
             """.trimIndent(),

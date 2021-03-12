@@ -1,6 +1,9 @@
 package com.wutsi.codegen.kotlin.server
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.KotlinMapper
@@ -24,6 +27,10 @@ import javax.validation.Valid
 import kotlin.reflect.KClass
 
 class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGenerator(mapper) {
+    companion object {
+        const val DELEGATE_VARIABLE = "delegate"
+    }
+
     override fun className(endpoint: Endpoint): String =
         CaseUtil.toCamelCase("${endpoint.name}Controller", true)
 
@@ -50,60 +57,34 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
         )
 
     override fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec> =
-        emptyList()
+        toAnnotationSpecs(parameter)
 
-//    override fun generate(openAPI: OpenAPI, context: Context) {
-//        val api = mapper.toAPI(openAPI)
-//        api.endpoints.forEach { generateController(api, it, context) }
-//    }
-//
-//    fun generateController(api: Api, endpoint: Endpoint, context: Context) {
-//        val file = getSourceDirectory(context)
-//        val classname = controllerClassName(endpoint)
-//        System.out.println("Generating ${api.packageName}.$classname to $file")
-//
-//        FileSpec.builder(api.packageName, classname)
-//            .addType(toTypeSpec(endpoint))
-//            .build()
-//            .writeTo(file)
-//    }
+    override fun constructorSpec(endpoint: Endpoint, context: Context): FunSpec {
+        val delegate = ServerDelegateCodeGenerator(mapper)
+        return FunSpec.constructorBuilder()
+            .addParameter(
+                DELEGATE_VARIABLE,
+                ClassName(
+                    delegate.packageName(endpoint, context),
+                    delegate.className(endpoint),
+                )
+            )
+            .build()
+    }
 
-//    fun toTypeSpec(endpoint: Endpoint): TypeSpec {
-//        val spec = TypeSpec.classBuilder(controllerClassName(endpoint))
-//            .addAnnotation(
-//                AnnotationSpec.builder(RestController::class)
-//                    .build()
-//            )
-//            .addFunction(toFunSpec(endpoint))
-//            .build()
-//        return spec
-//    }
+    override fun funCodeBloc(endpoint: Endpoint): CodeBlock {
+        val params = mutableListOf<String>()
+        params.add(REQUEST_VARIABLE)
+        endpoint.parameters.forEach { params.add(it.field.name) }
 
-//    fun toFunSpec(endpoint: Endpoint): FunSpec {
-//        val builder = FunSpec.builder("invoke")
-//            .addAnnotation(
-//                AnnotationSpec.builder(toRequestMappingClass(endpoint))
-//                    .addMember("%S", endpoint.path)
-//                    .build()
-//            )
-//            .addParameters(endpoint.parameters.map { toParameter(it) })
-//
-//        if (endpoint.request != null) {
-//            val type = endpoint.request.type
-//            builder.addParameter(
-//                ParameterSpec
-//                    .builder("request", ClassName(type.packageName, type.name))
-//                    .addAnnotation(Valid::class)
-//                    .addAnnotation(RequestBody::class)
-//                    .build()
-//            )
-//        }
-//
-//        if (endpoint.response != null)
-//            builder.returns(ClassName(endpoint.response.packageName, endpoint.response.name))
-//
-//        return builder.build()
-//    }
+        val statement = "$DELEGATE_VARIABLE.$INVOKE_FUNCTION(" + params.joinToString() + ")"
+        val builder = CodeBlock.builder()
+        if (endpoint.response == null)
+            builder.addStatement(statement)
+        else
+            builder.addStatement("return $statement")
+        return builder.build()
+    }
 
     fun toRequestMappingClass(endpoint: Endpoint): KClass<out Annotation> =
         when (endpoint.method.toUpperCase()) {

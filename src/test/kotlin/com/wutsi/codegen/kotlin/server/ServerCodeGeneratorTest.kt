@@ -15,7 +15,7 @@ internal class ServerCodeGeneratorTest {
         basePackage = "com.wutsi.test"
     )
 
-    val codegen = SdkCodeGenerator(
+    val codegen = ServerCodeGenerator(
         KotlinMapper(context)
     )
 
