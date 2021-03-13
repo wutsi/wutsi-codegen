@@ -19,7 +19,7 @@ internal class ServerPomCodeGeneratorTest {
         outputDirectory = "./target/wutsi/codegen/server",
         basePackage = "com.wutsi.test",
         jdkVersion = "1.8",
-        githubUser = "foo"
+        githubUser = null
     )
 
     val codegen = ServerPomCodeGenerator(KotlinMapper(context))
@@ -27,6 +27,28 @@ internal class ServerPomCodeGeneratorTest {
     @BeforeEach
     fun setUp() {
         FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+    }
+
+    @Test
+    fun `generate - distribution`() {
+        val openAPI = createOpenAPI()
+
+        val context = Context(
+            apiName = "Test",
+            outputDirectory = "./target/wutsi/codegen/server",
+            basePackage = "com.wutsi.test",
+            jdkVersion = "1.8",
+            githubUser = "foo"
+        )
+
+        codegen.generate(openAPI, context)
+
+        val file = File("${context.outputDirectory}/pom.xml")
+        assertTrue(file.exists())
+
+        val result = file.readText()
+        val expected = IOUtils.toString(ServerPomCodeGenerator::class.java.getResourceAsStream("/kotlin/server/pom-distribution.xml"), "utf-8")
+        assertEquals(expected.trimIndent(), result.trimIndent())
     }
 
     @Test
@@ -39,7 +61,7 @@ internal class ServerPomCodeGeneratorTest {
         assertTrue(file.exists())
 
         val result = file.readText()
-        val expected = IOUtils.toString(ServerPomCodeGenerator::class.java.getResourceAsStream("/kotlin/server/pom.xml"))
+        val expected = IOUtils.toString(ServerPomCodeGenerator::class.java.getResourceAsStream("/kotlin/server/pom.xml"), "utf-8")
         assertEquals(expected.trimIndent(), result.trimIndent())
     }
 

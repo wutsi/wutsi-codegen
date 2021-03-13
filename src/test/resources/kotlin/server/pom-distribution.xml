@@ -3,15 +3,14 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  {{#pom}}
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>{{artifactId}}</artifactId>
-  <groupId>{{groupId}}</groupId>
-  <version>{{version}}</version>
+  <artifactId>test-server</artifactId>
+  <groupId>com.wutsi.test</groupId>
+  <version>1.3.7</version>
   <packaging>jar</packaging>
-  <name>{{artifactId}}</name>
+  <name>test-server</name>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -23,7 +22,7 @@
     <jacoco.threshold.line>0.10</jacoco.threshold.line>
     <jacoco.threshold.class>0.10</jacoco.threshold.class>
     <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
-    <jdk.version>{{jdkVersion}}</jdk.version>
+    <jdk.version>1.8</jdk.version>
 
     <javax-validation.version>2.0.1.Final</javax-validation.version>
     <junit.version>5.6.0</junit.version>
@@ -35,9 +34,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>{{groupId}}</groupId>
-      <artifactId>{{sdkArtifactId}}</artifactId>
-      <version>{{version}}</version>
+      <groupId>com.wutsi.test</groupId>
+      <artifactId>test-sdk</artifactId>
+      <version>1.3.7</version>
     </dependency>
 
     <dependency>
@@ -87,15 +86,13 @@
     </dependency>
   </dependencies>
 
-{{#githubUser}}
   <distributionManagement>
     <repository>
-      <id>{{artifactId}}</id>
+      <id>test-server</id>
       <name>GitHub Maven Packages</name>
-      <url>https://maven.pkg.github.com/{{githubUser}}/{{artifactId}}</url>
+      <url>https://maven.pkg.github.com/foo/test-server</url>
     </repository>
   </distributionManagement>
-{{/githubUser}}
 
   <repositories>
     <repository>
@@ -244,5 +241,4 @@
     </plugins>
   </build>
 
-  {{/pom}}
 </project>
