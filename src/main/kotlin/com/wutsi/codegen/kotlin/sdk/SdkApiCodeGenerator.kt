@@ -28,12 +28,12 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCode
         System.out.println("Generating ${api.packageName}.${api.name} to $file")
 
         FileSpec.builder(api.packageName, api.name)
-            .addType(toAPITypeSpec(api))
+            .addType(toTypeSpec(api))
             .build()
             .writeTo(file)
     }
 
-    fun toAPITypeSpec(api: Api): TypeSpec {
+    fun toTypeSpec(api: Api): TypeSpec {
         val spec = TypeSpec.interfaceBuilder(api.name)
             .addFunctions(api.endpoints.map { toFunSpec(it) })
             .build()

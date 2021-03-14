@@ -15,25 +15,50 @@ internal class SdkPomCodeGeneratorTest {
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/sdk",
         basePackage = "com.wutsi.test",
-        artifactId = "wutsi-test",
-        groupId = "x.y.z",
         jdkVersion = "1.8"
     )
 
-    @Test
-    fun generate() {
-        val openAPI = OpenAPI()
-        openAPI.info = Info()
-        openAPI.info.version = "1.3.7"
+    val codegen = SdkPomCodeGenerator(KotlinMapper(context))
 
-        val codegen = SdkPomCodeGenerator(KotlinMapper(context))
-        codegen.generate(OpenAPI(), context)
+    @Test
+    fun `generate`() {
+        val openAPI = createOpenAPI()
+
+        codegen.generate(openAPI, context)
 
         val file = File("${context.outputDirectory}/pom.xml")
         assertTrue(file.exists())
 
         val result = file.readText()
-        val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/sdk/kotlin/pom.xml"))
+        val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/kotlin/sdk/pom.xml"), "utf-8")
         assertEquals(expected.trimIndent(), result.trimIndent())
+    }
+
+    @Test
+    fun `generate with github`() {
+        val openAPI = createOpenAPI()
+        val context = Context(
+            apiName = "Test",
+            outputDirectory = "./target/wutsi/codegen/sdk",
+            basePackage = "com.wutsi.test",
+            jdkVersion = "1.8",
+            githubUser = "foo"
+        )
+
+        codegen.generate(openAPI, context)
+
+        val file = File("${context.outputDirectory}/pom.xml")
+        assertTrue(file.exists())
+
+        val result = file.readText()
+        val expected = IOUtils.toString(SdkPomCodeGenerator::class.java.getResourceAsStream("/kotlin/sdk/pom-distribution.xml"), "utf-8")
+        assertEquals(expected.trimIndent(), result.trimIndent())
+    }
+
+    private fun createOpenAPI(): OpenAPI {
+        val openAPI = OpenAPI()
+        openAPI.info = Info()
+        openAPI.info.version = "1.3.7"
+        return openAPI
     }
 }

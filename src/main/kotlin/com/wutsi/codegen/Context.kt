@@ -9,7 +9,8 @@ class Context(
     val outputDirectory: String = ".${File.separator}out",
     val artifactId: String? = null,
     val groupId: String? = null,
-    val jdkVersion: String = "11"
+    val jdkVersion: String = "11",
+    val githubUser: String? = null
 ) {
     private val typeRegistry = mutableMapOf<String, Type>()
 

@@ -86,7 +86,7 @@ internal class SdkApiCodeGeneratorTest {
             )
         )
 
-        val spec = codegen.toAPITypeSpec(api)
+        val spec = codegen.toTypeSpec(api)
 
         val expected = """
             public interface Test {
@@ -105,7 +105,7 @@ internal class SdkApiCodeGeneratorTest {
 
     @Test
     fun testGenerate() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
 
         context.register("#/components/schemas/ErrorResponse", Type(packageName = "${context.basePackage}.model", name = "ErrorResponse"))
         context.register("#/components/schemas/CreateLikeRequest", Type(packageName = "${context.basePackage}.model", name = "CreateLikeRequest"))

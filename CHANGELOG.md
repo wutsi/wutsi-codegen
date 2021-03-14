@@ -1,5 +1,12 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.4] 2021-03-12
+### Added
+- Server code generators
+
+### Removed
+- `groupId` and `artifactId` from the context
+
 ## [0.0.3] 2021-03-11
 ### Fixed
 - add the request parameter in the API methods

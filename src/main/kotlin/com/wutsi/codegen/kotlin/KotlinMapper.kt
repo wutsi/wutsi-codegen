@@ -11,6 +11,7 @@ import com.wutsi.codegen.model.ParameterType.PATH
 import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
+import com.wutsi.codegen.util.CaseUtil.toCamelCase
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.media.Schema
@@ -157,50 +158,6 @@ class KotlinMapper(private val context: Context) {
         return result
     }
 
-    fun toPom(openAPI: OpenAPI) = mapOf(
-        "artifactId" to toString(context.artifactId, toSnakeCase(context.apiName.toLowerCase())),
-        "groupId" to toString(context.groupId, context.basePackage),
-        "jdkVersion" to context.jdkVersion,
-        "version" to toString(openAPI.info?.version, "1.0.0")
-    )
-
     private fun toPackage(basePackage: String, suffix: String): String =
         if (basePackage.isNullOrEmpty()) suffix else "$basePackage.$suffix"
-
-    private fun toString(value: String?, default: String): String =
-        value ?: default
-
-    private fun toCamelCase(str: String, capitalizeFirstLetter: Boolean): String {
-        val buff = StringBuilder()
-        var part = false
-        for (i in 0..str.length - 1) {
-            val ch = str[i]
-            if (buff.isEmpty()) {
-                buff.append(if (capitalizeFirstLetter) ch.toUpperCase() else ch.toLowerCase())
-            } else if (ch.isLetterOrDigit()) {
-                if (part) {
-                    buff.append(ch.toUpperCase())
-                    part = false
-                } else {
-                    buff.append(ch)
-                }
-            } else {
-                part = true
-            }
-        }
-        return buff.toString()
-    }
-
-    private fun toSnakeCase(str: String): String {
-        val buff = StringBuilder()
-        for (i in 0..str.length - 1) {
-            val ch = str[i]
-            if (!ch.isLetterOrDigit()) {
-                buff.append("-")
-            } else {
-                buff.append(ch)
-            }
-        }
-        return buff.toString()
-    }
 }

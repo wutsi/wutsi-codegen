@@ -7,15 +7,13 @@ java -jar wutsi-codegen sdk
     -n <api-name>
     -p <base-package>
     -o <output-dir>
-    -a <artifact-id>
-    -g <group-id>
+    -g <github-user>
 
   <openapi-file-url> REQUIRED - URL of the OpenAPI file
   <api-name>         REQUIRED - Name of the API
   <base-package>     REQUIRED - Base package of the SDK
   <output-dir>       OPTIONAL - Output directory to the generate files will be stored. Default = ./out.
-  <artifact-id>      OPTIONAL - ID of the maven artifact. Default = <api-name>
-  <group-id>         OPTIONAL - ID of the maven group. Default = <base-package>
+  <github-user>      OPTIONAL - Github username.
 ```
 
 ## Output
@@ -24,8 +22,8 @@ The SDK generator will generate the following files.
   - It's located in the directory `<output-dir>`
   - It has the following information:
     - The `version` = `info.version` in the OpenAPI file
-    - The `artifactId` = `<artifact-id>` provided in the command line
-    - The `groupId` = `<group-id>` provided in the command line
+    - The `artifactId` = `<api-name>-sdk` provided in the command line
+    - The `groupId` = `<base-package>` provided in the command line
 - The API class, based on [feign](https://github.com/OpenFeign/feign):
   - It's located in the directory `<output-dir>/src/main/kotlin`
   - The classname is `<base-package>.<api-name>API`
