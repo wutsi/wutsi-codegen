@@ -47,7 +47,9 @@ abstract class AbstractCLI : CLI {
         addOptions(options)
 
         System.out.println()
-        HelpFormatter().printHelp(
+        val fmt = HelpFormatter()
+        fmt.width = 160
+        fmt.printHelp(
             getCommondLineSyntax(),
             null,
             options,

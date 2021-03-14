@@ -8,7 +8,7 @@ class MainCLI(private val commands: List<AbstractCodeGeneratorCLI>) : AbstractCL
     }
 
     override fun getCommondLineSyntax(): String =
-        "java wutsi-codegen <command>"
+        "java wutsi-codegen-<version>.jar <command>"
 
     override fun run(args: Array<String>, cmd: CommandLine) {
     }

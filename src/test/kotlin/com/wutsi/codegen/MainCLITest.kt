@@ -8,7 +8,6 @@ import com.nhaarman.mockitokotlin2.whenever
 import org.junit.jupiter.api.Test
 
 internal class MainCLITest {
-
     @Test
     fun `run a code generator`() {
         val foo = createCodeGeneratorCLI("foo")
