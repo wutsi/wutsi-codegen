@@ -12,7 +12,7 @@ java -jar wutsi-codegen sdk
   <openapi-file-url> REQUIRED - URL of the OpenAPI file
   <api-name>         REQUIRED - Name of the API
   <base-package>     REQUIRED - Base package of the SDK
-  <output-dir>       OPTIONAL - Output directory to the generate files will be stored. Default = ./out.
+  <output-dir>       REQUIRED - Output directory to the generate files will be stored. Default = ./out.
   <github-user>      OPTIONAL - Github username.
 ```
 

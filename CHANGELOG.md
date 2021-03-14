@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.5] 2021-03-14
+### Added
+- Command Line interface for generating Server and SDK
+
 ## [0.0.4] 2021-03-12
 ### Added
 - Server code generators
