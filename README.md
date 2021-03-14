@@ -6,5 +6,6 @@
 
 Code Generator for generating API code fom OpenAPI V3 specifications
 
-# Code Generator
+# Code Generators
 - [SDK Code Generator](src/doc/SDK.md)
+- [Server Code Generator](src/doc/Server.md)

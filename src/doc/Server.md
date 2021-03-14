@@ -3,7 +3,7 @@ The code generated is a Kotlin springboot application
 
 ## Usage
 ```
-java -jar wutsi-codegen server
+java -jar wutsi-codegen-<version>.jar server
     -i <openapi-file-url>
     -n <api-name>
     -p <base-package>
@@ -13,7 +13,7 @@ java -jar wutsi-codegen server
   <openapi-file-url> REQUIRED - URL of the OpenAPI file
   <api-name>         REQUIRED - Name of the API
   <base-package>     REQUIRED - Base package of the SDK
-  <output-dir>       OPTIONAL - Output directory to the generate files will be stored. Default = ./out.
+  <output-dir>       REQUIRED - Output directory to the generate files will be stored. Default = ./out.
   <github-user>      OPTIONAL - Github username.
 ```
 

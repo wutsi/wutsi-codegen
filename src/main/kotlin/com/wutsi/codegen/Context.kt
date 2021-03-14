@@ -7,8 +7,6 @@ class Context(
     val apiName: String,
     val basePackage: String,
     val outputDirectory: String = ".${File.separator}out",
-    val artifactId: String? = null,
-    val groupId: String? = null,
     val jdkVersion: String = "11",
     val githubUser: String? = null
 ) {
