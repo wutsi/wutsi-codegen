@@ -49,5 +49,8 @@ internal class ServerCodeGeneratorTest {
 
         // Pom
         assertTrue(File("${context.outputDirectory}/pom.xml").exists())
+
+        // .editorconfig
+        assertTrue(File("${context.outputDirectory}/.editorconfig").exists())
     }
 }

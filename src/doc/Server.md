@@ -19,6 +19,7 @@ java -jar wutsi-codegen-<version>.jar server
 
 ## Output
 The Server generator will generate the following files.
+- [EditorConfig](https://editorconfig.org/) file `<output-dir>/.editorconfig`
 - The Maven descriptor `<output-dir>/pom.xml`, with the following information:
   - The `version` = `info.version` in the OpenAPI file
   - The `artifactId` = `<api-name>-server` provided in the command line
