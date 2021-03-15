@@ -11,5 +11,5 @@ class ServerCLI(
 ) : AbstractCodeGeneratorCLI(codeGeneratorFactory, openAPILoader) {
     override fun name() = "server"
 
-    override fun description() = "Generate the API server code from an OpenAPIV3, using springboot/kotlin"
+    override fun description() = "Generate the API Springboot/Kotlin Server code from an OpenAPIV3 specification"
 }

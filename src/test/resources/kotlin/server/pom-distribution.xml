@@ -34,9 +34,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.wutsi.test</groupId>
-      <artifactId>test-sdk</artifactId>
-      <version>1.3.7</version>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>${javax-validation.version}</version>
     </dependency>
 
     <dependency>
@@ -122,6 +122,13 @@
           </compilerPlugins>
           <jvmTarget>${jdk.version}</jvmTarget>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-allopen</artifactId>
+            <version>${kotlin.version}</version>
+          </dependency>
+        </dependencies>
 
         <executions>
           <execution>

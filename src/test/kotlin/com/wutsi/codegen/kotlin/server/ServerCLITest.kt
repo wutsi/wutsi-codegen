@@ -123,8 +123,6 @@ internal class ServerCLITest {
 
     @Test
     fun `run - missing input-file`() {
-        val url = "https://localhost:8080/like.yaml"
-
         val args = arrayOf(
             "server",
             "-a test",

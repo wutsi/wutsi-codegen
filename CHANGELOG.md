@@ -1,5 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.6] 2021-03-14
+### Fixed
+- Add javax.validation dependency in pom.xml
+- Fix constructor of delegates
+
 ## [0.0.5] 2021-03-14
 ### Added
 - Command Line interface for generating Server and SDK

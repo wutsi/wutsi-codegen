@@ -6,6 +6,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
@@ -62,14 +63,24 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
     }
 
     fun toTypeSpec(endpoint: Endpoint, context: Context): TypeSpec {
+        val constructor = constructorSpec(endpoint, context)
+
         val spec = TypeSpec.classBuilder(className(endpoint))
-            .primaryConstructor(
-                constructorSpec(endpoint, context)
-            )
+            .primaryConstructor(constructor)
             .addAnnotations(classAnnotations(endpoint))
             .addFunction(toFunSpec(endpoint))
-            .build()
-        return spec
+
+        if (constructor.parameters.isNotEmpty()) {
+            spec.addProperties(
+                constructor.parameters.map {
+                    PropertySpec.builder(it.name, it.type.copy(), it.modifiers)
+                        .initializer(it.name)
+                        .build()
+                }
+            )
+        }
+
+        return spec.build()
     }
 
     fun toFunSpec(endpoint: Endpoint): FunSpec {

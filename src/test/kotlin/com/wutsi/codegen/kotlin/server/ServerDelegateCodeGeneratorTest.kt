@@ -45,6 +45,7 @@ internal class ServerDelegateCodeGeneratorTest {
         assertEquals(
             """
                 public fun invoke(request: com.wutsi.test.model.CreateFooRquest): com.wutsi.test.model.CreateFooResponse {
+                  TODO()
                 }
             """.trimIndent(),
             result.toString().trimIndent()
@@ -70,6 +71,7 @@ internal class ServerDelegateCodeGeneratorTest {
         assertEquals(
             """
                 public fun invoke(bar: kotlin.String): kotlin.Unit {
+                  TODO()
                 }
             """.trimIndent(),
             result.toString().trimIndent()
@@ -97,6 +99,7 @@ internal class ServerDelegateCodeGeneratorTest {
             """
                 public class CreateDelegate {
                   public fun invoke(bar: kotlin.String): kotlin.Unit {
+                    TODO()
                   }
                 }
             """.trimIndent(),
@@ -131,7 +134,7 @@ internal class ServerDelegateCodeGeneratorTest {
 
     @Test
     fun `generate - do not overwrite`() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
 
         context.register("#/components/schemas/ErrorResponse", Type(packageName = "${context.basePackage}.model", name = "ErrorResponse"))
         context.register("#/components/schemas/CreateLikeRequest", Type(packageName = "${context.basePackage}.model", name = "CreateLikeRequest"))

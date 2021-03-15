@@ -34,7 +34,9 @@ class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGene
         FunSpec.constructorBuilder().build()
 
     override fun funCodeBloc(endpoint: Endpoint): CodeBlock =
-        CodeBlock.builder().build()
+        CodeBlock.builder()
+            .addStatement("TODO()")
+            .build()
 
     override fun canGenerate(directory: File, packageName: String, className: String): Boolean {
         val relativePath = "$packageName.$className".replace('.', File.separatorChar)

@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.KotlinMapper
@@ -64,10 +65,13 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
         val delegate = ServerDelegateCodeGenerator(mapper)
         return FunSpec.constructorBuilder()
             .addParameter(
-                DELEGATE_VARIABLE,
-                ClassName(
-                    delegate.packageName(endpoint, context),
-                    delegate.className(endpoint),
+                ParameterSpec(
+                    DELEGATE_VARIABLE,
+                    ClassName(
+                        delegate.packageName(endpoint, context),
+                        delegate.className(endpoint),
+                    ),
+                    KModifier.PRIVATE
                 )
             )
             .build()
@@ -75,7 +79,8 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
 
     override fun funCodeBloc(endpoint: Endpoint): CodeBlock {
         val params = mutableListOf<String>()
-        params.add(REQUEST_VARIABLE)
+        if (endpoint.request != null)
+            params.add(REQUEST_VARIABLE)
         endpoint.parameters.forEach { params.add(it.field.name) }
 
         val statement = "$DELEGATE_VARIABLE.$INVOKE_FUNCTION(" + params.joinToString() + ")"
@@ -116,7 +121,7 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
         val builder = AnnotationSpec.builder(toParameterType(parameter))
             .addMember("name=%S", parameter.name)
         if (parameter.type != PATH)
-            builder.addMember("required=%S", parameter.field.required)
+            builder.addMember("required=" + parameter.field.required)
         if (parameter.field.default != null)
             builder.addMember("default=%S", parameter.field.default)
         return builder.build()
