@@ -1,6 +1,7 @@
 package com.wutsi.codegen.kotlin
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.util.CaseUtil.toCamelCase
 import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
@@ -11,7 +12,6 @@ import com.wutsi.codegen.model.ParameterType.PATH
 import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
-import com.wutsi.codegen.util.CaseUtil.toCamelCase
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.media.Schema

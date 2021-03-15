@@ -1,4 +1,4 @@
-package com.wutsi.codegen.cli
+package com.wutsi.codegen.core.cli
 
 interface CLI {
     fun run(args: Array<String>)

@@ -1,4 +1,4 @@
-package com.wutsi.codegen.cli
+package com.wutsi.codegen.core.cli
 
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.DefaultParser

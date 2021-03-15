@@ -8,10 +8,10 @@ import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.cli.AbstractCLI
-import com.wutsi.codegen.generator.CodeGenerator
-import com.wutsi.codegen.generator.CodeGeneratorFactory
-import com.wutsi.codegen.openapi.OpenAPILoader
+import com.wutsi.codegen.core.cli.AbstractCLI
+import com.wutsi.codegen.core.generator.CodeGenerator
+import com.wutsi.codegen.core.generator.CodeGeneratorFactory
+import com.wutsi.codegen.core.openapi.OpenAPILoader
 import io.swagger.v3.oas.models.OpenAPI
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

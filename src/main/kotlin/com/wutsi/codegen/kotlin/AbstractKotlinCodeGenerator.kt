@@ -2,7 +2,7 @@ package com.wutsi.codegen.kotlin
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.generator.CodeGenerator
+import com.wutsi.codegen.core.generator.CodeGenerator
 import com.wutsi.codegen.model.Field
 import java.io.File
 import javax.validation.constraints.Max

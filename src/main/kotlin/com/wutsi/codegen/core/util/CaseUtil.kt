@@ -1,4 +1,4 @@
-package com.wutsi.codegen.util
+package com.wutsi.codegen.core.util
 
 object CaseUtil {
     fun toCamelCase(str: String, capitalizeFirstLetter: Boolean): String {

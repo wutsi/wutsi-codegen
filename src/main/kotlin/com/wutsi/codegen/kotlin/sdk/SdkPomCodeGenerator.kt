@@ -1,9 +1,9 @@
 package com.wutsi.codegen.kotlin.sdk
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.AbstractPomCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
-import com.wutsi.codegen.util.CaseUtil
 import io.swagger.v3.oas.models.OpenAPI
 
 class SdkPomCodeGenerator(mapper: KotlinMapper) : AbstractPomCodeGenerator(mapper) {

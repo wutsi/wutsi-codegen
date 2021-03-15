@@ -7,6 +7,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
@@ -14,7 +15,6 @@ import com.wutsi.codegen.model.ParameterType.HEADER
 import com.wutsi.codegen.model.ParameterType.PATH
 import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
-import com.wutsi.codegen.util.CaseUtil
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

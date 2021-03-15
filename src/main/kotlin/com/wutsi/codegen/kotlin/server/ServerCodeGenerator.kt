@@ -1,7 +1,7 @@
 package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.generator.CodeGenerator
+import com.wutsi.codegen.core.generator.CodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.kotlin.sdk.SdkModelCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI

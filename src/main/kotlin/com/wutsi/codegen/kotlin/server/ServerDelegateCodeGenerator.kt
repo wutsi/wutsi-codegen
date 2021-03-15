@@ -4,11 +4,11 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Request
-import com.wutsi.codegen.util.CaseUtil
 import org.springframework.stereotype.Service
 import java.io.File
 

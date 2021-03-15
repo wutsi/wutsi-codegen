@@ -1,4 +1,4 @@
-package com.wutsi.codegen.generator
+package com.wutsi.codegen.core.generator
 
 import com.wutsi.codegen.Context
 import io.swagger.v3.oas.models.OpenAPI

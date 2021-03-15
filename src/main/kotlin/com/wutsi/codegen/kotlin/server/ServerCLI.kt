@@ -1,9 +1,9 @@
 package com.wutsi.codegen.kotlin.server
 
-import com.wutsi.codegen.generator.AbstractCodeGeneratorCLI
-import com.wutsi.codegen.generator.CodeGeneratorFactory
-import com.wutsi.codegen.openapi.DefaultOpenAPILoader
-import com.wutsi.codegen.openapi.OpenAPILoader
+import com.wutsi.codegen.core.generator.AbstractCodeGeneratorCLI
+import com.wutsi.codegen.core.generator.CodeGeneratorFactory
+import com.wutsi.codegen.core.openapi.DefaultOpenAPILoader
+import com.wutsi.codegen.core.openapi.OpenAPILoader
 
 class ServerCLI(
     codeGeneratorFactory: CodeGeneratorFactory = ServerCodeGeneratorFactory(),
