@@ -6,7 +6,7 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>
@@ -26,6 +26,7 @@
     <kotlinpoet.version>1.7.2</kotlinpoet.version>
     <mustache.version>0.9.4</mustache.version>
     <spring.version>5.3.4</spring.version>
+    <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
     <swagger-parser.version>2.0.24</swagger-parser.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -78,6 +79,11 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+      <version>${spring-boot.version}</version>
     </dependency>
 
     <dependency>

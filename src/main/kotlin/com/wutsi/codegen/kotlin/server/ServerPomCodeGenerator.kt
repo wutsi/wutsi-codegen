@@ -1,10 +1,10 @@
 package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.AbstractPomCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.kotlin.sdk.SdkPomCodeGenerator
-import com.wutsi.codegen.util.CaseUtil
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 

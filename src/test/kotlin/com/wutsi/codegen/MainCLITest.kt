@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import com.wutsi.codegen.core.generator.AbstractCodeGeneratorCLI
 import org.junit.jupiter.api.Test
 
 internal class MainCLITest {

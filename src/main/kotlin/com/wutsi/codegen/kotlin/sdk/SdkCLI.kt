@@ -1,9 +1,9 @@
 package com.wutsi.codegen.kotlin.sdk
 
-import com.wutsi.codegen.AbstractCodeGeneratorCLI
-import com.wutsi.codegen.CodeGeneratorFactory
-import com.wutsi.codegen.DefaultOpenAPILoader
-import com.wutsi.codegen.OpenAPILoader
+import com.wutsi.codegen.core.generator.AbstractCodeGeneratorCLI
+import com.wutsi.codegen.core.generator.CodeGeneratorFactory
+import com.wutsi.codegen.core.openapi.DefaultOpenAPILoader
+import com.wutsi.codegen.core.openapi.OpenAPILoader
 import com.wutsi.codegen.kotlin.server.ServerCodeGeneratorFactory
 
 class SdkCLI(

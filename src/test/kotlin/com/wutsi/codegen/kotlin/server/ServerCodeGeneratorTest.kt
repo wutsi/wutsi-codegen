@@ -44,6 +44,9 @@ internal class ServerCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
 
+        // Launcher
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/Application.kt").exists())
+
         // Pom
         assertTrue(File("${context.outputDirectory}/pom.xml").exists())
     }

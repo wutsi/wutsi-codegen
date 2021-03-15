@@ -4,11 +4,12 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Request
-import com.wutsi.codegen.util.CaseUtil
+import org.springframework.stereotype.Service
 import java.io.File
 
 class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGenerator(mapper) {
@@ -19,7 +20,9 @@ class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGene
         toPackage(context.basePackage, "delegate")
 
     override fun classAnnotations(endpoint: Endpoint): List<AnnotationSpec> =
-        emptyList()
+        listOf(
+            AnnotationSpec.builder(Service::class).build()
+        )
 
     override fun functionAnnotations(endpoint: Endpoint): List<AnnotationSpec> =
         emptyList()
@@ -34,7 +37,9 @@ class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGene
         FunSpec.constructorBuilder().build()
 
     override fun funCodeBloc(endpoint: Endpoint): CodeBlock =
-        CodeBlock.builder().build()
+        CodeBlock.builder()
+            .addStatement("TODO()")
+            .build()
 
     override fun canGenerate(directory: File, packageName: String, className: String): Boolean {
         val relativePath = "$packageName.$className".replace('.', File.separatorChar)

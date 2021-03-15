@@ -28,6 +28,11 @@ internal class ServerDelegateCodeGeneratorTest {
 
     val codegen = ServerDelegateCodeGenerator(KotlinMapper(context))
 
+    @BeforeEach
+    fun setUp() {
+        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+    }
+
     @Test
     fun `toFuncSpec - requestBody`() {
         val endpoint = Endpoint(
@@ -45,6 +50,7 @@ internal class ServerDelegateCodeGeneratorTest {
         assertEquals(
             """
                 public fun invoke(request: com.wutsi.test.model.CreateFooRquest): com.wutsi.test.model.CreateFooResponse {
+                  TODO()
                 }
             """.trimIndent(),
             result.toString().trimIndent()
@@ -70,6 +76,7 @@ internal class ServerDelegateCodeGeneratorTest {
         assertEquals(
             """
                 public fun invoke(bar: kotlin.String): kotlin.Unit {
+                  TODO()
                 }
             """.trimIndent(),
             result.toString().trimIndent()
@@ -95,18 +102,15 @@ internal class ServerDelegateCodeGeneratorTest {
         val result = codegen.toTypeSpec(endpoint, context)
         assertEquals(
             """
+                @org.springframework.stereotype.Service
                 public class CreateDelegate {
                   public fun invoke(bar: kotlin.String): kotlin.Unit {
+                    TODO()
                   }
                 }
             """.trimIndent(),
             result.toString().trimIndent()
         )
-    }
-
-    @BeforeEach
-    fun setUp() {
-        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
     }
 
     @Test
@@ -131,7 +135,7 @@ internal class ServerDelegateCodeGeneratorTest {
 
     @Test
     fun `generate - do not overwrite`() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"))
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
 
         context.register("#/components/schemas/ErrorResponse", Type(packageName = "${context.basePackage}.model", name = "ErrorResponse"))
         context.register("#/components/schemas/CreateLikeRequest", Type(packageName = "${context.basePackage}.model", name = "CreateLikeRequest"))

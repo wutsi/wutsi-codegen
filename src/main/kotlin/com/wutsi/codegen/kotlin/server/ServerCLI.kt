@@ -1,9 +1,9 @@
 package com.wutsi.codegen.kotlin.server
 
-import com.wutsi.codegen.AbstractCodeGeneratorCLI
-import com.wutsi.codegen.CodeGeneratorFactory
-import com.wutsi.codegen.DefaultOpenAPILoader
-import com.wutsi.codegen.OpenAPILoader
+import com.wutsi.codegen.core.generator.AbstractCodeGeneratorCLI
+import com.wutsi.codegen.core.generator.CodeGeneratorFactory
+import com.wutsi.codegen.core.openapi.DefaultOpenAPILoader
+import com.wutsi.codegen.core.openapi.OpenAPILoader
 
 class ServerCLI(
     codeGeneratorFactory: CodeGeneratorFactory = ServerCodeGeneratorFactory(),
@@ -11,5 +11,5 @@ class ServerCLI(
 ) : AbstractCodeGeneratorCLI(codeGeneratorFactory, openAPILoader) {
     override fun name() = "server"
 
-    override fun description() = "Generate the API server code from an OpenAPIV3, using springboot/kotlin"
+    override fun description() = "Generate the API Springboot/Kotlin Server code from an OpenAPIV3 specification"
 }

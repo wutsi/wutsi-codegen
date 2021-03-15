@@ -7,11 +7,11 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.wutsi.codegen.AbstractCLI
-import com.wutsi.codegen.CodeGenerator
-import com.wutsi.codegen.CodeGeneratorFactory
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.OpenAPILoader
+import com.wutsi.codegen.core.cli.AbstractCLI
+import com.wutsi.codegen.core.generator.CodeGenerator
+import com.wutsi.codegen.core.generator.CodeGeneratorFactory
+import com.wutsi.codegen.core.openapi.OpenAPILoader
 import io.swagger.v3.oas.models.OpenAPI
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -121,8 +121,6 @@ internal class SdkCLITest {
 
     @Test
     fun `run - missing input-file`() {
-        val url = "https://localhost:8080/like.yaml"
-
         val args = arrayOf(
             "server",
             "-a test",
