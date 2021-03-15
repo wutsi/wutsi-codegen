@@ -1,5 +1,8 @@
-package com.wutsi.codegen
+package com.wutsi.codegen.generator
 
+import com.wutsi.codegen.Context
+import com.wutsi.codegen.cli.AbstractCLI
+import com.wutsi.codegen.openapi.OpenAPILoader
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.Option
 import org.apache.commons.cli.Options

@@ -9,6 +9,7 @@ import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.util.CaseUtil
+import org.springframework.stereotype.Service
 import java.io.File
 
 class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGenerator(mapper) {
@@ -19,7 +20,9 @@ class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGene
         toPackage(context.basePackage, "delegate")
 
     override fun classAnnotations(endpoint: Endpoint): List<AnnotationSpec> =
-        emptyList()
+        listOf(
+            AnnotationSpec.builder(Service::class).build()
+        )
 
     override fun functionAnnotations(endpoint: Endpoint): List<AnnotationSpec> =
         emptyList()

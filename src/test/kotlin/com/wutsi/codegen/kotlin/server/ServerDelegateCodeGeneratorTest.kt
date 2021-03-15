@@ -28,6 +28,11 @@ internal class ServerDelegateCodeGeneratorTest {
 
     val codegen = ServerDelegateCodeGenerator(KotlinMapper(context))
 
+    @BeforeEach
+    fun setUp() {
+        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+    }
+
     @Test
     fun `toFuncSpec - requestBody`() {
         val endpoint = Endpoint(
@@ -97,6 +102,7 @@ internal class ServerDelegateCodeGeneratorTest {
         val result = codegen.toTypeSpec(endpoint, context)
         assertEquals(
             """
+                @org.springframework.stereotype.Service
                 public class CreateDelegate {
                   public fun invoke(bar: kotlin.String): kotlin.Unit {
                     TODO()
@@ -105,11 +111,6 @@ internal class ServerDelegateCodeGeneratorTest {
             """.trimIndent(),
             result.toString().trimIndent()
         )
-    }
-
-    @BeforeEach
-    fun setUp() {
-        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
     }
 
     @Test

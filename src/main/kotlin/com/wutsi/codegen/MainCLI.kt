@@ -1,5 +1,7 @@
 package com.wutsi.codegen
 
+import com.wutsi.codegen.cli.AbstractCLI
+import com.wutsi.codegen.generator.AbstractCodeGeneratorCLI
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.Options
 

@@ -28,6 +28,7 @@
     <junit.version>5.6.0</junit.version>
     <kotlin.version>1.4.31</kotlin.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
+    <jackson-module-kotlin.version>2.12.2</jackson-module-kotlin.version>
     <klint.version>0.40.0</klint.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
   </properties>
@@ -43,6 +44,11 @@
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
       <version>${kotlin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-kotlin</artifactId>
+      <version>${jackson-module-kotlin.version}</version>
     </dependency>
 
     <dependency>
@@ -146,6 +152,12 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- Springboot -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
       <!-- Code Coverage -->

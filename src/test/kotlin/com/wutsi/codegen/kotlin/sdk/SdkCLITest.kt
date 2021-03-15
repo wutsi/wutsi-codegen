@@ -7,11 +7,11 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import com.wutsi.codegen.AbstractCLI
-import com.wutsi.codegen.CodeGenerator
-import com.wutsi.codegen.CodeGeneratorFactory
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.OpenAPILoader
+import com.wutsi.codegen.cli.AbstractCLI
+import com.wutsi.codegen.generator.CodeGenerator
+import com.wutsi.codegen.generator.CodeGeneratorFactory
+import com.wutsi.codegen.openapi.OpenAPILoader
 import io.swagger.v3.oas.models.OpenAPI
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
