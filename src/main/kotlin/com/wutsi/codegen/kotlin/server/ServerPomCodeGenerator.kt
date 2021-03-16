@@ -1,15 +1,16 @@
 package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.generator.AbstractPomCodeGenerator
 import com.wutsi.codegen.core.util.CaseUtil
-import com.wutsi.codegen.kotlin.AbstractPomCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.kotlin.sdk.SdkPomCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
-import java.io.File
 
-class ServerPomCodeGenerator(mapper: KotlinMapper) : AbstractPomCodeGenerator(mapper) {
-    override fun toPom(openAPI: OpenAPI, context: Context) = mapOf(
+class ServerPomCodeGenerator(private val mapper: KotlinMapper) : AbstractPomCodeGenerator() {
+    override fun getTemplatePath() = "/kotlin/server/pom.xml.mustache"
+
+    override fun toMustacheScope(openAPI: OpenAPI, context: Context) = mapOf(
         "artifactId" to artifactId(context),
         "sdkArtifactId" to SdkPomCodeGenerator(mapper).artifactId(context),
         "groupId" to context.basePackage,
@@ -17,11 +18,6 @@ class ServerPomCodeGenerator(mapper: KotlinMapper) : AbstractPomCodeGenerator(ma
         "version" to openAPI.info?.version,
         "githubUser" to context.githubUser
     )
-
-    override fun getTemplatePath(): String = "/kotlin/server/pom.xml.mustache"
-
-    override fun canGenerate(context: Context): Boolean =
-        !File(context.outputDirectory, "pom.xml").exists()
 
     fun artifactId(context: Context): String =
         CaseUtil.toSnakeCase(context.apiName.toLowerCase()) + "-server"

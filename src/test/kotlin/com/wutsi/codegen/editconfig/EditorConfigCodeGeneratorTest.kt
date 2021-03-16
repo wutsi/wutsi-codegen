@@ -1,19 +1,18 @@
-package com.wutsi.codegen.kotlin.server
+package com.wutsi.codegen.editconfig
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.helpers.AbstractMustacheCodeGeneratorTest
-import com.wutsi.codegen.kotlin.KotlinMapper
 import org.junit.jupiter.api.Test
 
-internal class ServerPomCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
+internal class EditorConfigCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
     override fun createContext() = Context(
         apiName = "Test",
-        outputDirectory = "./target/wutsi/codegen/server",
+        outputDirectory = "./target/wutsi/codegen/editorconfig",
         basePackage = "com.wutsi.test",
         jdkVersion = "1.8"
     )
 
-    override fun getCodeGenerator(context: Context) = ServerPomCodeGenerator(KotlinMapper(context))
+    override fun getCodeGenerator(context: Context) = EditorConfigCodeGenerator()
 
     @Test
     fun `generate`() {
@@ -21,15 +20,15 @@ internal class ServerPomCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() 
         val context = createContext()
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertContent("/kotlin/server/pom.xml", "${context.outputDirectory}/pom.xml")
+        assertContent("/.editorconfig", "${context.outputDirectory}/.editorconfig")
     }
 
     @Test
-    fun `generate - do not override`() {
+    fun `generate - do not overwrite`() {
         val openAPI = createOpenAPI()
         val context = createContext()
 
-        val path = "${context.outputDirectory}/pom.xml"
+        val path = "${context.outputDirectory}/.editorconfig"
         createFileAndWait(path)
 
         getCodeGenerator(context).generate(openAPI, context)

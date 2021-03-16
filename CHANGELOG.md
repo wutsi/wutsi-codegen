@@ -1,5 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.7] 2021-03-16
+### Fixed
+- Generate .editorconfig
+- Generate github workflows script
+
 ## [0.0.6] 2021-03-14
 ### Fixed
 - Add javax.validation dependency in pom.xml
