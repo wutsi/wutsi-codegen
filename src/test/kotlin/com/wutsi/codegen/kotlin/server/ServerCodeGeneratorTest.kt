@@ -52,5 +52,9 @@ internal class ServerCodeGeneratorTest {
 
         // .editorconfig
         assertTrue(File("${context.outputDirectory}/.editorconfig").exists())
+
+        // Github Workflow
+        assertTrue(File("${context.outputDirectory}/.github/workflows/master.yml").exists())
+        assertTrue(File("${context.outputDirectory}/.github/workflows/pull_request.yml").exists())
     }
 }

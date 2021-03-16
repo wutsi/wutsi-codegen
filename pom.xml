@@ -14,7 +14,7 @@
   <properties>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <jacoco.threshold.line>0.95</jacoco.threshold.line>
-    <jacoco.threshold.class>0.84</jacoco.threshold.class>
+    <jacoco.threshold.class>0.85</jacoco.threshold.class>
 
     <commons-cli.version>1.4</commons-cli.version>
     <feign.version>11.0</feign.version>

@@ -1,93 +1,39 @@
 package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.helpers.AbstractMustacheCodeGeneratorTest
 import com.wutsi.codegen.kotlin.KotlinMapper
-import io.swagger.v3.oas.models.OpenAPI
-import io.swagger.v3.oas.models.info.Info
-import org.apache.commons.io.IOUtils
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.util.FileSystemUtils
-import java.io.File
-import java.nio.file.Files
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-internal class ServerPomCodeGeneratorTest {
-    val context = Context(
+internal class ServerPomCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
+    override fun createContext() = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/server",
         basePackage = "com.wutsi.test",
-        jdkVersion = "1.8",
-        githubUser = null
+        jdkVersion = "1.8"
     )
 
-    val codegen = ServerPomCodeGenerator(KotlinMapper(context))
-
-    @BeforeEach
-    fun setUp() {
-        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
-    }
-
-    @Test
-    fun `generate - distribution`() {
-        val openAPI = createOpenAPI()
-
-        val context = Context(
-            apiName = "Test",
-            outputDirectory = "./target/wutsi/codegen/server",
-            basePackage = "com.wutsi.test",
-            jdkVersion = "1.8",
-            githubUser = "foo"
-        )
-
-        codegen.generate(openAPI, context)
-
-        val file = File("${context.outputDirectory}/pom.xml")
-        assertTrue(file.exists())
-
-        val result = file.readText()
-        val expected = IOUtils.toString(ServerPomCodeGenerator::class.java.getResourceAsStream("/kotlin/server/pom-distribution.xml"), "utf-8")
-        assertEquals(expected.trimIndent(), result.trimIndent())
-    }
+    override fun getCodeGenerator(context: Context) = ServerPomCodeGenerator(KotlinMapper(context))
 
     @Test
     fun `generate`() {
         val openAPI = createOpenAPI()
+        val context = createContext()
+        getCodeGenerator(context).generate(openAPI, context)
 
-        codegen.generate(openAPI, context)
-
-        val file = File("${context.outputDirectory}/pom.xml")
-        assertTrue(file.exists())
-
-        val result = file.readText()
-        val expected = IOUtils.toString(ServerPomCodeGenerator::class.java.getResourceAsStream("/kotlin/server/pom.xml"), "utf-8")
-        assertEquals(expected.trimIndent(), result.trimIndent())
+        assertContent("/kotlin/server/pom.xml", "${context.outputDirectory}/pom.xml")
     }
 
     @Test
-    fun `generate - do not overwrite`() {
+    fun `generate - do not override`() {
         val openAPI = createOpenAPI()
+        val context = createContext()
 
-        var path = "${context.outputDirectory}/pom.xml"
-        File(path).parentFile.mkdirs()
-        Files.write(
-            File(path).toPath(),
-            "xxx".toByteArray()
-        )
+        val path = "${context.outputDirectory}/pom.xml"
+        createFileAndWait(path)
 
-        val delay = 5000L
-        Thread.sleep(delay)
-        codegen.generate(openAPI, context)
+        getCodeGenerator(context).generate(openAPI, context)
 
-        val file = File(path)
-        assertTrue(System.currentTimeMillis() - file.lastModified() >= delay)
-    }
-
-    private fun createOpenAPI(): OpenAPI {
-        val openAPI = OpenAPI()
-        openAPI.info = Info()
-        openAPI.info.version = "1.3.7"
-        return openAPI
+        assertFileNotOverwritten(path)
     }
 }
