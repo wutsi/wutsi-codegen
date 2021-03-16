@@ -4,7 +4,6 @@
 ### Fixed
 - Generate .editorconfig
 - Generate github workflows script
-- Add README
 
 ## [0.0.6] 2021-03-14
 ### Fixed
