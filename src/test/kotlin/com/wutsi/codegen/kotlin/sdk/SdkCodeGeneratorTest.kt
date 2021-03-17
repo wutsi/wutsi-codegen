@@ -12,7 +12,8 @@ internal class SdkCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/sdk",
-        basePackage = "com.wutsi.test"
+        basePackage = "com.wutsi.test",
+        githubUser = "foo"
     )
 
     val codegen = SdkCodeGenerator(
@@ -27,8 +28,9 @@ internal class SdkCodeGeneratorTest {
             context = context
         )
 
-        // POM
+        // Maven
         assertTrue(File("${context.outputDirectory}/pom.xml").exists())
+        assertTrue(File("${context.outputDirectory}/settings.xml").exists())
 
         // API
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists())

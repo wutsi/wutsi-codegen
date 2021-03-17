@@ -1,16 +1,18 @@
-package com.wutsi.codegen.kotlin.sdk
+package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
-import com.wutsi.codegen.core.generator.AbstractPomCodeGenerator
+import com.wutsi.codegen.core.generator.AbstractMavenCodeGenerator
 import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.KotlinMapper
+import com.wutsi.codegen.kotlin.sdk.SdkMavenCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 
-class SdkPomCodeGenerator(private val mapper: KotlinMapper) : AbstractPomCodeGenerator() {
-    override fun getTemplatePath() = "/kotlin/sdk/pom.xml.mustache"
+class ServerMavenCodeGenerator(private val mapper: KotlinMapper) : AbstractMavenCodeGenerator() {
+    override fun getTemplatePath() = "/kotlin/server/pom.xml.mustache"
 
     override fun toMustacheScope(openAPI: OpenAPI, context: Context) = mapOf(
         "artifactId" to artifactId(context),
+        "sdkArtifactId" to SdkMavenCodeGenerator(mapper).artifactId(context),
         "groupId" to context.basePackage,
         "jdkVersion" to context.jdkVersion,
         "version" to openAPI.info?.version,
@@ -18,5 +20,5 @@ class SdkPomCodeGenerator(private val mapper: KotlinMapper) : AbstractPomCodeGen
     )
 
     fun artifactId(context: Context): String =
-        CaseUtil.toSnakeCase(context.apiName.toLowerCase()) + "-sdk"
+        CaseUtil.toSnakeCase(context.apiName.toLowerCase()) + "-server"
 }

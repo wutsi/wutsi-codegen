@@ -4,7 +4,7 @@ import com.wutsi.codegen.Context
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 
-abstract class AbstractPomCodeGenerator : AbstractMustacheCodeGenerator() {
+abstract class AbstractMavenCodeGenerator : AbstractMustacheCodeGenerator() {
     protected abstract fun getTemplatePath(): String
 
     override fun generate(openAPI: OpenAPI, context: Context) {
@@ -14,5 +14,14 @@ abstract class AbstractPomCodeGenerator : AbstractMustacheCodeGenerator() {
             openAPI = openAPI,
             context = context
         )
+
+        if (context.githubUser != null) {
+            generate(
+                inputPath = "/settings.xml.mustache",
+                outputFile = File(context.outputDirectory, "settings.xml"),
+                openAPI = openAPI,
+                context = context
+            )
+        }
     }
 }

@@ -9,6 +9,6 @@ class SdkCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     override fun generate(openAPI: OpenAPI, context: Context) {
         SdkModelCodeGenerator(mapper).generate(openAPI, context)
         SdkApiCodeGenerator(mapper).generate(openAPI, context)
-        SdkPomCodeGenerator(mapper).generate(openAPI, context)
+        SdkMavenCodeGenerator(mapper).generate(openAPI, context)
     }
 }

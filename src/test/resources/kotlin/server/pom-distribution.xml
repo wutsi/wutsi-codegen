@@ -94,7 +94,7 @@
 
   <distributionManagement>
     <repository>
-      <id>test-server</id>
+      <id>github</id>
       <name>GitHub Maven Packages</name>
       <url>https://maven.pkg.github.com/foo/test-server</url>
     </repository>
@@ -154,10 +154,26 @@
         </executions>
       </plugin>
 
+      <!-- Git Info -->
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <configuration>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+        </configuration>
+      </plugin>
+
       <!-- Springboot -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build-info</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Code Coverage -->

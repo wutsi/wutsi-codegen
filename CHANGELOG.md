@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.9] 2021-03-16
+## [0.0.10] 2021-03-17
+### Added
+- Add `settings.xml` for maven generator
+
+## [0.0.9] 2021-03-17
 ### Added
 - Add `.gitignore`
 
