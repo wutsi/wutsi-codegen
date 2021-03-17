@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.7] 2021-03-16
+## [0.0.8] 2021-03-16
+### Fixed
+- Add server `application.yml` configurations
+
+## [0.0.7] 2021-03-15
 ### Fixed
 - Generate .editorconfig
 - Generate github workflows script

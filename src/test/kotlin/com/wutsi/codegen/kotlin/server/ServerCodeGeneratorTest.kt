@@ -56,5 +56,10 @@ internal class ServerCodeGeneratorTest {
         // Github Workflow
         assertTrue(File("${context.outputDirectory}/.github/workflows/master.yml").exists())
         assertTrue(File("${context.outputDirectory}/.github/workflows/pull_request.yml").exists())
+
+        // Confiug
+        assertTrue(File("${context.outputDirectory}/src/main/resources/application.yml").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/resources/application-test.yml").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/resources/application-prod.yml").exists())
     }
 }
