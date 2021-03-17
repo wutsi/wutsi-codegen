@@ -1,6 +1,9 @@
-name: pull_request
+name: master
 
-on: [ pull_request ]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -12,9 +15,9 @@ jobs:
       - name: jdk
         uses: actions/setup-java@v1
         with:
-          java-version: 
+          java-version: 1.8
       - name: Build
         env:
-          GITHUB_TOKEN: $
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          mvn install
+          mvn -s settings.xml install

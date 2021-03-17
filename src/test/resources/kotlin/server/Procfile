@@ -1,1 +1,0 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT-jar target/test-server-1.3.7.jar --spring.profiles.active=$APP_PROFILE

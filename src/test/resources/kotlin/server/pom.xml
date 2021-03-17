@@ -92,7 +92,6 @@
     </dependency>
   </dependencies>
 
-
   <repositories>
     <repository>
       <id>maven</id>
@@ -107,6 +106,7 @@
   </repositories>
 
   <build>
+    <finalName>${project.artifactId}</finalName>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <plugins>

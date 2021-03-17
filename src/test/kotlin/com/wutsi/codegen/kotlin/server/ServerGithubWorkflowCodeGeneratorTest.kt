@@ -1,4 +1,4 @@
-package com.wutsi.codegen.github
+package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.helpers.AbstractMustacheCodeGeneratorTest
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-internal class GithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
+internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
     override fun createContext() = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/github",
@@ -14,7 +14,7 @@ internal class GithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTe
         jdkVersion = "1.8"
     )
 
-    override fun getCodeGenerator(context: Context) = GithubWorkflowCodeGenerator()
+    override fun getCodeGenerator(context: Context) = ServerGithubWorkflowCodeGenerator()
 
     @Test
     fun `generate`() {
@@ -22,8 +22,8 @@ internal class GithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTe
         val context = createContext()
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertContent("/.github/workflows/master.yml", "${context.outputDirectory}/.github/workflows/master.yml")
-        assertContent("/.github/workflows/pull_request.yml", "${context.outputDirectory}/.github/workflows/pull_request.yml")
+        assertContent("/kotlin/server/.github/workflows/master.yml", "${context.outputDirectory}/.github/workflows/master.yml")
+        assertContent("/kotlin/server/.github/workflows/pull_request.yml", "${context.outputDirectory}/.github/workflows/pull_request.yml")
     }
 
     @Test
@@ -38,8 +38,8 @@ internal class GithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTe
         )
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertContent("/.github/workflows/master-heroku.yml", "${context.outputDirectory}/.github/workflows/master.yml")
-        assertContent("/.github/workflows/pull_request.yml", "${context.outputDirectory}/.github/workflows/pull_request.yml")
+        assertContent("/kotlin/server/.github/workflows/master-heroku.yml", "${context.outputDirectory}/.github/workflows/master.yml")
+        assertContent("/kotlin/server/.github/workflows/pull_request.yml", "${context.outputDirectory}/.github/workflows/pull_request.yml")
     }
 
     @ParameterizedTest

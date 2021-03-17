@@ -14,7 +14,8 @@ internal class ServerCodeGeneratorTest {
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/server",
         basePackage = "com.wutsi.test",
-        githubUser = "foo"
+        githubUser = "foo",
+        herokuApp = "foo-app"
     )
 
     val codegen = ServerCodeGenerator(
@@ -66,5 +67,10 @@ internal class ServerCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/resources/application.yml").exists())
         assertTrue(File("${context.outputDirectory}/src/main/resources/application-test.yml").exists())
         assertTrue(File("${context.outputDirectory}/src/main/resources/application-prod.yml").exists())
+
+        // Heroku
+        assertTrue(File("${context.outputDirectory}/Procfile").exists())
+        assertTrue(File("${context.outputDirectory}/system.properties").exists())
+        assertTrue(File("${context.outputDirectory}/app.json").exists())
     }
 }

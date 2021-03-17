@@ -1,0 +1,21 @@
+{
+  "name": "test-app",
+  "description": "This api used for managing likes on links",
+  "env": {
+    "APP_PROFILE": {
+      "description": "Spring Profile",
+      "generator": "test"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/java"
+    }
+  ],
+  "addons": [
+    {
+      "plan": "papertrail:choklad",
+      "as": "LOGGER"
+    }
+  ]
+}
