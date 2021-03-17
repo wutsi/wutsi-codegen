@@ -4,8 +4,10 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.helpers.AbstractMustacheCodeGeneratorTest
 import com.wutsi.codegen.kotlin.KotlinMapper
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.test.assertFalse
 
-internal class ServerPomCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
+internal class ServerMavenCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
     override fun createContext() = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/server",
@@ -13,7 +15,7 @@ internal class ServerPomCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() 
         jdkVersion = "1.8"
     )
 
-    override fun getCodeGenerator(context: Context) = ServerPomCodeGenerator(KotlinMapper(context))
+    override fun getCodeGenerator(context: Context) = ServerMavenCodeGenerator(KotlinMapper(context))
 
     @Test
     fun `generate`() {
@@ -22,6 +24,23 @@ internal class ServerPomCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() 
         getCodeGenerator(context).generate(openAPI, context)
 
         assertContent("/kotlin/server/pom.xml", "${context.outputDirectory}/pom.xml")
+        assertFalse(File("${context.outputDirectory}/settings.xml").exists())
+    }
+
+    @Test
+    fun `generate with distribution`() {
+        val openAPI = createOpenAPI()
+        val context = Context(
+            apiName = "Test",
+            outputDirectory = "./target/wutsi/codegen/server",
+            basePackage = "com.wutsi.test",
+            jdkVersion = "1.8",
+            githubUser = "foo"
+        )
+        getCodeGenerator(context).generate(openAPI, context)
+
+        assertContent("/kotlin/server/pom-distribution.xml", "${context.outputDirectory}/pom.xml")
+        assertContent("/settings.xml", "${context.outputDirectory}/settings.xml")
     }
 
     @Test

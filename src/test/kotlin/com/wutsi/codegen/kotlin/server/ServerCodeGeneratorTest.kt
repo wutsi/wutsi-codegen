@@ -13,7 +13,8 @@ internal class ServerCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/server",
-        basePackage = "com.wutsi.test"
+        basePackage = "com.wutsi.test",
+        githubUser = "foo"
     )
 
     val codegen = ServerCodeGenerator(
@@ -47,8 +48,9 @@ internal class ServerCodeGeneratorTest {
         // Launcher
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/Application.kt").exists())
 
-        // Pom
+        // Maven
         assertTrue(File("${context.outputDirectory}/pom.xml").exists())
+        assertTrue(File("${context.outputDirectory}/settings.xml").exists())
 
         // .editorconfig
         assertTrue(File("${context.outputDirectory}/.editorconfig").exists())
