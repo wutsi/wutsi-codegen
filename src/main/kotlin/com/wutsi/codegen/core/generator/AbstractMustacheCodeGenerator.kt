@@ -7,18 +7,15 @@ import java.io.File
 import java.io.FileWriter
 import java.io.InputStreamReader
 
-abstract class AbstractMustacheCodeGenerator : CodeGenerator {
+abstract class AbstractMustacheCodeGenerator : AbstractStaticCodeGenerator() {
 
     abstract fun toMustacheScope(openAPI: OpenAPI, context: Context): Map<String, String?>
 
-    protected open fun canGenerate(file: File): Boolean =
-        !file.exists()
-
-    protected fun generate(inputPath: String, outputFile: File, openAPI: OpenAPI, context: Context) {
+    override fun generate(inputPath: String, outputFile: File, openAPI: OpenAPI, context: Context) {
         if (!canGenerate(outputFile))
             return
 
-        val reader = InputStreamReader(AbstractPomCodeGenerator::class.java.getResourceAsStream(inputPath))
+        val reader = InputStreamReader(AbstractMustacheCodeGenerator::class.java.getResourceAsStream(inputPath))
         reader.use {
             System.out.println("Generating $outputFile")
             outputFile.parentFile.mkdirs()
