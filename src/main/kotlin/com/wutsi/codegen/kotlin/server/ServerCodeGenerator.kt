@@ -12,11 +12,14 @@ import io.swagger.v3.oas.models.OpenAPI
 class ServerCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
     override fun generate(openAPI: OpenAPI, context: Context) {
         SdkModelCodeGenerator(mapper).generate(openAPI, context)
+
         ServerDelegateCodeGenerator(mapper).generate(openAPI, context)
         ServerControllerCodeGenerator(mapper).generate(openAPI, context)
         ServerMavenCodeGenerator(mapper).generate(openAPI, context)
         ServerLauncherCodeGenerator().generate(openAPI, context)
         ServerConfigCodeGenerator(mapper).generate(openAPI, context)
+        ServerHerokuCodeGenerator(mapper).generate(openAPI, context)
+
         EditorConfigCodeGenerator().generate(openAPI, context)
         GithubWorkflowCodeGenerator().generate(openAPI, context)
         GitIgnoreCodeGenerator().generate(openAPI, context)
