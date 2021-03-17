@@ -53,11 +53,14 @@ internal class ServerCodeGeneratorTest {
         // .editorconfig
         assertTrue(File("${context.outputDirectory}/.editorconfig").exists())
 
-        // Github Workflow
+        // Github Workflows
         assertTrue(File("${context.outputDirectory}/.github/workflows/master.yml").exists())
         assertTrue(File("${context.outputDirectory}/.github/workflows/pull_request.yml").exists())
 
-        // Confiug
+        // .gitignore
+        assertTrue(File("${context.outputDirectory}/.gitignore").exists())
+
+        // Config
         assertTrue(File("${context.outputDirectory}/src/main/resources/application.yml").exists())
         assertTrue(File("${context.outputDirectory}/src/main/resources/application-test.yml").exists())
         assertTrue(File("${context.outputDirectory}/src/main/resources/application-prod.yml").exists())
