@@ -26,6 +26,22 @@ internal class GithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTe
         assertContent("/.github/workflows/pull_request.yml", "${context.outputDirectory}/.github/workflows/pull_request.yml")
     }
 
+    @Test
+    fun `generate with Heroku`() {
+        val openAPI = createOpenAPI()
+        val context = Context(
+            apiName = "Test",
+            outputDirectory = "./target/wutsi/codegen/github",
+            basePackage = "com.wutsi.test",
+            jdkVersion = "1.8",
+            herokuApp = "foo-app"
+        )
+        getCodeGenerator(context).generate(openAPI, context)
+
+        assertContent("/.github/workflows/master-heroku.yml", "${context.outputDirectory}/.github/workflows/master.yml")
+        assertContent("/.github/workflows/pull_request.yml", "${context.outputDirectory}/.github/workflows/pull_request.yml")
+    }
+
     @ParameterizedTest
     @ValueSource(strings = ["master.yml", "pull_request.yml"])
     fun `generate - do not overwrite`(name: String) {

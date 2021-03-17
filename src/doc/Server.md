@@ -9,22 +9,27 @@ java -jar wutsi-codegen-<version>.jar server
     -p <base-package>
     -o <output-dir>
     -g <github-user>
+    -heroku <heroku-app>
 
   <openapi-file-url> REQUIRED - URL of the OpenAPI file
   <api-name>         REQUIRED - Name of the API
   <base-package>     REQUIRED - Base package of the SDK
   <output-dir>       REQUIRED - Output directory to the generate files will be stored. Default = ./out.
   <github-user>      OPTIONAL - Github username.
+  <heroku-app>       OPTIONAL - Heroku application name. This will trigger the deployment when merging to `master` branch.
+                                IMPORTANT: The github secret HEROKU_API_KEY must be configured.
 ```
 
 ## Output
 The Server generator will generate the following files.
 - [EditorConfig](https://editorconfig.org/) file `<output-dir>/.editorconfig`
 - The file `<output-dir>/.gitignore`
-- The Maven descriptor `<output-dir>/pom.xml`, with the following information:
-  - The `version` = `info.version` in the OpenAPI file
-  - The `artifactId` = `<api-name>-server` provided in the command line
-  - The `groupId` = `<base-package>` provided in the command line
+- The Maven files
+  - Maven configuration file: `<output-dir>/settings.xml`
+  - Maven project descriptor file `<output-dir>/pom.xml` with the following information:
+    - The `version` = `info.version` in the OpenAPI file
+    - The `artifactId` = `<api-name>-server` provided in the command line
+    - The `groupId` = `<base-package>` provided in the command line
 - The code in the directory `<output-dir>/src/main/kotlin`:
   - Controller classes for each endpoint in the package `<base-package>.endpoint`
   - Delegate classes for each endpoint in the package `<base-package>.delegate`

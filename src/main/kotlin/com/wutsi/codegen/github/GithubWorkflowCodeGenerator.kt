@@ -11,10 +11,12 @@ class GithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
         generate("pull_request.yml", openAPI, context)
     }
 
-    override fun toMustacheScope(openAPI: OpenAPI, context: Context): Map<String, String> =
+    override fun toMustacheScope(openAPI: OpenAPI, context: Context): Map<String, String?> =
         mapOf(
             "jdkVersion" to context.jdkVersion,
-            "secrets.GITHUB_TOKEN" to "{{ secrets.GITHUB_TOKEN }}"
+            "secrets.GITHUB_TOKEN" to "{{secrets.GITHUB_TOKEN}}",
+            "herokuApp" to context.herokuApp,
+            "secrets.HEROKU_API_KEY" to "{{secrets.HEROKU_API_KEY}}"
         )
 
     private fun generate(filename: String, openAPI: OpenAPI, context: Context) {

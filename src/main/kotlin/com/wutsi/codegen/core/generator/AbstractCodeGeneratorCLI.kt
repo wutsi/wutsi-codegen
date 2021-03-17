@@ -77,7 +77,7 @@ abstract class AbstractCodeGeneratorCLI(
         }
     }
 
-    private fun createContext(cmd: CommandLine) = Context(
+    protected open fun createContext(cmd: CommandLine) = Context(
         apiName = cmd.getOptionValue(OPTION_API_NAME).trim(),
         basePackage = cmd.getOptionValue(OPTION_BASE_PACKAGE).trimIndent(),
         outputDirectory = cmd.getOptionValue(OPTION_OUTPUT_DIR).trim(),

@@ -8,7 +8,8 @@ class Context(
     val basePackage: String,
     val outputDirectory: String = ".${File.separator}out",
     val jdkVersion: String = "11",
-    val githubUser: String? = null
+    val githubUser: String? = null,
+    val herokuApp: String? = null
 ) {
     private val typeRegistry = mutableMapOf<String, Type>()
 
