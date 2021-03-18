@@ -1,5 +1,12 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.11] 2021-03-17
+### Added
+- Deployment of API server to Heroku
+- Add CLI option for registering services
+### Changed
+- Server jar no longer deployed to github Maven repo
+
 ## [0.0.10] 2021-03-17
 ### Added
 - Add `settings.xml` for maven generator

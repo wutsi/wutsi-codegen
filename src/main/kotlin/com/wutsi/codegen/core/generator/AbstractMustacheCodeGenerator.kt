@@ -9,7 +9,9 @@ import java.io.InputStreamReader
 
 abstract class AbstractMustacheCodeGenerator : AbstractStaticCodeGenerator() {
 
-    abstract fun toMustacheScope(openAPI: OpenAPI, context: Context): Map<String, String?>
+    abstract fun toMustacheScope(openAPI: OpenAPI, context: Context): Map<String, Any?>
+
+    override fun canGenerate(file: File) = true
 
     override fun generate(inputPath: String, outputFile: File, openAPI: OpenAPI, context: Context) {
         if (!canGenerate(outputFile))

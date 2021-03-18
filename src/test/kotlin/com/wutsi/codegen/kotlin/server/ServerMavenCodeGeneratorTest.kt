@@ -28,22 +28,6 @@ internal class ServerMavenCodeGeneratorTest : AbstractMustacheCodeGeneratorTest(
     }
 
     @Test
-    fun `generate with distribution`() {
-        val openAPI = createOpenAPI()
-        val context = Context(
-            apiName = "Test",
-            outputDirectory = "./target/wutsi/codegen/server",
-            basePackage = "com.wutsi.test",
-            jdkVersion = "1.8",
-            githubUser = "foo"
-        )
-        getCodeGenerator(context).generate(openAPI, context)
-
-        assertContent("/kotlin/server/pom-distribution.xml", "${context.outputDirectory}/pom.xml")
-        assertContent("/settings.xml", "${context.outputDirectory}/settings.xml")
-    }
-
-    @Test
     fun `generate - do not override`() {
         val openAPI = createOpenAPI()
         val context = createContext()

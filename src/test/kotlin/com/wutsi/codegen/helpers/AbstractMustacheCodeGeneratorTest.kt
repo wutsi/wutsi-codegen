@@ -14,7 +14,7 @@ import kotlin.test.assertTrue
 
 internal abstract class AbstractMustacheCodeGeneratorTest {
     companion object {
-        const val DELAY = 5000L
+        const val DELAY = 2000L
     }
 
     abstract fun createContext(): Context
@@ -41,6 +41,13 @@ internal abstract class AbstractMustacheCodeGeneratorTest {
         assertTrue(System.currentTimeMillis() - file.lastModified() >= DELAY)
     }
 
+    fun assertFileOverwritten(filePath: String) {
+        val file = File(filePath)
+        assertTrue(file.exists())
+
+        assertTrue(System.currentTimeMillis() - file.lastModified() < DELAY)
+    }
+
     fun createFileAndWait(
         filePath: String,
         content: String = "xxx",
@@ -58,6 +65,7 @@ internal abstract class AbstractMustacheCodeGeneratorTest {
         val openAPI = OpenAPI()
         openAPI.info = Info()
         openAPI.info.version = "1.3.7"
+        openAPI.info.description = "This api used for managing likes on links"
         return openAPI
     }
 }

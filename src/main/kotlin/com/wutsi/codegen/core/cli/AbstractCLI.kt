@@ -16,6 +16,10 @@ abstract class AbstractCLI : CLI {
         const val OPTION_GITHUB_USER = "g"
         const val OPTION_JDK_VERSION = "j"
         const val OPTION_HELP = "h"
+        const val OPTION_SERVICE_CACHE = "service_cache"
+        const val OPTION_SERVICE_LOGGER = "service_logger"
+        const val OPTION_SERVICE_DATABASE = "service_database"
+        const val OPTION_SERVICE_QUEUE = "service_queue"
 
         const val DEFAULT_JDK_VERSION = "1.8"
     }

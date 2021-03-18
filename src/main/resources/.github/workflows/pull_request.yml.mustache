@@ -11,13 +11,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: jdk
+      - name: JDK
         uses: actions/setup-java@v1
         with:
           java-version: {{jdkVersion}}
       - name: Build
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           mvn -s settings.xml install
 

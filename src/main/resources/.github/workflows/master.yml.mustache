@@ -14,14 +14,41 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: jdk
+      - name: JDK
         uses: actions/setup-java@v1
         with:
           java-version: {{jdkVersion}}
       - name: Build
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          mvn -s settings.xml deploy
+          mvn -s settings.xml install
 
+      {{#herokuApp}}
+      - name: HerokuCLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+          heroku plugins:install @heroku-cli/plugin-java
+
+      - name: HerokuSetup
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: |
+          heroku apps | grep {{herokuApp}} && echo 'app: {{herokuApp}} exists' ||  heroku apps:create {{herokuApp}}
+        {{#herokuAddons}}
+          heroku addons -a {{herokuApp}} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a {{herokuApp}}
+        {{/herokuAddons}}
+
+      - name: HerokuDeploy
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: |
+          heroku buildpacks:clear --app {{herokuApp}}
+          heroku deploy:jar target/{{artifactId}}.jar --app {{herokuApp}}
+
+      - name: Healthcheck
+        run: |
+          sleep 90
+          curl -sSf https://{{herokuApp}}.herokuapp.com/actuator/health >> /dev/null
+      {{/herokuApp}}
 {{/scope}}
