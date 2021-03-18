@@ -10,10 +10,10 @@ java -jar wutsi-codegen-<version>.jar server
     -o <output-dir>
     -g <github-user>
     -heroku <heroku-app>
-    -service:cache
-    -service:logger
-    -service:queue
-    -service:database
+    -service_cache
+    -service_logger
+    -service_queue
+    -service_database
 
   -i <openapi-file-url> REQUIRED - URL of the OpenAPI file
   -a <api-name>         REQUIRED - Name of the API
@@ -21,11 +21,11 @@ java -jar wutsi-codegen-<version>.jar server
   -o <output-dir>       REQUIRED - Output directory to the generate files will be stored. Default = ./out.
   -g <github-user>      OPTIONAL - Github username.
   -heroku <heroku-app>  OPTIONAL - Heroku application name. This will trigger the deployment when merging to `master` branch.
-                                IMPORTANT: The github secret HEROKU_API_KEY must be configured.
-  -service:cache        OPTIONAL - Attach a cache to the API
-  -service:logger       OPTIONAL - Attach a logger to the API
-  -service:database     OPTIONAL - Attach a database to the API
-  -service:queue        OPTIONAL - Attach a queue to the API
+                        IMPORTANT: The github secret HEROKU_API_KEY must be configured.
+  -service_cache        OPTIONAL - Attach a cache to the API
+  -service_logger       OPTIONAL - Attach a logger to the API
+  -service_database     OPTIONAL - Attach a database to the API
+  -service_queue        OPTIONAL - Attach a queue to the API
 ```
 
 ## Output
