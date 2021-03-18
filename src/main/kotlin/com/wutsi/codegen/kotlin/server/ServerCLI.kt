@@ -34,6 +34,30 @@ class ServerCLI(
                 )
                 .build()
         )
+        options.addOption(
+            Option.builder(OPTION_SERVICE_CACHE)
+                .hasArg(false)
+                .desc("Attach a cache to the API")
+                .build()
+        )
+        options.addOption(
+            Option.builder(OPTION_SERVICE_DATABASE)
+                .hasArg(false)
+                .desc("Attach a database to the API")
+                .build()
+        )
+        options.addOption(
+            Option.builder(OPTION_SERVICE_LOGGER)
+                .hasArg(false)
+                .desc("Attach a logger to the API")
+                .build()
+        )
+        options.addOption(
+            Option.builder(OPTION_SERVICE_QUEUE)
+                .hasArg(false)
+                .desc("Attach a queue to the API")
+                .build()
+        )
     }
 
     override fun createContext(cmd: CommandLine) = Context(

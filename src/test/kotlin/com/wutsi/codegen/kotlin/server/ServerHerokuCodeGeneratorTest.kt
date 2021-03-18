@@ -22,7 +22,7 @@ internal class ServerHerokuCodeGeneratorTest : AbstractMustacheCodeGeneratorTest
     fun `generate`() {
         val openAPI = createOpenAPI()
         val context = createContext()
-        context.addService(Context.SERVICE_MESSAGE_QUEUE)
+        context.addService(Context.SERVICE_QUEUE)
         context.addService(Context.SERVICE_DATABASE)
         context.addService(Context.SERVICE_CACHE)
 

@@ -39,7 +39,7 @@ internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGener
         context.addService(Context.SERVICE_CACHE)
         context.addService(Context.SERVICE_DATABASE)
         context.addService(Context.SERVICE_LOGGING)
-        context.addService(Context.SERVICE_MESSAGE_QUEUE)
+        context.addService(Context.SERVICE_QUEUE)
         getCodeGenerator(context).generate(openAPI, context)
 
         assertContent("/kotlin/server/.github/workflows/master-heroku.yml", "${context.outputDirectory}/.github/workflows/master.yml")

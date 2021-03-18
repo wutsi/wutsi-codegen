@@ -31,7 +31,7 @@ class ServerGithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
             addons.add(mapOf("addonName" to "memcachier"))
         if (context.hasService(Context.SERVICE_DATABASE))
             addons.add(mapOf("addonName" to "heroku-postgresql"))
-        if (context.hasService(Context.SERVICE_MESSAGE_QUEUE))
+        if (context.hasService(Context.SERVICE_QUEUE))
             addons.add(mapOf("addonName" to "cloudamqp"))
         return addons
     }

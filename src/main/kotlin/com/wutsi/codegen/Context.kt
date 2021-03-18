@@ -15,7 +15,7 @@ class Context(
         const val SERVICE_LOGGING = "service:logging"
         const val SERVICE_CACHE = "service:cache"
         const val SERVICE_DATABASE = "service:database"
-        const val SERVICE_MESSAGE_QUEUE = "service:message_queue"
+        const val SERVICE_QUEUE = "service:queue"
     }
 
     private val services: MutableList<String> = mutableListOf()
