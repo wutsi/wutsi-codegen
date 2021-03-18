@@ -22,11 +22,14 @@ internal class ServerHerokuCodeGeneratorTest : AbstractMustacheCodeGeneratorTest
     fun `generate`() {
         val openAPI = createOpenAPI()
         val context = createContext()
+        context.addService(Context.SERVICE_MESSAGE_QUEUE)
+        context.addService(Context.SERVICE_DATABASE)
+        context.addService(Context.SERVICE_CACHE)
+
         getCodeGenerator(context).generate(openAPI, context)
 
         assertContent("/kotlin/server/heroku/Procfile", "${context.outputDirectory}/Procfile")
         assertContent("/kotlin/server/heroku/system.properties", "${context.outputDirectory}/system.properties")
-        assertContent("/kotlin/server/heroku/app.json", "${context.outputDirectory}/app.json")
     }
 
     @Test
@@ -45,7 +48,7 @@ internal class ServerHerokuCodeGeneratorTest : AbstractMustacheCodeGeneratorTest
     }
 
     @Test
-    fun `generate - do not override`() {
+    fun `generate - overwrite`() {
         val openAPI = createOpenAPI()
         val context = createContext()
 
@@ -54,6 +57,6 @@ internal class ServerHerokuCodeGeneratorTest : AbstractMustacheCodeGeneratorTest
 
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertFileNotOverwritten(path)
+        assertContent("/kotlin/server/heroku/Procfile", "${context.outputDirectory}/Procfile")
     }
 }

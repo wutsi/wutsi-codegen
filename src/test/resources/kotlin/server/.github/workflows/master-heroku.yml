@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: jdk
+      - name: JDK
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
@@ -22,12 +22,25 @@ jobs:
         run: |
           mvn -s settings.xml install
 
-      - name: Deploy
-        env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+      - name: HerokuCLI
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
           heroku plugins:install @heroku-cli/plugin-java
+
+      - name: HerokuSetup
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: |
+          heroku apps | grep foo-app && echo 'app: foo-app exists' ||  heroku apps:create foo-app
+          heroku addons -a foo-app | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a foo-app
+          heroku addons -a foo-app | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a foo-app
+          heroku addons -a foo-app | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a foo-app
+          heroku addons -a foo-app | grep cloudamqp && echo 'addon: cloudamqp exists' ||  heroku addons:create cloudamqp -a foo-app
+
+      - name: HerokuDeploy
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: |
           heroku buildpacks:clear --app foo-app
           heroku deploy:jar target/test-server.jar --app foo-app
 

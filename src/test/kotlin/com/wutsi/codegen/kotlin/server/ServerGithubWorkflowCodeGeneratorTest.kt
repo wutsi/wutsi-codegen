@@ -36,6 +36,10 @@ internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGener
             jdkVersion = "1.8",
             herokuApp = "foo-app"
         )
+        context.addService(Context.SERVICE_CACHE)
+        context.addService(Context.SERVICE_DATABASE)
+        context.addService(Context.SERVICE_LOGGING)
+        context.addService(Context.SERVICE_MESSAGE_QUEUE)
         getCodeGenerator(context).generate(openAPI, context)
 
         assertContent("/kotlin/server/.github/workflows/master-heroku.yml", "${context.outputDirectory}/.github/workflows/master.yml")
@@ -44,7 +48,7 @@ internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGener
 
     @ParameterizedTest
     @ValueSource(strings = ["master.yml", "pull_request.yml"])
-    fun `generate - do not overwrite`(name: String) {
+    fun `generate - overwrite`(name: String) {
         val openAPI = createOpenAPI()
         val context = createContext()
 
@@ -53,6 +57,7 @@ internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGener
 
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertFileNotOverwritten(path)
+        assertFileOverwritten(path)
+        assertContent("/kotlin/server/.github/workflows/$name", "${context.outputDirectory}/.github/workflows/$name")
     }
 }

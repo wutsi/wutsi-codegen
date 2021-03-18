@@ -41,6 +41,13 @@ internal abstract class AbstractMustacheCodeGeneratorTest {
         assertTrue(System.currentTimeMillis() - file.lastModified() >= DELAY)
     }
 
+    fun assertFileOverwritten(filePath: String) {
+        val file = File(filePath)
+        assertTrue(file.exists())
+
+        assertTrue(System.currentTimeMillis() - file.lastModified() < DELAY)
+    }
+
     fun createFileAndWait(
         filePath: String,
         content: String = "xxx",

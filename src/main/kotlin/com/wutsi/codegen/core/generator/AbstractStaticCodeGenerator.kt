@@ -9,7 +9,7 @@ import java.io.FileOutputStream
 abstract class AbstractStaticCodeGenerator : CodeGenerator {
 
     protected open fun canGenerate(file: File): Boolean =
-        !file.exists()
+        true
 
     protected open fun generate(inputPath: String, outputFile: File, openAPI: OpenAPI, context: Context) {
         if (!canGenerate(outputFile))

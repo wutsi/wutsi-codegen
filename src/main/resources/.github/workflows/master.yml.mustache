@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: jdk
+      - name: JDK
         uses: actions/setup-java@v1
         with:
           java-version: {{jdkVersion}}
@@ -25,12 +25,24 @@ jobs:
           mvn -s settings.xml install
 
       {{#herokuApp}}
-      - name: Deploy
-        env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+      - name: HerokuCLI
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
           heroku plugins:install @heroku-cli/plugin-java
+
+      - name: HerokuSetup
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: |
+          heroku apps | grep {{herokuApp}} && echo 'app: {{herokuApp}} exists' ||  heroku apps:create {{herokuApp}}
+        {{#herokuAddons}}
+          heroku addons -a {{herokuApp}} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a {{herokuApp}}
+        {{/herokuAddons}}
+
+      - name: HerokuDeploy
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: |
           heroku buildpacks:clear --app {{herokuApp}}
           heroku deploy:jar target/{{artifactId}}.jar --app {{herokuApp}}
 

@@ -24,7 +24,7 @@ internal class GitIgnoreCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() 
     }
 
     @Test
-    fun `generate - do not overwrite`() {
+    fun `generate - overwrite`() {
         val openAPI = createOpenAPI()
         val context = createContext()
 
@@ -33,6 +33,6 @@ internal class GitIgnoreCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() 
 
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertFileNotOverwritten(path)
+        assertFileOverwritten(path)
     }
 }

@@ -7,6 +7,8 @@ import java.io.File
 abstract class AbstractMavenCodeGenerator : AbstractMustacheCodeGenerator() {
     protected abstract fun getTemplatePath(): String
 
+    override fun canGenerate(file: File) = !file.exists()
+
     override fun generate(openAPI: OpenAPI, context: Context) {
         generate(
             inputPath = getTemplatePath(),

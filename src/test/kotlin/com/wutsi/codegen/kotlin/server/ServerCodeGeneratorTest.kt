@@ -71,6 +71,5 @@ internal class ServerCodeGeneratorTest {
         // Heroku
         assertTrue(File("${context.outputDirectory}/Procfile").exists())
         assertTrue(File("${context.outputDirectory}/system.properties").exists())
-        assertTrue(File("${context.outputDirectory}/app.json").exists())
     }
 }
