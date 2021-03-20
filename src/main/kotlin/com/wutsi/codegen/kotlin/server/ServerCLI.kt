@@ -60,12 +60,24 @@ class ServerCLI(
         )
     }
 
-    override fun createContext(cmd: CommandLine) = Context(
-        apiName = cmd.getOptionValue(OPTION_API_NAME).trim(),
-        basePackage = cmd.getOptionValue(OPTION_BASE_PACKAGE).trim(),
-        outputDirectory = cmd.getOptionValue(OPTION_OUTPUT_DIR).trim(),
-        jdkVersion = cmd.getOptionValue(OPTION_JDK_VERSION)?.trimIndent() ?: DEFAULT_JDK_VERSION,
-        githubUser = cmd.getOptionValue(OPTION_GITHUB_USER)?.trim(),
-        herokuApp = cmd.getOptionValue(OPTION_HEROKU_APP)?.trim()
-    )
+    override fun createContext(cmd: CommandLine): Context {
+        val context = Context(
+            apiName = cmd.getOptionValue(OPTION_API_NAME).trim(),
+            basePackage = cmd.getOptionValue(OPTION_BASE_PACKAGE).trim(),
+            outputDirectory = cmd.getOptionValue(OPTION_OUTPUT_DIR).trim(),
+            jdkVersion = cmd.getOptionValue(OPTION_JDK_VERSION)?.trimIndent() ?: DEFAULT_JDK_VERSION,
+            githubUser = cmd.getOptionValue(OPTION_GITHUB_USER)?.trim(),
+            herokuApp = cmd.getOptionValue(OPTION_HEROKU_APP)?.trim()
+        )
+        if (cmd.hasOption(OPTION_SERVICE_CACHE))
+            context.addService(Context.SERVICE_CACHE)
+        if (cmd.hasOption(OPTION_SERVICE_DATABASE))
+            context.addService(Context.SERVICE_DATABASE)
+        if (cmd.hasOption(OPTION_SERVICE_QUEUE))
+            context.addService(Context.SERVICE_QUEUE)
+        if (cmd.hasOption(OPTION_SERVICE_LOGGER))
+            context.addService(Context.SERVICE_LOGGING)
+
+        return context
+    }
 }

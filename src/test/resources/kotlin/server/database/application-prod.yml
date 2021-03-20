@@ -1,6 +1,3 @@
-{{#scope}}
-{{#services}}
-  {{#database}}
 spring:
   jpa:
     show-sql: false
@@ -11,6 +8,3 @@ spring:
     url: ${SPRING_DATABASE_URL}
     username: ${SPRING_DATABASE_USERNAME}
     password: ${SPRING_DATABASE_PASSWORD}
-  {{/database}}
-{{/services}}
-{{/scope}}

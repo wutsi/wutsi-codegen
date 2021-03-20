@@ -28,6 +28,17 @@ internal class ServerMavenCodeGeneratorTest : AbstractMustacheCodeGeneratorTest(
     }
 
     @Test
+    fun `generate with database configuration `() {
+        val openAPI = createOpenAPI()
+        val context = createContext()
+        context.addService(Context.SERVICE_DATABASE)
+        getCodeGenerator(context).generate(openAPI, context)
+
+        assertContent("/kotlin/server/database/pom.xml", "${context.outputDirectory}/pom.xml")
+        assertFalse(File("${context.outputDirectory}/settings.xml").exists())
+    }
+
+    @Test
     fun `generate - do not override`() {
         val openAPI = createOpenAPI()
         val context = createContext()

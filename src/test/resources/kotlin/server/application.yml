@@ -16,3 +16,7 @@ management:
     web:
       exposure:
         include: "beans,flyway,health,info,scheduledtasks"
+
+spring:
+  main:
+    lazy-initialization: false
