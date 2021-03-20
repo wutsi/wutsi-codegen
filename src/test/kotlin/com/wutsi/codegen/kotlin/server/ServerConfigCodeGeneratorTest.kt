@@ -28,6 +28,18 @@ internal class ServerConfigCodeGeneratorTest : AbstractMustacheCodeGeneratorTest
         assertContent("/kotlin/server/application-prod.yml", "${context.outputDirectory}/src/main/resources/application-prod.yml")
     }
 
+    @Test
+    fun `generate with database`() {
+        val openAPI = createOpenAPI()
+        val context = createContext()
+        context.addService(Context.SERVICE_DATABASE)
+        getCodeGenerator(context).generate(openAPI, context)
+
+        assertContent("/kotlin/server/database/application.yml", "${context.outputDirectory}/src/main/resources/application.yml")
+        assertContent("/kotlin/server/database/application-test.yml", "${context.outputDirectory}/src/main/resources/application-test.yml")
+        assertContent("/kotlin/server/database/application-prod.yml", "${context.outputDirectory}/src/main/resources/application-prod.yml")
+    }
+
     @ParameterizedTest
     @ValueSource(strings = ["application.yml", "application-test.yml", "application-prod.yml"])
     fun `generate - do not overwrite`(name: String) {

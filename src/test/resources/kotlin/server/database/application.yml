@@ -1,4 +1,3 @@
-{{#scope}}
 server:
   port: 8080
   compression:
@@ -21,8 +20,6 @@ management:
 spring:
   main:
     lazy-initialization: false
-{{#services}}
-  {{#database}}
   jpa:
     show-sql: true
     hibernate:
@@ -30,7 +27,7 @@ spring:
       dialect: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
-    url: "jdbc:postgresql://localhost:5432/{{databaseName}}"
+    url: "jdbc:postgresql://localhost:5432/Test"
     username: "postgres"
     password: "postgres"
     hikari:
@@ -40,6 +37,3 @@ spring:
       minimum-pool-size: 8 #maximum pool size
       maximum-pool-size: 8 #maximum pool size
       max-lifetime: 1000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
-  {{/database}}
-{{/services}}
-{{/scope}}

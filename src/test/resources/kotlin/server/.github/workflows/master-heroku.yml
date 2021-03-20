@@ -32,6 +32,8 @@ jobs:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: |
           heroku apps | grep foo-app && echo 'app: foo-app exists' ||  heroku apps:create foo-app
+          heroku buildpacks:clear --app foo-app
+          heroku buildpacks:add heroku/jvm --app foo-app
           heroku addons -a foo-app | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a foo-app
           heroku addons -a foo-app | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a foo-app
           heroku addons -a foo-app | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a foo-app
@@ -41,7 +43,6 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: |
-          heroku buildpacks:clear --app foo-app
           heroku deploy:jar target/test-server.jar --app foo-app
 
       - name: Healthcheck

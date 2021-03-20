@@ -10,6 +10,7 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.transaction.annotation.EnableTransactionManagement
 import java.io.File
 
 class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
@@ -36,10 +37,15 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
             .writeTo(getSourceDirectory(context))
     }
 
-    private fun toTypeSpec(context: Context): TypeSpec =
-        TypeSpec.classBuilder(ClassName(context.basePackage, CLASSNAME))
+    private fun toTypeSpec(context: Context): TypeSpec {
+        val spec = TypeSpec.classBuilder(ClassName(context.basePackage, CLASSNAME))
             .addAnnotation(SpringBootApplication::class)
-            .build()
+
+        if (context.hasService(Context.SERVICE_DATABASE))
+            spec.addAnnotation(EnableTransactionManagement::class.java)
+
+        return spec.build()
+    }
 
     private fun toFunSpec(): FunSpec =
         FunSpec.builder("main")

@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.12] 2021-03-19
+### Added
+- Database configuration in `pom.xml`, `application.yml`
+
 ## [0.0.11] 2021-03-17
 ### Added
 - Deployment of API server to Heroku

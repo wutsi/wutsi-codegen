@@ -35,6 +35,8 @@ jobs:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: |
           heroku apps | grep {{herokuApp}} && echo 'app: {{herokuApp}} exists' ||  heroku apps:create {{herokuApp}}
+          heroku buildpacks:clear --app {{herokuApp}}
+          heroku buildpacks:add heroku/jvm --app {{herokuApp}}
         {{#herokuAddons}}
           heroku addons -a {{herokuApp}} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a {{herokuApp}}
         {{/herokuAddons}}
@@ -43,7 +45,6 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: |
-          heroku buildpacks:clear --app {{herokuApp}}
           heroku deploy:jar target/{{artifactId}}.jar --app {{herokuApp}}
 
       - name: Healthcheck

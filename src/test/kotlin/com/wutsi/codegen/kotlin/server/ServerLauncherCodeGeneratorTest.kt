@@ -58,6 +58,39 @@ internal class ServerLauncherCodeGeneratorTest {
     }
 
     @Test
+    fun `generate with database`() {
+        val openAPI = createOpenAPI()
+        context.addService(Context.SERVICE_DATABASE)
+
+        codegen.generate(openAPI, context)
+
+        // Launcher
+        val file = File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/Application.kt")
+        assertTrue(file.exists())
+
+        val text = file.readText()
+        assertEquals(
+            """
+                package com.wutsi.test
+
+                import kotlin.String
+                import kotlin.Unit
+                import org.springframework.boot.autoconfigure.SpringBootApplication
+                import org.springframework.transaction.`annotation`.EnableTransactionManagement
+
+                @SpringBootApplication
+                @EnableTransactionManagement
+                public class Application
+
+                public fun main(vararg args: String): Unit {
+                  org.springframework.boot.runApplication<Application>(*args)
+                }
+            """.trimIndent(),
+            text.trimIndent()
+        )
+    }
+
+    @Test
     fun `generate - do not overwrite`() {
         val openAPI = createOpenAPI()
 

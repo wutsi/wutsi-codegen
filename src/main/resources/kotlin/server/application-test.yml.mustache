@@ -1,0 +1,16 @@
+{{#scope}}
+{{#services}}
+  {{#database}}
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: auto
+
+  datasource:
+    url: ${SPRING_DATABASE_URL}
+    username: ${SPRING_DATABASE_USERNAME}
+    password: ${SPRING_DATABASE_PASSWORD}
+  {{/database}}
+{{/services}}
+{{/scope}}

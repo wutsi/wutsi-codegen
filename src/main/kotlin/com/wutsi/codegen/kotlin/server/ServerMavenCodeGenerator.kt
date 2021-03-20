@@ -16,8 +16,18 @@ class ServerMavenCodeGenerator(private val mapper: KotlinMapper) : AbstractMaven
         "groupId" to context.basePackage,
         "jdkVersion" to context.jdkVersion,
         "version" to openAPI.info?.version,
-        "githubUser" to context.githubUser
+        "githubUser" to context.githubUser,
+        "services" to toServices(context)
     )
+
+    private fun toServices(context: Context): Map<String, Any?> {
+        val result = mutableMapOf<String, Any?>()
+        if (context.hasService(Context.SERVICE_DATABASE)) {
+            result["database"] = true
+            result["databaseName"] = CaseUtil.toSnakeCase(context.apiName)
+        }
+        return result
+    }
 
     fun artifactId(context: Context): String =
         CaseUtil.toSnakeCase(context.apiName.toLowerCase()) + "-server"
