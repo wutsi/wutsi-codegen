@@ -49,6 +49,10 @@
       <id>mavenCentral</id>
       <url>https://repo1.maven.org/maven2/</url>
     </repository>
+    <repository>
+      <id>wutsi-spring-memcached</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-spring-memcached</url>
+    </repository>
   </repositories>
 
   <dependencies>
