@@ -18,6 +18,9 @@ class ServerConfigCodeGenerator(private val mapper: KotlinMapper) : AbstractMust
             result["database"] = true
             result["databaseName"] = CaseUtil.toSnakeCase(context.apiName)
         }
+        if (context.hasService(Context.SERVICE_CACHE)) {
+            result["cache"] = true
+        }
         return result
     }
 
