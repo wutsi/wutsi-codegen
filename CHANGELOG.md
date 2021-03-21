@@ -5,6 +5,7 @@
 - Run maven in quiet mode with Github Workflow
 - Add cache configuration in `pom.xml`, `application.yml`
 - Add `@EnableCaching` in `Application` launcher class
+- Add spring configuration class for caching
 
 ## [0.0.12] 2021-03-19
 ### Added

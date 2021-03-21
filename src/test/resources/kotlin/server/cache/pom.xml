@@ -31,7 +31,7 @@
     <jackson-module-kotlin.version>2.12.2</jackson-module-kotlin.version>
     <klint.version>0.40.0</klint.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
-    <wutsi-spring-memcached.version>0.0.3</wutsi-spring-memcached.version>
+    <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
   </properties>
 
   <dependencies>
