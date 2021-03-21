@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.13] 2021-03-21
+### Changed
+- Run maven in quiet mode with Github Workflow
+
 ## [0.0.12] 2021-03-19
 ### Added
 - Database configuration in `pom.xml`, `application.yml`
