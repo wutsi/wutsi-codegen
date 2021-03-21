@@ -41,5 +41,13 @@ spring:
       maximum-pool-size: 8 #maximum pool size
       max-lifetime: 1000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
   {{/database}}
+
+  {{#cache}}
+memcached:
+  enabled: false
+  ttl: ${SPRING_CACHE_TTL:86400}
+  {{/cache}}
 {{/services}}
+
 {{/scope}}
+

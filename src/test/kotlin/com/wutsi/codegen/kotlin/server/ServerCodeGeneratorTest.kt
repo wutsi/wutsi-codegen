@@ -15,7 +15,7 @@ internal class ServerCodeGeneratorTest {
         outputDirectory = "./target/wutsi/codegen/server",
         basePackage = "com.wutsi.test",
         githubUser = "foo",
-        herokuApp = "foo-app"
+        herokuApp = null
     )
 
     val codegen = ServerCodeGenerator(
@@ -23,13 +23,54 @@ internal class ServerCodeGeneratorTest {
     )
 
     @Test
-    fun testGenerate() {
+    fun `generate`() {
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
+        codegen.generate(
+            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
+            context = context
+        )
+        context.addService(Context.SERVICE_CACHE)
+        context.addService(Context.SERVICE_DATABASE)
+
+        assertDefaultFiles()
+    }
+
+    private fun `generate with heroku`() {
+        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
+        codegen.generate(
+            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
+            context = Context(
+                apiName = "Test",
+                outputDirectory = "./target/wutsi/codegen/server",
+                basePackage = "com.wutsi.test",
+                githubUser = "foo",
+                herokuApp = "test-app"
+            )
+        )
+
+        assertDefaultFiles()
+
+        // Heroku
+        assertTrue(File("${context.outputDirectory}/Procfile").exists())
+        assertTrue(File("${context.outputDirectory}/system.properties").exists())
+    }
+
+    @Test
+    private fun `generate with cache`() {
         val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
         codegen.generate(
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
             context = context
         )
 
+        assertDefaultFiles()
+
+        // Caching
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/SpringCacheLocalConfiguration.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/SpringCacheServerConfiguration.kt").exists())
+    }
+
+    private fun assertDefaultFiles() {
         // Controller
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/CreateController.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/DeleteController.kt").exists())
@@ -67,9 +108,5 @@ internal class ServerCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/resources/application.yml").exists())
         assertTrue(File("${context.outputDirectory}/src/main/resources/application-test.yml").exists())
         assertTrue(File("${context.outputDirectory}/src/main/resources/application-prod.yml").exists())
-
-        // Heroku
-        assertTrue(File("${context.outputDirectory}/Procfile").exists())
-        assertTrue(File("${context.outputDirectory}/system.properties").exists())
     }
 }

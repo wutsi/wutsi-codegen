@@ -6,7 +6,7 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.12</version>
+  <version>0.0.13</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>
@@ -29,6 +29,7 @@
     <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
     <spring-tx.version>2.3.4.RELEASE</spring-tx.version>
     <swagger-parser.version>2.0.24</swagger-parser.version>
+    <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.code.style>official</kotlin.code.style>
@@ -47,6 +48,10 @@
     <repository>
       <id>mavenCentral</id>
       <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+    <repository>
+      <id>wutsi-spring-memcached</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-spring-memcached</url>
     </repository>
   </repositories>
 
@@ -80,6 +85,11 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-actuator</artifactId>
+      <version>${spring-boot.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -127,6 +137,12 @@
       <artifactId>mockito-kotlin</artifactId>
       <version>${kotlin-mockito.version}</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.wutsi</groupId>
+      <artifactId>wutsi-spring-memcached</artifactId>
+      <version>${wutsi-spring-memcached.version}</version>
     </dependency>
   </dependencies>
 

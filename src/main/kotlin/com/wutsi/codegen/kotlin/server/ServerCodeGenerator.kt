@@ -22,5 +22,7 @@ class ServerCodeGenerator(private val mapper: KotlinMapper) : CodeGenerator {
         EditorConfigCodeGenerator().generate(openAPI, context)
         ServerGithubWorkflowCodeGenerator().generate(openAPI, context)
         GitIgnoreCodeGenerator().generate(openAPI, context)
+
+        SpringCacheCodeGenerator().generate(openAPI, context)
     }
 }

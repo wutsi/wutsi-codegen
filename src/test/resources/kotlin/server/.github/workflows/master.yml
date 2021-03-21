@@ -20,4 +20,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          mvn -s settings.xml install
+          mvn -q -s settings.xml install
