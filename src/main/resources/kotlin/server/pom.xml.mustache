@@ -37,6 +37,9 @@
     <hikari-cp.version>4.0.3</hikari-cp.version>
     <postgresql.version>42.2.19</postgresql.version>
     {{/database}}
+    {{#cache}}
+    <wutsi-spring-memcached.version>0.0.3</wutsi-spring-memcached.version>
+    {{/cache}}
 {{/services}}
   </properties>
 
@@ -83,6 +86,17 @@
       <version>${postgresql.version}</version>
     </dependency>
     {{/database}}
+    {{#cache}}
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi</groupId>
+      <artifactId>wutsi-spring-memcached</artifactId>
+      <version>${wutsi-spring-memcached.version}</version>
+    </dependency>
+    {{/cache}}
 {{/services}}
 
     <dependency>

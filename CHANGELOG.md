@@ -3,7 +3,7 @@
 ## [0.0.13] 2021-03-21
 ### Changed
 - Run maven in quiet mode with Github Workflow
-- Add cache configuration in `application.yml`
+- Add cache configuration in `pom.xml`, `application.yml`
 
 ## [0.0.12] 2021-03-19
 ### Added

@@ -31,8 +31,7 @@
     <jackson-module-kotlin.version>2.12.2</jackson-module-kotlin.version>
     <klint.version>0.40.0</klint.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
-    <hikari-cp.version>4.0.3</hikari-cp.version>
-    <postgresql.version>42.2.19</postgresql.version>
+    <wutsi-spring-memcached.version>0.0.3</wutsi-spring-memcached.version>
   </properties>
 
   <dependencies>
@@ -63,17 +62,12 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <artifactId>spring-boot-starter-cache</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <version>${hikari-cp.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>${postgresql.version}</version>
+      <groupId>com.wutsi</groupId>
+      <artifactId>wutsi-spring-memcached</artifactId>
+      <version>${wutsi-spring-memcached.version}</version>
     </dependency>
 
     <dependency>

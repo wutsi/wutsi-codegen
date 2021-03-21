@@ -26,6 +26,9 @@ class ServerMavenCodeGenerator(private val mapper: KotlinMapper) : AbstractMaven
             result["database"] = true
             result["databaseName"] = CaseUtil.toSnakeCase(context.apiName)
         }
+        if (context.hasService(Context.SERVICE_CACHE)) {
+            result["cache"] = true
+        }
         return result
     }
 

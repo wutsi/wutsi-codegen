@@ -39,6 +39,17 @@ internal class ServerMavenCodeGeneratorTest : AbstractMustacheCodeGeneratorTest(
     }
 
     @Test
+    fun `generate with cache configuration `() {
+        val openAPI = createOpenAPI()
+        val context = createContext()
+        context.addService(Context.SERVICE_CACHE)
+        getCodeGenerator(context).generate(openAPI, context)
+
+        assertContent("/kotlin/server/cache/pom.xml", "${context.outputDirectory}/pom.xml")
+        assertFalse(File("${context.outputDirectory}/settings.xml").exists())
+    }
+
+    @Test
     fun `generate - do not override`() {
         val openAPI = createOpenAPI()
         val context = createContext()
