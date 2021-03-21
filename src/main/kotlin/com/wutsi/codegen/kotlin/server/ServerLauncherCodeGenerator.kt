@@ -10,6 +10,7 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.cache.annotation.EnableCaching
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import java.io.File
 
@@ -43,6 +44,8 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
 
         if (context.hasService(Context.SERVICE_DATABASE))
             spec.addAnnotation(EnableTransactionManagement::class.java)
+        if (context.hasService(Context.SERVICE_CACHE))
+            spec.addAnnotation(EnableCaching::class.java)
 
         return spec.build()
     }
