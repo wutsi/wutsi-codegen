@@ -1,5 +1,11 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.14] 2021-03-22
+### Added
+- Flyway for database upgrades
+### Changed
+- Upgrade to springboot-2.4.4 and spring-5.3.5
+
 ## [0.0.13] 2021-03-21
 ### Changed
 - Run maven in quiet mode with Github Workflow

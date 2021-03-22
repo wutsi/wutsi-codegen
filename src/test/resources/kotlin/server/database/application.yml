@@ -20,10 +20,15 @@ management:
 spring:
   main:
     lazy-initialization: false
+
+  flyway:
+    baseline-on-migrate: true
+    clean-disabled: false
+
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
       dialect: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
