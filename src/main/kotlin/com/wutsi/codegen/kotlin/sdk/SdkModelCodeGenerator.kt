@@ -13,8 +13,6 @@ import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
-import java.time.LocalDate
-import java.time.OffsetDateTime
 
 class SdkModelCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
@@ -69,37 +67,10 @@ class SdkModelCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCo
         val builder = ParameterSpec.builder(field.name, field.type.asTypeName().copy(field.nullable))
             .addAnnotations(toValidationAnnotationSpecs(field))
 
-        val default = defaultValue(field)
+        val default = defaultValue(field, true)
         if (default != null)
             builder.defaultValue(default)
 
         return builder.build()
-    }
-
-    fun defaultValue(field: Field): String? {
-        if (field.default == null && field.nullable) {
-            return "null"
-        } else if (field.default == null && !field.nullable) {
-            return when (field.type) {
-                String::class -> "\"\""
-                Int::class -> "0"
-                Long::class -> "0"
-                Float::class -> "0"
-                Double::class -> "0"
-                LocalDate::class -> "LocalDate.now()"
-                OffsetDateTime::class -> "OffsetDateTime.now()"
-                List::class -> "emptyList()"
-                else -> return null
-            }
-        } else {
-            return when (field.type) {
-                String::class -> if (field.default.isNullOrEmpty()) "\"\"" else "\"${field.default}\""
-                Int::class -> field.default
-                Long::class -> field.default
-                Float::class -> field.default
-                Double::class -> field.default
-                else -> return null
-            }
-        }
     }
 }

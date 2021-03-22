@@ -67,9 +67,9 @@ internal class ServerControllerCodeGeneratorTest {
             name = "id",
             field = Field("id", String::class, required = true, default = "hello")
         )
-        val result = codegen.toParameter(param)
+        val result = codegen.toParameterSpec(param)
         assertEquals(
-            "@org.springframework.web.bind.`annotation`.PathVariable(name=\"id\", default=\"hello\") @get:javax.validation.constraints.NotBlank id: kotlin.String",
+            "@org.springframework.web.bind.`annotation`.PathVariable(name=\"id\") @get:javax.validation.constraints.NotBlank id: kotlin.String = \"hello\"",
             result.toString()
         )
     }
@@ -81,7 +81,7 @@ internal class ServerControllerCodeGeneratorTest {
             name = "id",
             field = Field("id", String::class)
         )
-        val result = codegen.toParameter(param)
+        val result = codegen.toParameterSpec(param)
         assertEquals(
             "@org.springframework.web.bind.`annotation`.RequestHeader(name=\"id\", required=false) id: kotlin.String",
             result.toString()
@@ -95,7 +95,7 @@ internal class ServerControllerCodeGeneratorTest {
             name = "id",
             field = Field("id", String::class)
         )
-        val result = codegen.toParameter(param)
+        val result = codegen.toParameterSpec(param)
         assertEquals(
             "@org.springframework.web.bind.`annotation`.RequestParam(name=\"id\", required=false) id: kotlin.String",
             result.toString()
@@ -136,7 +136,7 @@ internal class ServerControllerCodeGeneratorTest {
                 EndpointParameter(
                     name = "bar",
                     type = QUERY,
-                    field = Field(name = "bar", type = String::class)
+                    field = Field(name = "bar", type = String::class, nullable = true)
                 )
             )
         )
@@ -144,7 +144,7 @@ internal class ServerControllerCodeGeneratorTest {
         assertEquals(
             """
                 @org.springframework.web.bind.`annotation`.PostMapping("/v1/foo")
-                public fun invoke(@org.springframework.web.bind.`annotation`.RequestParam(name="bar", required=false) bar: kotlin.String): kotlin.Unit {
+                public fun invoke(@org.springframework.web.bind.`annotation`.RequestParam(name="bar", required=false) bar: kotlin.String? = null): kotlin.Unit {
                   delegate.invoke(bar)
                 }
             """.trimIndent(),

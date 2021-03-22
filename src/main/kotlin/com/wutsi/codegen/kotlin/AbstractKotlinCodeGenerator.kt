@@ -5,6 +5,9 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.CodeGenerator
 import com.wutsi.codegen.model.Field
 import java.io.File
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.util.Date
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
@@ -77,5 +80,36 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
             )
         }
         return annotations
+    }
+
+    fun defaultValue(field: Field, nonNullableDefault: Boolean = false): String? {
+        if (field.default == null && field.nullable) {
+            return "null"
+        } else if (field.default == null && !field.nullable) {
+            if (!nonNullableDefault)
+                return null
+
+            return when (field.type) {
+                String::class -> "\"\""
+                Int::class -> "0"
+                Long::class -> "0"
+                Float::class -> "0"
+                Double::class -> "0"
+                Date::class -> "Date()"
+                LocalDate::class -> "LocalDate.now()"
+                OffsetDateTime::class -> "OffsetDateTime.now()"
+                List::class -> "emptyList()"
+                else -> return null
+            }
+        } else {
+            return when (field.type) {
+                String::class -> if (field.default.isNullOrEmpty()) "\"\"" else "\"${field.default}\""
+                Int::class -> field.default
+                Long::class -> field.default
+                Float::class -> field.default
+                Double::class -> field.default
+                else -> return null
+            }
+        }
     }
 }
