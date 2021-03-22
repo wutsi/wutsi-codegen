@@ -5,6 +5,7 @@
 - Flyway for database upgrades
 ### Changed
 - Upgrade to springboot-2.4.4 and spring-5.3.5
+- Disable schema auto creation in Hibernate
 
 ## [0.0.13] 2021-03-21
 ### Changed

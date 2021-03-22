@@ -148,6 +148,14 @@
       <name>bintray</name>
       <url>http://jcenter.bintray.com</url>
     </repository>
+  {{#services}}
+    {{#cache}}
+    <repository>
+      <id>wutsi-spring-memcached</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-spring-memcached</url>
+    </repository>
+    {{/cache}}
+  {{/services}}
   </repositories>
 
   <build>
