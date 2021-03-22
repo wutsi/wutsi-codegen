@@ -6,7 +6,7 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.13</version>
+  <version>0.0.14</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>
@@ -25,9 +25,9 @@
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <kotlinpoet.version>1.7.2</kotlinpoet.version>
     <mustache.version>0.9.4</mustache.version>
-    <spring.version>5.3.4</spring.version>
-    <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
-    <spring-tx.version>2.3.4.RELEASE</spring-tx.version>
+    <spring.version>5.3.5</spring.version>
+    <spring-boot.version>2.4.4</spring-boot.version>
+    <spring-tx.version>2.4.4</spring-tx.version>
     <swagger-parser.version>2.0.24</swagger-parser.version>
     <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
 

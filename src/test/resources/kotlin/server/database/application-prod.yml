@@ -1,8 +1,9 @@
 spring:
+  flyway:
+    clean-disabled: true
+
   jpa:
     show-sql: false
-    hibernate:
-      ddl-auto: auto
 
   datasource:
     url: ${SPRING_DATABASE_URL}

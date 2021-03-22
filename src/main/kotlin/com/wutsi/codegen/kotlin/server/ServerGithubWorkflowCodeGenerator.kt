@@ -2,6 +2,7 @@ package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.AbstractMustacheCodeGenerator
+import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
@@ -20,7 +21,8 @@ class ServerGithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
 
         "secrets.HEROKU_API_KEY" to "{{secrets.HEROKU_API_KEY}}",
         "herokuApp" to context.herokuApp,
-        "herokuAddons" to toAddOns(context)
+        "herokuAddons" to toAddOns(context),
+        "services" to toServices(context)
     )
 
     private fun toAddOns(context: Context): List<Map<String, String>> {
@@ -34,6 +36,18 @@ class ServerGithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
         if (context.hasService(Context.SERVICE_QUEUE))
             addons.add(mapOf("addonName" to "cloudamqp"))
         return addons
+    }
+
+    private fun toServices(context: Context): Map<String, Any?> {
+        val result = mutableMapOf<String, Any?>()
+        if (context.hasService(Context.SERVICE_DATABASE)) {
+            result["database"] = true
+            result["databaseName"] = CaseUtil.toSnakeCase(context.apiName)
+        }
+        if (context.hasService(Context.SERVICE_CACHE)) {
+            result["cache"] = true
+        }
+        return result
     }
 
     private fun generate(filename: String, openAPI: OpenAPI, context: Context) {

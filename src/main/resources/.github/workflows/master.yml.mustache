@@ -11,6 +11,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+{{#services}}
+  {{#database}}
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: {{databaseName}}
+        ports:
+          - 5432:5432
+  {{/database}}
+{{/services}}
 
     steps:
       - uses: actions/checkout@v1
