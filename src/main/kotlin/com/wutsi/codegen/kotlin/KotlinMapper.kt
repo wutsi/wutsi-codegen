@@ -143,7 +143,7 @@ class KotlinMapper(private val context: Context) {
         maxLength = property.maxLength,
         minItems = property.minItems,
         maxItems = property.maxItems,
-        nullable = property.nullable?.let { it } ?: true
+        nullable = property.nullable?.let { it } ?: false
     )
 
     fun <T> toKClass(property: Schema<T>): KClass<*> {

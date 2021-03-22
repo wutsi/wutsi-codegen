@@ -29,14 +29,14 @@ internal class SdkModelCodeGeneratorTest {
     fun `defaultValue - nullable field with no default`() {
         assertEquals("null", codegen.defaultValue(Field(name = "foo", type = String::class, nullable = true, default = null)))
 
-        assertEquals("\"\"", codegen.defaultValue(Field(name = "foo", type = String::class, nullable = false)))
-        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Int::class, nullable = false)))
-        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Long::class, nullable = false)))
-        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Float::class, nullable = false)))
-        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Double::class, nullable = false)))
-        assertEquals("LocalDate.now()", codegen.defaultValue(Field(name = "foo", type = LocalDate::class, nullable = false)))
-        assertEquals("OffsetDateTime.now()", codegen.defaultValue(Field(name = "foo", type = OffsetDateTime::class, nullable = false)))
-        assertEquals("emptyList()", codegen.defaultValue(Field(name = "foo", type = List::class, nullable = false)))
+        assertEquals("\"\"", codegen.defaultValue(Field(name = "foo", type = String::class, nullable = false), true))
+        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Int::class, nullable = false), true))
+        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Long::class, nullable = false), true))
+        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Float::class, nullable = false), true))
+        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Double::class, nullable = false), true))
+        assertEquals("LocalDate.now()", codegen.defaultValue(Field(name = "foo", type = LocalDate::class, nullable = false), true))
+        assertEquals("OffsetDateTime.now()", codegen.defaultValue(Field(name = "foo", type = OffsetDateTime::class, nullable = false), true))
+        assertEquals("emptyList()", codegen.defaultValue(Field(name = "foo", type = List::class, nullable = false), true))
     }
 
     @Test
@@ -64,7 +64,7 @@ internal class SdkModelCodeGeneratorTest {
 
     @Test
     fun `toParameterSpec - Required Int`() {
-        val field = Field(name = "foo", type = Int::class, required = true)
+        val field = Field(name = "foo", type = Int::class, required = true, nullable = true)
         val spec = codegen.toParameterSpec(field)
         assertEquals("@get:javax.validation.constraints.NotNull foo: kotlin.Int? = null", spec.toString())
     }
@@ -118,7 +118,7 @@ internal class SdkModelCodeGeneratorTest {
 
     @Test
     fun `toParameterSpec - Pattern`() {
-        val field = Field(name = "foo", type = String::class, pattern = "xxx")
+        val field = Field(name = "foo", type = String::class, pattern = "xxx", nullable = true)
         val spec = codegen.toParameterSpec(field)
         assertEquals(
             "@get:javax.validation.constraints.Pattern(\"xxx\") foo: kotlin.String? = null",
@@ -141,8 +141,8 @@ internal class SdkModelCodeGeneratorTest {
 
         val expected = """
             public data class Foo(
-              public val var1: kotlin.Int? = null,
-              public val var2: kotlin.String? = null
+              public val var1: kotlin.Int = 0,
+              public val var2: kotlin.String = ""
             )
         """.trimIndent()
         assertEquals(expected, spec.toString().trimIndent())

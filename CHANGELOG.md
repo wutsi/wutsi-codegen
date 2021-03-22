@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
 ## [0.0.14] 2021-03-22
+### Fixed
+- Controller parameters and default values
+
+## [0.0.14] 2021-03-22
 ### Added
 - Flyway for database upgrades
 - Database setup in Github Workflow scripts

@@ -58,8 +58,13 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
             AnnotationSpec.builder(RequestBody::class).build()
         )
 
-    override fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec> =
-        toAnnotationSpecs(parameter)
+    override fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec> {
+        val default = defaultValue(parameter.field)
+        val result = mutableListOf<AnnotationSpec>()
+        result.add(toAnnotationSpec(parameter, default))
+        result.addAll(super.toValidationAnnotationSpecs(parameter.field))
+        return result
+    }
 
     override fun constructorSpec(endpoint: Endpoint, context: Context): FunSpec {
         val delegate = ServerDelegateCodeGenerator(mapper)
@@ -103,27 +108,14 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
             else -> throw IllegalStateException("Method not supported: ${endpoint.method}")
         }
 
-    override fun toParameter(parameter: EndpointParameter): ParameterSpec {
-        return ParameterSpec.builder(parameter.field.name, parameter.field.type)
-            .addAnnotation(toAnnotationSpec(parameter))
-            .addAnnotations(toValidationAnnotationSpecs(parameter.field))
-            .build()
-    }
-
-    fun toAnnotationSpecs(parameter: EndpointParameter): List<AnnotationSpec> {
-        val result = mutableListOf<AnnotationSpec>()
-        result.add(toAnnotationSpec(parameter))
-        result.addAll(super.toValidationAnnotationSpecs(parameter.field))
-        return result
-    }
-
-    private fun toAnnotationSpec(parameter: EndpointParameter): AnnotationSpec {
+    private fun toAnnotationSpec(parameter: EndpointParameter, default: String?): AnnotationSpec {
         val builder = AnnotationSpec.builder(toParameterType(parameter))
             .addMember("name=%S", parameter.name)
-        if (parameter.type != PATH)
+        if (parameter.type != PATH) {
             builder.addMember("required=" + parameter.field.required)
-        if (parameter.field.default != null)
-            builder.addMember("default=%S", parameter.field.default)
+            if (default != null && default != "null")
+                builder.addMember("default=$default")
+        }
         return builder.build()
     }
 

@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
@@ -86,7 +87,7 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
     fun toFunSpec(endpoint: Endpoint): FunSpec {
         val builder = FunSpec.builder(INVOKE_FUNCTION)
             .addAnnotations(functionAnnotations(endpoint))
-            .addParameters(endpoint.parameters.map { toParameter(it) })
+            .addParameters(endpoint.parameters.map { toParameterSpec(it) })
             .addCode(funCodeBloc(endpoint))
 
         if (endpoint.request != null) {
@@ -105,10 +106,15 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
         return builder.build()
     }
 
-    open fun toParameter(parameter: EndpointParameter): ParameterSpec {
-        return ParameterSpec.builder(parameter.field.name, parameter.field.type)
+    fun toParameterSpec(parameter: EndpointParameter): ParameterSpec {
+        val builder = ParameterSpec.builder(parameter.field.name, parameter.field.type.asTypeName().copy(parameter.field.nullable))
             .addAnnotations(parameterAnnotations(parameter))
-            .build()
+
+        val default = defaultValue(parameter.field)
+        if (default != null)
+            builder.defaultValue(default)
+
+        return builder.build()
     }
 
     protected fun toPackage(basePackage: String, suffix: String): String =

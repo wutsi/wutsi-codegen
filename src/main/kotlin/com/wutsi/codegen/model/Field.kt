@@ -15,5 +15,5 @@ data class Field(
     val maxLength: Int? = null,
     val minItems: Int? = null,
     val maxItems: Int? = null,
-    val nullable: Boolean = true
+    val nullable: Boolean = false
 )
