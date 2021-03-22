@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.14] 2021-03-22
+## [0.0.16] 2021-03-22
+### Changed
+- Remove validation annotation from SDK
+
+## [0.0.15] 2021-03-22
 ### Fixed
 - Controller parameters and default values
 

@@ -17,21 +17,17 @@ java -jar wutsi-codegen sdk
 ```
 
 ## Output
-The SDK generator will generate the following files.
-- The Maven descriptor `pom.xml`.
-  - It's located in the directory `<output-dir>`
-  - It has the following information:
-    - The `version` = `info.version` in the OpenAPI file
-    - The `artifactId` = `<api-name>-sdk` provided in the command line
-    - The `groupId` = `<base-package>` provided in the command line
+The SDK generator will generate the following files:
+
+- The Maven `<output-dir>/pom.xml`
+
 - The API class, based on [feign](https://github.com/OpenFeign/feign):
-  - It's located in the directory `<output-dir>/src/main/kotlin`
-  - The classname is `<base-package>.<api-name>API`
-  - It exposes a function for each endpoint of the API
+  - The API classname in the package `<base-package>.<api-name>API`, that exposes a function for each endpoint
+  - Model classes for API entities in the package `<base-package>.model`
+
 - The Model classes to represent the entities of the API
   - They are located in the directory `<output-dir>/src/main/kotlin`
   - Their package name `<base-package>.model`
 
 ## Dependencies
 - [feign](https://github.com/OpenFeign/feign) as HTTP client binder.
-- [javax.validation](https://mvnrepository.com/artifact/javax.validation/validation-api).
