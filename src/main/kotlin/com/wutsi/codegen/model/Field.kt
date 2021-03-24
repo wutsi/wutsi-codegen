@@ -6,6 +6,7 @@ import kotlin.reflect.KClass
 data class Field(
     val name: String,
     val type: KClass<*>,
+    val parametrizedType: Type? = null,
     val default: String? = null,
     val required: Boolean = false,
     val min: BigDecimal? = null,

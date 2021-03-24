@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-    title: Like API
+    title: Wutsi Like API
     description: This api used for managing likes on links
-    version: '1.0.0'
+    version: 0.0.2
 servers:
     -   url: 'https://com-wutsi-prod-like.herokuapp.com'
         description: Production
@@ -10,6 +10,52 @@ servers:
         description: Sandbox
 paths:
     /v1/likes:
+        get:
+            operationId: search
+            summary: Search the likes for a given link
+            parameters:
+                -   in: path
+                    name: id
+                    required: true
+                    schema:
+                        type: integer
+                        format: int64
+                -   in: query
+                    name: canonical_url
+                    required: true
+                    schema:
+                        type: string
+                        nullable: false
+                -   in: query
+                    name: user_id
+                    required: false
+                    schema:
+                        type: integer
+                        format: int64
+                        nullable: true
+                -   in: query
+                    name: device_uuid
+                    required: false
+                    schema:
+                        type: string
+                        nullable: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchLikeResponse'
+                '404':
+                    description: Like not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+            security:
+                -   api_key: [ ]
+            tags:
+                - Like
         post:
             operationId: create
             summary: Add a Like to a link
@@ -43,10 +89,11 @@ paths:
             summary: Returns the Like statistics of a link
             parameters:
                 -   in: query
-                    name: link
+                    name: canonical_url
                     required: true
                     schema:
                         type: string
+                        nullable: false
             responses:
                 '200':
                     description: Success
@@ -54,12 +101,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/GetStatsResponse'
-                '404':
-                    description: Link is not valid
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ErrorResponse'
                 default:
                     description: Unexpected error
                     content:
@@ -93,18 +134,76 @@ components:
         CreateLikeRequest:
             type: object
             properties:
-                link:
+                canonicalUrl:
                     type: string
                     format: uri
+                    nullable: false
+                deviceUUID:
+                    type: string
+                    format: uuid
+                    nullable: true
+                userId:
+                    type: integer
+                    format: int64
+                    nullable: true
             required:
-                - link
+                - canonicalUrl
         CreateLikeResponse:
             type: object
             properties:
-                likeId:
+                canonicalUrl:
+                    type: string
+                    format: uri
+                    nullable: false
+                    example: 'https://www.foo.com/read/123'
+                count:
+                    type: integer
+                    format: int64
+                    nullable: false
+                    example: 1500
+        GetStatsResponse:
+            type: object
+            properties:
+                canonicalUrl:
+                    type: string
+                    format: uri
+                    nullable: false
+                    example: 'https://www.foo.com/read/123'
+                count:
                     type: number
                     format: int64
                     nullable: false
+                    example: 1500
+        SearchLikeResponse:
+            type: object
+            properties:
+                likes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Like'
+        Like:
+            type: object
+            properties:
+                canonicalUrl:
+                    type: string
+                    format: uri
+                    nullable: false
+                    example: 'https://www.foo.com/read/123'
+                userId:
+                    type: integer
+                    format: int64
+                    nullable: true
+                    example: 1
+                deviceUUID:
+                    type: string
+                    format: uuid
+                    nullable: true
+                    example: 8e976869-2b06-407b-95ea-9e69da162a0c
+                likeDateTime:
+                    type: string
+                    format: date-time
+                    nullable: false
+                    example: '2017-07-21T17:32:28Z'
         ErrorResponse:
             type: object
             properties:
@@ -113,20 +212,6 @@ components:
                     format: uri
                     nullable: false
                 description:
-                    type: string
-                    nullable: false
-        GetStatsResponse:
-            type: object
-            properties:
-                link:
-                    type: string
-                    format: uri
-                    nullable: false
-                count:
-                    type: number
-                    format: int64
-                    nullable: false
-                countText:
                     type: string
                     nullable: false
     securitySchemes:

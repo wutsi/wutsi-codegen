@@ -14,6 +14,7 @@ import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.Operation
+import io.swagger.v3.oas.models.media.ArraySchema
 import io.swagger.v3.oas.models.media.Schema
 import io.swagger.v3.oas.models.parameters.CookieParameter
 import io.swagger.v3.oas.models.parameters.HeaderParameter
@@ -134,6 +135,7 @@ class KotlinMapper(private val context: Context) {
     fun <T> toField(name: String, property: Schema<T>, schema: Schema<T>? = null) = Field(
         name = toCamelCase(name, false),
         type = toKClass(property),
+        parametrizedType = toParametrizedType(property),
         default = property.default?.toString(),
         required = schema?.required?.contains(name) == true,
         min = property.minimum,
@@ -147,15 +149,33 @@ class KotlinMapper(private val context: Context) {
     )
 
     fun <T> toKClass(property: Schema<T>): KClass<*> {
-        val type = property.type
-        val format = property.format
         var result: KClass<*>? = null
-        result = OPENAPI_TYPE_TO_KOLTIN["$type:$format"] ?: OPENAPI_TYPE_TO_KOLTIN[type]
+        val type = property.type
+        if (type == "array") {
+            result = List::class
+        } else {
+            val format = property.format
+            result = OPENAPI_TYPE_TO_KOLTIN["$type:$format"] ?: OPENAPI_TYPE_TO_KOLTIN[type]
+        }
 
         if (result == null)
             throw IllegalStateException("Unable to resolve the type. ${property.name}:$type")
 
         return result
+    }
+
+    fun <T> toParametrizedType(property: Schema<T>): Type? {
+        var result: KClass<*>? = null
+        if (property.type == "array") {
+            val ref = (property as ArraySchema).items?.`$ref`
+            val type = ref?.let { context.getType(it) } ?: null
+            if (type == null)
+                throw IllegalStateException("Unable to resolve the reference: $ref")
+
+            return type
+        } else {
+            return null
+        }
     }
 
     private fun toPackage(basePackage: String, suffix: String): String =

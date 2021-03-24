@@ -4,6 +4,8 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
+import org.junit.jupiter.api.BeforeEach
+import org.springframework.util.FileSystemUtils
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -19,6 +21,11 @@ internal class SdkCodeGeneratorTest {
     val codegen = SdkCodeGenerator(
         KotlinMapper(context)
     )
+
+    @BeforeEach
+    fun setUp() {
+        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+    }
 
     @Test
     fun testGenerate() {
@@ -40,5 +47,7 @@ internal class SdkCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/Like.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/SearchLikeResponse.kt").exists())
     }
 }

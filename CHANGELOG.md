@@ -1,5 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.17] 2021-03-24
+### Changed
+- Support openapi `array`
+- Add algo to load the models in the right order
+
 ## [0.0.16] 2021-03-22
 ### Changed
 - Remove validation annotation from SDK
