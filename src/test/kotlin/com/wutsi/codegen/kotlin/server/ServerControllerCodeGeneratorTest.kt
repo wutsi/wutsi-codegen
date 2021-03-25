@@ -193,6 +193,7 @@ internal class ServerControllerCodeGeneratorTest {
         context.register("#/components/schemas/CreateLikeRequest", Type(packageName = "${context.basePackage}.model", name = "CreateLikeRequest"))
         context.register("#/components/schemas/CreateLikeResponse", Type(packageName = "${context.basePackage}.model", name = "CreateLikeResponse"))
         context.register("#/components/schemas/GetStatsResponse", Type(packageName = "${context.basePackage}.model", name = "GetStatsResponse"))
+        context.register("#/components/schemas/SearchLikeResponse", Type(packageName = "${context.basePackage}.model", name = "SearchLikeResponse"))
 
         codegen.generate(
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
@@ -203,5 +204,6 @@ internal class ServerControllerCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/CreateController.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/DeleteController.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/StatsController.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/SearchController.kt").exists())
     }
 }

@@ -114,7 +114,7 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
         if (parameter.type != PATH) {
             builder.addMember("required=" + parameter.field.required)
             if (default != null && default != "null")
-                builder.addMember("default=$default")
+                builder.addMember("defaultValue=%S", default)
         }
         return builder.build()
     }

@@ -21,6 +21,17 @@ spring:
   main:
     lazy-initialization: false
 
+  jackson:
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+      ACCEPT_CASE_INSENSITIVE_PROPERTIES: true
+    default-property-inclusion:
+      - non_null
+      - non_empty
+
   flyway:
     baseline-on-migrate: true
     clean-disabled: false
