@@ -83,5 +83,7 @@ internal class SdkModelCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/SearchLikeResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/Like.kt").exists())
     }
 }

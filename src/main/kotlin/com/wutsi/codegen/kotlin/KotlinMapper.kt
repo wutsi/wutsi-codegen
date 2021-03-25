@@ -60,21 +60,13 @@ class KotlinMapper(private val context: Context) {
     fun toEndpoints(openAPI: OpenAPI): List<Endpoint> {
         val endpoints = mutableListOf<Endpoint>()
         openAPI.paths?.forEach { path, item ->
-            if (item.post != null) {
-                endpoints.add(toEndpoint(path, "POST", item.post))
-            } else if (item.delete != null) {
-                endpoints.add(toEndpoint(path, "DELETE", item.delete))
-            } else if (item.put != null) {
-                endpoints.add(toEndpoint(path, "PUT", item.put))
-            } else if (item.trace != null) {
-                endpoints.add(toEndpoint(path, "TRACE", item.trace))
-            } else if (item.patch != null) {
-                endpoints.add(toEndpoint(path, "PATCH", item.patch))
-            } else if (item.head != null) {
-                endpoints.add(toEndpoint(path, "HEAD", item.head))
-            } else {
-                endpoints.add(toEndpoint(path, "GET", item.get))
-            }
+            item.get?.let { endpoints.add(toEndpoint(path, "GET", it)) }
+            item.post?.let { endpoints.add(toEndpoint(path, "POST", it)) }
+            item.delete?.let { endpoints.add(toEndpoint(path, "DELETE", it)) }
+            item.put?.let { endpoints.add(toEndpoint(path, "PUT", it)) }
+            item.trace?.let { endpoints.add(toEndpoint(path, "TRACE", it)) }
+            item.patch?.let { endpoints.add(toEndpoint(path, "PATCH", it)) }
+            item.head?.let { endpoints.add(toEndpoint(path, "HEAD", it)) }
         }
         return endpoints
     }

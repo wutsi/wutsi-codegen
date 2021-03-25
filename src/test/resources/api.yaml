@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
     title: Wutsi Like API
     description: This api used for managing likes on links
-    version: 0.0.2
+    version: 0.0.3
 servers:
     -   url: 'https://com-wutsi-prod-like.herokuapp.com'
         description: Production
@@ -14,31 +14,35 @@ paths:
             operationId: search
             summary: Search the likes for a given link
             parameters:
-                -   in: path
-                    name: id
-                    required: true
-                    schema:
-                        type: integer
-                        format: int64
                 -   in: query
                     name: canonical_url
                     required: true
                     schema:
                         type: string
-                        nullable: false
                 -   in: query
                     name: user_id
-                    required: false
                     schema:
                         type: integer
                         format: int64
                         nullable: true
                 -   in: query
                     name: device_uuid
-                    required: false
                     schema:
                         type: string
                         nullable: true
+                -   in: query
+                    name: limit
+                    schema:
+                        type: integer
+                        nullable: false
+                        default: 20
+                        example: 20
+                -   in: query
+                    name: offset
+                    schema:
+                        type: integer
+                        default: 0
+                        example: 0
             responses:
                 '200':
                     description: Success
@@ -151,32 +155,32 @@ components:
         CreateLikeResponse:
             type: object
             properties:
-                canonicalUrl:
-                    type: string
-                    format: uri
-                    nullable: false
-                    example: 'https://www.foo.com/read/123'
-                count:
+                likeId:
                     type: integer
                     format: int64
                     nullable: false
-                    example: 1500
+                    example: 1
         GetStatsResponse:
             type: object
             properties:
                 canonicalUrl:
                     type: string
                     format: uri
-                    nullable: false
                     example: 'https://www.foo.com/read/123'
                 count:
                     type: number
                     format: int64
-                    nullable: false
                     example: 1500
         SearchLikeResponse:
             type: object
             properties:
+                offset:
+                    type: integer
+                    default: 0
+                    example: 0
+                nextOffset:
+                    type: integer
+                    nullable: true
                 likes:
                     type: array
                     items:

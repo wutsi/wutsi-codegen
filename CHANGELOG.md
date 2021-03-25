@@ -4,6 +4,7 @@
 ### Changed
 - Support openapi `array`
 - Add algo to load the models in the right order
+- Added Jackson configuration
 
 ## [0.0.16] 2021-03-22
 ### Changed

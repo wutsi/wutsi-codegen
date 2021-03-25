@@ -29,63 +29,27 @@ internal class ServerCodeGeneratorTest {
             openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
             context = context
         )
-        context.addService(Context.SERVICE_CACHE)
-        context.addService(Context.SERVICE_DATABASE)
 
-        assertDefaultFiles()
-    }
-
-    private fun `generate with heroku`() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
-        codegen.generate(
-            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
-            context = Context(
-                apiName = "Test",
-                outputDirectory = "./target/wutsi/codegen/server",
-                basePackage = "com.wutsi.test",
-                githubUser = "foo",
-                herokuApp = "test-app"
-            )
-        )
-
-        assertDefaultFiles()
-
-        // Heroku
-        assertTrue(File("${context.outputDirectory}/Procfile").exists())
-        assertTrue(File("${context.outputDirectory}/system.properties").exists())
-    }
-
-    @Test
-    private fun `generate with cache`() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
-        codegen.generate(
-            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
-            context = context
-        )
-
-        assertDefaultFiles()
-
-        // Caching
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/SpringCacheLocalConfiguration.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/SpringCacheServerConfiguration.kt").exists())
-    }
-
-    private fun assertDefaultFiles() {
         // Controller
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/CreateController.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/DeleteController.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/StatsController.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/SearchController.kt").exists())
 
         // Delegate
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/CreateDelegate.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/DeleteDelegate.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/StatsDelegate.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/SearchDelegate.kt").exists())
 
         // Model files
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/SearchLikeResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/Like.kt").exists())
 
         // Launcher
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/Application.kt").exists())
