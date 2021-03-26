@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.17] 2021-03-26
+## [0.0.19] 2021-03-26
+### Changed
+- set at deployment the heroku setting environment variable `APP_PROFILE`
+
+## [0.0.18] 2021-03-26
 ### Changed
 - Add in pipeline TEST and PROD deployment
 
