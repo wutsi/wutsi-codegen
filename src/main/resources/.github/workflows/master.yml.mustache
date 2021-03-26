@@ -43,26 +43,34 @@ jobs:
           curl https://cli-assets.heroku.com/install.sh | sh
           heroku plugins:install @heroku-cli/plugin-java
 
-      - name: HerokuSetup
+      - name: Heroku-Deploy-Test
         env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_TEST}}
+          HEROKU_APP: {{herokuApp}}-test
         run: |
-          heroku apps | grep {{herokuApp}} && echo 'app: {{herokuApp}} exists' ||  heroku apps:create {{herokuApp}}
-          heroku buildpacks:clear --app {{herokuApp}}
-          heroku buildpacks:add heroku/jvm --app {{herokuApp}}
+          heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
+          heroku buildpacks:clear --app ${HEROKU_APP}
+          heroku buildpacks:add heroku/jvm --app ${HEROKU_APP}
         {{#herokuAddons}}
-          heroku addons -a {{herokuApp}} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a {{herokuApp}}
+          heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
         {{/herokuAddons}}
-
-      - name: HerokuDeploy
-        env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: |
-          heroku deploy:jar target/{{artifactId}}.jar --app {{herokuApp}}
-
-      - name: Healthcheck
-        run: |
+          heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}
           sleep 90
-          curl -sSf https://{{herokuApp}}.herokuapp.com/actuator/health >> /dev/null
+          curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null
+
+      - name: Heroku-Deploy-Prod
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_PROD}}
+          HEROKU_APP: {{herokuApp}}-prod
+        run: |
+          heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
+          heroku buildpacks:clear --app ${HEROKU_APP}
+          heroku buildpacks:add heroku/jvm --app ${HEROKU_APP}
+        {{#herokuAddons}}
+          heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
+        {{/herokuAddons}}
+          heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}
+          sleep 90
+          curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null
       {{/herokuApp}}
 {{/scope}}
