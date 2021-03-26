@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.17] 2021-03-26
+### Changed
+- Add in pipeline TEST and PROD deployment
+
 ## [0.0.17] 2021-03-24
 ### Changed
 - Support openapi `array`

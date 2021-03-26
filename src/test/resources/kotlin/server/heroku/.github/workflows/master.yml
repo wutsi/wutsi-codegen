@@ -36,25 +36,34 @@ jobs:
           curl https://cli-assets.heroku.com/install.sh | sh
           heroku plugins:install @heroku-cli/plugin-java
 
-      - name: HerokuSetup
+      - name: Heroku-Deploy-Test
         env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_TEST}}
+          HEROKU_APP: foo-app-test
         run: |
-          heroku apps | grep foo-app && echo 'app: foo-app exists' ||  heroku apps:create foo-app
-          heroku buildpacks:clear --app foo-app
-          heroku buildpacks:add heroku/jvm --app foo-app
-          heroku addons -a foo-app | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a foo-app
-          heroku addons -a foo-app | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a foo-app
-          heroku addons -a foo-app | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a foo-app
-          heroku addons -a foo-app | grep cloudamqp && echo 'addon: cloudamqp exists' ||  heroku addons:create cloudamqp -a foo-app
-
-      - name: HerokuDeploy
-        env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: |
-          heroku deploy:jar target/test-server.jar --app foo-app
-
-      - name: Healthcheck
-        run: |
+          heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
+          heroku buildpacks:clear --app ${HEROKU_APP}
+          heroku buildpacks:add heroku/jvm --app ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep cloudamqp && echo 'addon: cloudamqp exists' ||  heroku addons:create cloudamqp -a ${HEROKU_APP}
+          heroku deploy:jar target/test-server.jar --app ${HEROKU_APP}
           sleep 90
-          curl -sSf https://foo-app.herokuapp.com/actuator/health >> /dev/null
+          curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null
+
+      - name: Heroku-Deploy-Prod
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_PROD}}
+          HEROKU_APP: foo-app-prod
+        run: |
+          heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
+          heroku buildpacks:clear --app ${HEROKU_APP}
+          heroku buildpacks:add heroku/jvm --app ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a ${HEROKU_APP}
+          heroku addons -a ${HEROKU_APP} | grep cloudamqp && echo 'addon: cloudamqp exists' ||  heroku addons:create cloudamqp -a ${HEROKU_APP}
+          heroku deploy:jar target/test-server.jar --app ${HEROKU_APP}
+          sleep 90
+          curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null

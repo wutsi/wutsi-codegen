@@ -20,6 +20,8 @@ class ServerGithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
         "secrets.GITHUB_TOKEN" to "{{secrets.GITHUB_TOKEN}}",
 
         "secrets.HEROKU_API_KEY" to "{{secrets.HEROKU_API_KEY}}",
+        "secrets.HEROKU_API_KEY_TEST" to "{{secrets.HEROKU_API_KEY_TEST}}",
+        "secrets.HEROKU_API_KEY_PROD" to "{{secrets.HEROKU_API_KEY_PROD}}",
         "herokuApp" to context.herokuApp,
         "herokuAddons" to toAddOns(context),
         "services" to toServices(context)
