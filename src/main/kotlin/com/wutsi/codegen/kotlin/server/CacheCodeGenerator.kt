@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import kotlin.reflect.KClass
 
-class SpringCacheCodeGenerator : AbstractKotlinCodeGenerator() {
+class CacheCodeGenerator : AbstractKotlinCodeGenerator() {
     override fun generate(spec: OpenAPI, context: Context) {
         generateLocalConfiguration(context)
         generateRemoteConfiguration(context)
@@ -29,7 +29,7 @@ class SpringCacheCodeGenerator : AbstractKotlinCodeGenerator() {
 
     private fun generateLocalConfiguration(context: Context) {
         val directory = getSourceDirectory(context)
-        val classname = ClassName(context.basePackage + ".config", "SpringCacheLocalConfiguration")
+        val classname = ClassName(context.basePackage + ".config", "CacheLocalConfiguration")
 
         System.out.println("Generating $classname to $directory")
         FileSpec.builder(classname.packageName, classname.simpleName)
@@ -40,7 +40,7 @@ class SpringCacheCodeGenerator : AbstractKotlinCodeGenerator() {
 
     private fun generateRemoteConfiguration(context: Context) {
         val directory = getSourceDirectory(context)
-        val classname = ClassName(context.basePackage + ".config", "SpringCacheRemoteConfiguration")
+        val classname = ClassName(context.basePackage + ".config", "CacheRemoteConfiguration")
 
         System.out.println("Generating $classname to $directory")
         FileSpec.builder(classname.packageName, classname.simpleName)

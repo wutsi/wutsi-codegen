@@ -50,6 +50,7 @@ jobs:
           heroku addons -a ${HEROKU_APP} | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a ${HEROKU_APP}
           heroku addons -a ${HEROKU_APP} | grep cloudamqp && echo 'addon: cloudamqp exists' ||  heroku addons:create cloudamqp -a ${HEROKU_APP}
           heroku deploy:jar target/test-server.jar --app ${HEROKU_APP}
+          echo Health check....
           sleep 90
           curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null
 
@@ -67,5 +68,6 @@ jobs:
           heroku addons -a ${HEROKU_APP} | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a ${HEROKU_APP}
           heroku addons -a ${HEROKU_APP} | grep cloudamqp && echo 'addon: cloudamqp exists' ||  heroku addons:create cloudamqp -a ${HEROKU_APP}
           heroku deploy:jar target/test-server.jar --app ${HEROKU_APP}
+          echo Health check....
           sleep 90
           curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null

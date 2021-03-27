@@ -56,6 +56,7 @@ jobs:
           heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
         {{/herokuAddons}}
           heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}
+          echo Health check....
           sleep 90
           curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null
 
@@ -72,6 +73,7 @@ jobs:
           heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
         {{/herokuAddons}}
           heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}
+          echo Health check....
           sleep 90
           curl -sSf https://${HEROKU_APP}.herokuapp.com/actuator/health >> /dev/null
       {{/herokuApp}}

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.util.FileSystemUtils
 import java.io.File
 
-internal class SpringCacheCodeGeneratorTest {
+internal class CacheCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/server",
@@ -16,7 +16,7 @@ internal class SpringCacheCodeGeneratorTest {
         jdkVersion = "1.8"
     )
 
-    val codegen = SpringCacheCodeGenerator()
+    val codegen = CacheCodeGenerator()
 
     @BeforeEach
     fun setUp() {
@@ -30,7 +30,7 @@ internal class SpringCacheCodeGeneratorTest {
 
         codegen.generate(openAPI, context)
 
-        val file = File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/SpringCacheLocalConfiguration.kt")
+        val file = File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/CacheLocalConfiguration.kt")
         kotlin.test.assertTrue(file.exists())
 
         val text = file.readText()
@@ -48,7 +48,7 @@ internal class SpringCacheCodeGeneratorTest {
                   value=["memcached.enabled"],
                   havingValue = "false"
                 )
-                public class SpringCacheLocalConfiguration {
+                public class CacheLocalConfiguration {
                   @Bean
                   public fun cacheManager(): CacheManager {
                     val cacheManager = org.springframework.cache.support.SimpleCacheManager()
@@ -72,7 +72,7 @@ internal class SpringCacheCodeGeneratorTest {
 
         codegen.generate(openAPI, context)
 
-        val file = File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/SpringCacheRemoteConfiguration.kt")
+        val file = File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/CacheRemoteConfiguration.kt")
         kotlin.test.assertTrue(file.exists())
 
         val text = file.readText()
@@ -95,7 +95,7 @@ internal class SpringCacheCodeGeneratorTest {
                   value=["memcached.enabled"],
                   havingValue = "true"
                 )
-                public class SpringCacheRemoteConfiguration(
+                public class CacheRemoteConfiguration(
                   @Value(value="\${'$'}{memcached.username}")
                   private val username: String,
                   @Value(value="\${'$'}{memcached.password}")
