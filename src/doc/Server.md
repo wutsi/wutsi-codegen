@@ -1,5 +1,15 @@
-Generate the API server code from an OpenAPIV3 specification.
-The code generated is a Kotlin springboot application
+Generates the code for an API server, from an OpenAPIV3 specification.
+
+The code generated has the following characteristics:
+- The server code is based on [Kotlin Programming Language](https://kotlinlang.org/).
+- It's a [Springboot App](https://spring.io/projects/spring-boot).
+- It uses [Apache Maven](https://maven.apache.org/) as build tool.
+- It uses [Github Actions](https://github.com/features/actions) for CI/CD.
+   - All Pull Requests are automatically build.
+   - All merges to Master a automatically build and deployed
+- It supports automatic deployment to [Heroku](https://www.heroku.com)
+   - Heroku application can be automatically created
+   - Logger, Database, Caching and MessageQueue can be automatically provisionned to the Heroku app.
 
 ## Usage
 ```
@@ -27,40 +37,3 @@ java -jar wutsi-codegen-<version>.jar server
   -service_database     OPTIONAL - Attach a database to the API
   -service_mqueue       OPTIONAL - Attach a message queue to the API
 ```
-
-## Output
-The Server generator will generate the following files.
-- `<output-dir>/.editorconfig`: [EditorConfig](https://editorconfig.org/) file
-
-- `<output-dir>/.gitignore`
-
-- The Maven files:
-  - `<output-dir>/settings.xml`. **IMPORTANT**: This file is **never** overwritten!
-  - `<output-dir>/pom.xml`. **IMPORTANT**: This file is **never** overwritten!
-
-- The code in the directory `<output-dir>/src/main/kotlin`:
-  - Controller classes for each endpoint in the package `<base-package>.endpoint`
-  - Delegate classes for each endpoint in the package `<base-package>.delegate`
-  - Model classes for API entities in the package `<base-package>.model`
-  - Spring configuration files in the package `<base-package>.config`
-
-- The configurations files in `<output-dir>/src/main/resource`: `application.yml`, `application-test.yml` and `application-prod.yml`
-  **IMPORTANT**: The configuration files are **never** overwritten!
-
-- The GithubActions files:
-  - `<output-dir>/.github/workflows/pull_request.yml`: Build script for each PR
-  - `<output-dir>/.github/workflows/master.yml`: Build script on master deployment
-
-- The Heroku files:
-  - `<output-dir>/Procfile`: Startup command
-  - `<output-dir>/system.properties`: System properties
-
-- SpringCache configuration files:
-  - `<base-package>/config.SpringCacheLocalConfiguration`: for local environment
-  - `<base-package>/config.SpringCacheRemoteConfiguration`: for remote environment
-
-## Dependencies
-- SpringBoot v2.4.4
-- SpringBoot Actuator
-- Junit5
-- Kotlin Mockito

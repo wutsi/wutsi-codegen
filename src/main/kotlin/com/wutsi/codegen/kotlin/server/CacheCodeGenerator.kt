@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration
 import kotlin.reflect.KClass
 
 class CacheCodeGenerator : AbstractKotlinCodeGenerator() {
-    override fun generate(spec: OpenAPI, context: Context) {
+    override fun generate(openAPI: OpenAPI, context: Context) {
         generateLocalConfiguration(context)
         generateRemoteConfiguration(context)
     }
@@ -137,7 +137,7 @@ class CacheCodeGenerator : AbstractKotlinCodeGenerator() {
                     .build()
             )
             .addFunction(
-                FunSpec.builder("cacheHealthIndicator")
+                FunSpec.builder("memcachedHealthIndicator")
                     .addAnnotation(Bean::class)
                     .returns(HealthIndicator::class)
                     .addCode(
