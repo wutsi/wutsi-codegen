@@ -19,7 +19,7 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
         const val CLASSNAME = "Application"
     }
 
-    override fun generate(spec: OpenAPI, context: Context) {
+    override fun generate(openAPI: OpenAPI, context: Context) {
         generateClass(context)
     }
 

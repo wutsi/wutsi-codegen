@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
+internal class ServerGithubActionsCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
     override fun createContext() = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/github",
@@ -14,7 +14,7 @@ internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGener
         jdkVersion = "1.8"
     )
 
-    override fun getCodeGenerator(context: Context) = ServerGithubWorkflowCodeGenerator()
+    override fun getCodeGenerator(context: Context) = ServerGithubActionsCodeGenerator()
 
     @Test
     fun `generate`() {

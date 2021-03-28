@@ -1,18 +1,18 @@
-package com.wutsi.codegen.github
+package com.wutsi.codegen.editorconfig
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.helpers.AbstractMustacheCodeGeneratorTest
 import org.junit.jupiter.api.Test
 
-internal class GitIgnoreCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
+internal class EditorConfigCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
     override fun createContext() = Context(
         apiName = "Test",
-        outputDirectory = "./target/wutsi/codegen/github",
+        outputDirectory = "./target/wutsi/codegen/editorconfig",
         basePackage = "com.wutsi.test",
         jdkVersion = "1.8"
     )
 
-    override fun getCodeGenerator(context: Context) = GitIgnoreCodeGenerator()
+    override fun getCodeGenerator(context: Context) = EditorConfigCodeGenerator()
 
     @Test
     fun `generate`() {
@@ -20,19 +20,19 @@ internal class GitIgnoreCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() 
         val context = createContext()
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertContent("/.gitignore", "${context.outputDirectory}/.gitignore")
+        assertContent("/.editorconfig", "${context.outputDirectory}/.editorconfig")
     }
 
     @Test
-    fun `generate - overwrite`() {
+    fun `generate - do not overwrite`() {
         val openAPI = createOpenAPI()
         val context = createContext()
 
-        val path = "${context.outputDirectory}/.gitignore"
+        val path = "${context.outputDirectory}/.editorconfig"
         createFileAndWait(path)
 
         getCodeGenerator(context).generate(openAPI, context)
 
-        assertFileOverwritten(path)
+        assertFileNotOverwritten(path)
     }
 }

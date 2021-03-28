@@ -7,7 +7,7 @@ import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 
-class ServerGithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
+class ServerGithubActionsCodeGenerator : AbstractMustacheCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
         generate("master.yml", openAPI, context)
         generate("pull_request.yml", openAPI, context)

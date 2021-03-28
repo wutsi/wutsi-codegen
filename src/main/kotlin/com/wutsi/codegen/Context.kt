@@ -3,7 +3,7 @@ package com.wutsi.codegen
 import com.wutsi.codegen.model.Type
 import java.io.File
 
-class Context(
+open class Context(
     val apiName: String,
     val basePackage: String,
     val outputDirectory: String = ".${File.separator}out",

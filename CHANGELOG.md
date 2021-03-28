@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.20] 2021-03-27
+### Changed
+- Integration of Message Queue
+
 ## [0.0.19] 2021-03-27
 ### Changed
 - Change caching configuration file from `StringCache...` to `Cache...`

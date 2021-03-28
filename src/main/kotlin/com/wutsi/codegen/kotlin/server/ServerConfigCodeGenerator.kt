@@ -27,10 +27,10 @@ class ServerConfigCodeGenerator(private val mapper: KotlinMapper) : AbstractMust
         return result
     }
 
-    override fun generate(spec: OpenAPI, context: Context) {
-        generate("application.yml", spec, context)
-        generate("application-test.yml", spec, context)
-        generate("application-prod.yml", spec, context)
+    override fun generate(openAPI: OpenAPI, context: Context) {
+        generate("application.yml", openAPI, context)
+        generate("application-test.yml", openAPI, context)
+        generate("application-prod.yml", openAPI, context)
     }
 
     private fun generate(filename: String, spec: OpenAPI, context: Context) {

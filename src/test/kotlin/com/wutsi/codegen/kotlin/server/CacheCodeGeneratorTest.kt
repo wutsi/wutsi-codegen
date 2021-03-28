@@ -66,7 +66,7 @@ internal class CacheCodeGeneratorTest {
     }
 
     @Test
-    fun removeConfiguration() {
+    fun remoteConfiguration() {
         val openAPI = createOpenAPI()
         context.addService(Context.SERVICE_CACHE)
 
@@ -125,7 +125,7 @@ internal class CacheCodeGeneratorTest {
                   }
 
                   @Bean
-                  public fun cacheHealthIndicator(): HealthIndicator =
+                  public fun memcachedHealthIndicator(): HealthIndicator =
                       com.wutsi.spring.memcached.MemcachedHealthIndicator(memcachedClient())
                 }
             """.trimIndent(),

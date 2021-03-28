@@ -5,7 +5,7 @@
 ![](https://img.shields.io/badge/language-kotlin-blue.svg)
 [![JDK](https://img.shields.io/badge/version-0.0.20-brightgreen.svg)](https://jdk.java.net/11/)
 
-Code Generator for generating API code fom OpenAPI V3 specifications
+Generates code from OpenAPI V3 specifications.
 
 # Code Generators
 - [SDK Code Generator](src/doc/SDK.md)
