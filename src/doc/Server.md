@@ -1,12 +1,12 @@
 Generates the code for an API server, from an OpenAPIV3 specification.
 
 The code generated has the following characteristics:
-- The server code is based on [Kotlin Programming Language](https://kotlinlang.org/).
+- It's based on [Kotlin Programming Language](https://kotlinlang.org/).
 - It's a [Springboot App](https://spring.io/projects/spring-boot).
 - It uses [Apache Maven](https://maven.apache.org/) as build tool.
 - It uses [Github Actions](https://github.com/features/actions) for CI/CD.
-   - All Pull Requests are automatically build.
-   - All merges to Master a automatically build and deployed
+   - All Pull Requests are automatically built.
+   - All merges to Master a automatically built and deployed on TEST and PROD environments
 - It supports automatic deployment to [Heroku](https://www.heroku.com)
    - Heroku application can be automatically created
    - Logger, Database, Caching and MessageQueue can be automatically provisionned to the Heroku app.

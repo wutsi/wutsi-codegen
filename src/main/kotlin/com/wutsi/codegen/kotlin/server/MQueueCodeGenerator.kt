@@ -215,7 +215,7 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
         } else {
             builder.addAnnotation(
                 AnnotationSpec.builder(Value::class)
-                    .addMember("value=\"\\\${rabbitnq.$valueName}\"")
+                    .addMember("value=\"\\\${rabbitmq.$valueName}\"")
                     .build()
             )
         }

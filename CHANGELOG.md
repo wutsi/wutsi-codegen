@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.20] 2021-03-27
+## [0.0.21] 2021-03-28
+### Fixes
+- FIX: RabbitMQ configuration variables (`rabbitnq...` -> `rabbitmq...`)
+
+## [0.0.20] 2021-03-28
 ### Changed
 - Integration of Message Queue
 

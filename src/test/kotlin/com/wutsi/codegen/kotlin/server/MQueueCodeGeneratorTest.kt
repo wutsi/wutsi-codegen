@@ -108,9 +108,9 @@ internal class MQueueCodeGeneratorTest {
             public class MQueueRemoteConfiguration(
               @Autowired
               private val eventPublisher: ApplicationEventPublisher,
-              @Value(value="\${'$'}{rabbitnq.url}")
+              @Value(value="\${'$'}{rabbitmq.url}")
               private val url: String,
-              @Value(value="\${'$'}{rabbitnq.thread-pool-size}")
+              @Value(value="\${'$'}{rabbitmq.thread-pool-size}")
               private val threadPoolSize: Int
             ) {
               @Bean
