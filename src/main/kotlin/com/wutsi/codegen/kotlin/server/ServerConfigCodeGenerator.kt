@@ -21,6 +21,9 @@ class ServerConfigCodeGenerator(private val mapper: KotlinMapper) : AbstractMust
         if (context.hasService(Context.SERVICE_CACHE)) {
             result["cache"] = true
         }
+        if (context.hasService(Context.SERVICE_MQUEUE)) {
+            result["mqueue"] = true
+        }
         return result
     }
 
