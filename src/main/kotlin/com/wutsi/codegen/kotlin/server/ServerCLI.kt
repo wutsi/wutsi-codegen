@@ -74,7 +74,7 @@ class ServerCLI(
         if (cmd.hasOption(OPTION_SERVICE_DATABASE))
             context.addService(Context.SERVICE_DATABASE)
         if (cmd.hasOption(OPTION_SERVICE_QUEUE))
-            context.addService(Context.SERVICE_QUEUE)
+            context.addService(Context.SERVICE_MQUEUE)
         if (cmd.hasOption(OPTION_SERVICE_LOGGER))
             context.addService(Context.SERVICE_LOGGING)
 
