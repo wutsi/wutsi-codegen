@@ -12,7 +12,7 @@ java -jar wutsi-codegen-<version>.jar server
     -heroku <heroku-app>
     -service_cache
     -service_logger
-    -service_queue
+    -service_mqueue
     -service_database
 
   -i <openapi-file-url> REQUIRED - URL of the OpenAPI file
@@ -25,7 +25,7 @@ java -jar wutsi-codegen-<version>.jar server
   -service_cache        OPTIONAL - Attach a cache to the API
   -service_logger       OPTIONAL - Attach a logger to the API
   -service_database     OPTIONAL - Attach a database to the API
-  -service_queue        OPTIONAL - Attach a queue to the API
+  -service_mqueue       OPTIONAL - Attach a message queue to the API
 ```
 
 ## Output

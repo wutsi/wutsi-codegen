@@ -19,7 +19,7 @@ abstract class AbstractCLI : CLI {
         const val OPTION_SERVICE_CACHE = "service_cache"
         const val OPTION_SERVICE_LOGGER = "service_logger"
         const val OPTION_SERVICE_DATABASE = "service_database"
-        const val OPTION_SERVICE_QUEUE = "service_queue"
+        const val OPTION_SERVICE_MQUEUE = "service_mqueue"
 
         const val DEFAULT_JDK_VERSION = "1.8"
     }
