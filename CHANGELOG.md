@@ -1,6 +1,18 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.17] 2021-03-26
+## [0.0.19] 2021-03-29
+### Changed
+- Integration of Message Queue
+- Change caching configuration file from `StringCache...` to `Cache...`
+### Fixes
+- Update dependency of `wutsi-stream-memcached` to `v1.1.0` to fix a NPE
+- FIX: RabbitMQ configuration variables (`rabbitnq...` -> `rabbitmq...`)
+
+## [0.0.19] 2021-03-26
+### Changed
+- set at deployment the heroku setting environment variable `APP_PROFILE`
+
+## [0.0.18] 2021-03-26
 ### Changed
 - Add in pipeline TEST and PROD deployment
 

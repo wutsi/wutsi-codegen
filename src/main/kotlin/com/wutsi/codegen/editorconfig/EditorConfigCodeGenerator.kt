@@ -1,4 +1,4 @@
-package com.wutsi.codegen.editconfig
+package com.wutsi.codegen.editorconfig
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.CodeGenerator

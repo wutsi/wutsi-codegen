@@ -1,0 +1,4 @@
+rabbitmq:
+  enabled: true
+  url: ${CLOUDAMQP_URL}
+  thread-pool-size: 8

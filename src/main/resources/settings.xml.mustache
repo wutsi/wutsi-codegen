@@ -12,6 +12,22 @@
       <username>{{githubUser}}</username>
       <password>${GITHUB_TOKEN}</password>
     </server>
+{{#services}}
+    {{#cache}}
+    <server>
+      <id>wutsi-spring-memcached</id>
+      <username>{{githubUser}}</username>
+      <password>${GITHUB_TOKEN}</password>
+    </server>
+    {{/cache}}
+    {{#mqueue}}
+    <server>
+      <id>wutsi-stream-rabbitmq</id>
+      <username>{{githubUser}}</username>
+      <password>${GITHUB_TOKEN}</password>
+    </server>
+    {{/mqueue}}
+{{/services}}
   </servers>
 
 {{/scope}}

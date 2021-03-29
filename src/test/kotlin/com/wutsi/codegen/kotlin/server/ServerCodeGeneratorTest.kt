@@ -1,76 +1,54 @@
 package com.wutsi.codegen.kotlin.server
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.generator.CodeGenerator
+import com.wutsi.codegen.editorconfig.EditorConfigCodeGenerator
+import com.wutsi.codegen.github.GitCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
-import com.wutsi.codegen.kotlin.sdk.SdkCodeGenerator
-import io.swagger.v3.parser.OpenAPIV3Parser
-import org.apache.commons.io.IOUtils
+import io.swagger.v3.oas.models.OpenAPI
 import org.junit.jupiter.api.Test
-import java.io.File
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class ServerCodeGeneratorTest {
-    val context = Context(
-        apiName = "Test",
-        outputDirectory = "./target/wutsi/codegen/server",
-        basePackage = "com.wutsi.test",
-        githubUser = "foo",
-        herokuApp = null
-    )
-
-    val codegen = ServerCodeGenerator(
-        KotlinMapper(context)
-    )
+    val context = mock<Context>()
 
     @Test
-    fun `generate`() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
-        codegen.generate(
-            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
-            context = context
+    fun `run all generators`() {
+        val gen1 = mock<CodeGenerator>()
+        val gen2 = mock<CodeGenerator>()
+        val gen3 = mock<CodeGenerator>()
+        val codegen = ServerCodeGenerator(
+            mapper = KotlinMapper(context),
+            generators = listOf(gen1, gen2, gen3)
         )
 
-        // Controller
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/CreateController.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/DeleteController.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/StatsController.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/SearchController.kt").exists())
+        val openAPI = OpenAPI()
+        codegen.generate(openAPI, context)
 
-        // Delegate
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/CreateDelegate.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/DeleteDelegate.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/StatsDelegate.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/delegate/SearchDelegate.kt").exists())
+        verify(gen1).generate(openAPI, context)
+        verify(gen2).generate(openAPI, context)
+        verify(gen3).generate(openAPI, context)
+    }
 
-        // Model files
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/SearchLikeResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/Like.kt").exists())
+    @Test
+    fun `generators`() {
+        val codegen = ServerCodeGenerator(mapper = KotlinMapper(context))
 
-        // Launcher
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/Application.kt").exists())
-
-        // Maven
-        assertTrue(File("${context.outputDirectory}/pom.xml").exists())
-        assertTrue(File("${context.outputDirectory}/settings.xml").exists())
-
-        // .editorconfig
-        assertTrue(File("${context.outputDirectory}/.editorconfig").exists())
-
-        // Github Workflows
-        assertTrue(File("${context.outputDirectory}/.github/workflows/master.yml").exists())
-        assertTrue(File("${context.outputDirectory}/.github/workflows/pull_request.yml").exists())
-
-        // .gitignore
-        assertTrue(File("${context.outputDirectory}/.gitignore").exists())
-
-        // Config
-        assertTrue(File("${context.outputDirectory}/src/main/resources/application.yml").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/resources/application-test.yml").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/resources/application-prod.yml").exists())
+        assertEquals(12, codegen.generators.size)
+        assertTrue(codegen.generators[0] is ServerModelCodeGenerator)
+        assertTrue(codegen.generators[1] is ServerDelegateCodeGenerator)
+        assertTrue(codegen.generators[2] is ServerControllerCodeGenerator)
+        assertTrue(codegen.generators[3] is ServerMavenCodeGenerator)
+        assertTrue(codegen.generators[4] is ServerLauncherCodeGenerator)
+        assertTrue(codegen.generators[5] is ServerConfigCodeGenerator)
+        assertTrue(codegen.generators[6] is ServerHerokuCodeGenerator)
+        assertTrue(codegen.generators[7] is EditorConfigCodeGenerator)
+        assertTrue(codegen.generators[8] is ServerGithubActionsCodeGenerator)
+        assertTrue(codegen.generators[9] is GitCodeGenerator)
+        assertTrue(codegen.generators[10] is CacheCodeGenerator)
+        assertTrue(codegen.generators[11] is MQueueCodeGenerator)
     }
 }

@@ -6,7 +6,7 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.18</version>
+  <version>0.0.19</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>
@@ -30,6 +30,7 @@
     <spring-tx.version>2.4.4</spring-tx.version>
     <swagger-parser.version>2.0.24</swagger-parser.version>
     <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
+    <wutsi-stream-rabbitmq.version>1.0.0</wutsi-stream-rabbitmq.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.code.style>official</kotlin.code.style>
@@ -52,6 +53,10 @@
     <repository>
       <id>wutsi-spring-memcached</id>
       <url>https://maven.pkg.github.com/wutsi/wutsi-spring-memcached</url>
+    </repository>
+    <repository>
+      <id>wutsi-stream-rabbitmq</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-stream-rabbitmq</url>
     </repository>
   </repositories>
 
@@ -143,6 +148,11 @@
       <groupId>com.wutsi</groupId>
       <artifactId>wutsi-spring-memcached</artifactId>
       <version>${wutsi-spring-memcached.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi</groupId>
+      <artifactId>wutsi-stream-rabbitmq</artifactId>
+      <version>${wutsi-stream-rabbitmq.version}</version>
     </dependency>
   </dependencies>
 

@@ -7,7 +7,7 @@ import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 
-class ServerGithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
+class ServerGithubActionsCodeGenerator : AbstractMustacheCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
         generate("master.yml", openAPI, context)
         generate("pull_request.yml", openAPI, context)
@@ -35,7 +35,7 @@ class ServerGithubWorkflowCodeGenerator : AbstractMustacheCodeGenerator() {
             addons.add(mapOf("addonName" to "memcachier"))
         if (context.hasService(Context.SERVICE_DATABASE))
             addons.add(mapOf("addonName" to "heroku-postgresql"))
-        if (context.hasService(Context.SERVICE_QUEUE))
+        if (context.hasService(Context.SERVICE_MQUEUE))
             addons.add(mapOf("addonName" to "cloudamqp"))
         return addons
     }

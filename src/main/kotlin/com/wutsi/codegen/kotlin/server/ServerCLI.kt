@@ -53,7 +53,7 @@ class ServerCLI(
                 .build()
         )
         options.addOption(
-            Option.builder(OPTION_SERVICE_QUEUE)
+            Option.builder(OPTION_SERVICE_MQUEUE)
                 .hasArg(false)
                 .desc("Attach a queue to the API")
                 .build()
@@ -73,8 +73,8 @@ class ServerCLI(
             context.addService(Context.SERVICE_CACHE)
         if (cmd.hasOption(OPTION_SERVICE_DATABASE))
             context.addService(Context.SERVICE_DATABASE)
-        if (cmd.hasOption(OPTION_SERVICE_QUEUE))
-            context.addService(Context.SERVICE_QUEUE)
+        if (cmd.hasOption(OPTION_SERVICE_MQUEUE))
+            context.addService(Context.SERVICE_MQUEUE)
         if (cmd.hasOption(OPTION_SERVICE_LOGGER))
             context.addService(Context.SERVICE_LOGGING)
 

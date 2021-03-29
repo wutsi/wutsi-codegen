@@ -1,53 +1,45 @@
 package com.wutsi.codegen.kotlin.sdk
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.wutsi.codegen.Context
+import com.wutsi.codegen.core.generator.CodeGenerator
+import com.wutsi.codegen.github.GitCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
-import io.swagger.v3.parser.OpenAPIV3Parser
-import org.apache.commons.io.IOUtils
-import org.junit.jupiter.api.BeforeEach
-import org.springframework.util.FileSystemUtils
-import java.io.File
-import kotlin.test.Test
+import io.swagger.v3.oas.models.OpenAPI
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class SdkCodeGeneratorTest {
-    val context = Context(
-        apiName = "Test",
-        outputDirectory = "./target/wutsi/codegen/sdk",
-        basePackage = "com.wutsi.test",
-        githubUser = "foo"
-    )
+    val context = mock<Context>()
 
-    val codegen = SdkCodeGenerator(
-        KotlinMapper(context)
-    )
+    @Test
+    fun `run all generators`() {
+        val gen1 = mock<CodeGenerator>()
+        val gen2 = mock<CodeGenerator>()
+        val gen3 = mock<CodeGenerator>()
+        val codegen = SdkCodeGenerator(
+            mapper = KotlinMapper(context),
+            generators = listOf(gen1, gen2, gen3)
+        )
 
-    @BeforeEach
-    fun setUp() {
-        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+        val openAPI = OpenAPI()
+        codegen.generate(openAPI, context)
+
+        verify(gen1).generate(openAPI, context)
+        verify(gen2).generate(openAPI, context)
+        verify(gen3).generate(openAPI, context)
     }
 
     @Test
-    fun testGenerate() {
-        val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
-        codegen.generate(
-            openAPI = OpenAPIV3Parser().readContents(yaml).openAPI,
-            context = context
-        )
+    fun `generators`() {
+        val codegen = SdkCodeGenerator(mapper = KotlinMapper(context))
 
-        // Maven
-        assertTrue(File("${context.outputDirectory}/pom.xml").exists())
-        assertTrue(File("${context.outputDirectory}/settings.xml").exists())
-
-        // API
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/TestApi.kt").exists())
-
-        // Model files
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/Like.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/SearchLikeResponse.kt").exists())
+        assertEquals(4, codegen.generators.size)
+        assertTrue(codegen.generators[0] is SdkModelCodeGenerator)
+        assertTrue(codegen.generators[1] is SdkApiCodeGenerator)
+        assertTrue(codegen.generators[2] is SdkMavenCodeGenerator)
+        assertTrue(codegen.generators[3] is GitCodeGenerator)
     }
 }

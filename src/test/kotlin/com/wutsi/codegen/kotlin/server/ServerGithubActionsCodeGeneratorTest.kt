@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
+internal class ServerGithubActionsCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
     override fun createContext() = Context(
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/github",
@@ -14,7 +14,7 @@ internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGener
         jdkVersion = "1.8"
     )
 
-    override fun getCodeGenerator(context: Context) = ServerGithubWorkflowCodeGenerator()
+    override fun getCodeGenerator(context: Context) = ServerGithubActionsCodeGenerator()
 
     @Test
     fun `generate`() {
@@ -39,7 +39,7 @@ internal class ServerGithubWorkflowCodeGeneratorTest : AbstractMustacheCodeGener
         context.addService(Context.SERVICE_CACHE)
         context.addService(Context.SERVICE_DATABASE)
         context.addService(Context.SERVICE_LOGGING)
-        context.addService(Context.SERVICE_QUEUE)
+        context.addService(Context.SERVICE_MQUEUE)
         getCodeGenerator(context).generate(openAPI, context)
 
         assertContent("/kotlin/server/heroku/.github/workflows/master.yml", "${context.outputDirectory}/.github/workflows/master.yml")
