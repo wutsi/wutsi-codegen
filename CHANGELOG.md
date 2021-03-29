@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.22] 2021-03-28
+### Fixes
+- Update dependency of `wutsi-stream-memcached` to `v1.1.0` to fix a NPE
+
 ## [0.0.21] 2021-03-28
 ### Fixes
 - FIX: RabbitMQ configuration variables (`rabbitnq...` -> `rabbitmq...`)
