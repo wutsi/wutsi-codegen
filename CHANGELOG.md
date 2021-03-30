@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.19] 2021-03-20
+## [0.0.21] 2021-03-30
+### Changed
+- Do not overide `application..yml` files
+
+## [0.0.20] 2021-03-30
 ### Changed
 - Exclude from code coverage configuration classes
 - Add swagger-ui code generator

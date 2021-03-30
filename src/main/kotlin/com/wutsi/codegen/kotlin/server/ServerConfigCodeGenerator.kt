@@ -12,6 +12,8 @@ class ServerConfigCodeGenerator(private val mapper: KotlinMapper) : AbstractMust
         "services" to toServices(context)
     )
 
+    override fun canGenerate(file: File) = !file.exists()
+
     private fun toServices(context: Context): Map<String, Any?> {
         val result = mutableMapOf<String, Any?>()
         if (context.hasService(Context.SERVICE_DATABASE)) {
