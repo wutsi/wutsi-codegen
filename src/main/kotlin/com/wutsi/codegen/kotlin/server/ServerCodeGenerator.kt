@@ -21,7 +21,8 @@ class ServerCodeGenerator(
         ServerGithubActionsCodeGenerator(),
         GitCodeGenerator(),
         CacheCodeGenerator(),
-        MQueueCodeGenerator()
+        MQueueCodeGenerator(),
+        SwaggerCodeGenerator()
     )
 ) : CodeGenerator {
 

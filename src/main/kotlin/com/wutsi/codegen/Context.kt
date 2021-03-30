@@ -2,6 +2,7 @@ package com.wutsi.codegen
 
 import com.wutsi.codegen.model.Type
 import java.io.File
+import java.net.URL
 
 open class Context(
     val apiName: String,
@@ -9,7 +10,8 @@ open class Context(
     val outputDirectory: String = ".${File.separator}out",
     val jdkVersion: String = "11",
     val githubUser: String? = null,
-    val herokuApp: String? = null
+    val herokuApp: String? = null,
+    val inputUrl: URL? = null
 ) {
     companion object {
         const val SERVICE_LOGGING = "service:logging"

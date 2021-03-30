@@ -221,6 +221,10 @@
           </execution>
         </executions>
         <configuration>
+          <excludes>
+            <exclude>**/config/*</exclude>
+            <exclude>**/Application*</exclude>
+          </excludes>
           <rules>
             <rule implementation="org.jacoco.maven.RuleConfiguration">
               <element>BUNDLE</element>

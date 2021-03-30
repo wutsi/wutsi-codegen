@@ -1,10 +1,15 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.19] 2021-03-20
+### Changed
+- Exclude from code coverage configuration classes
+- Add swagger-ui code generator
+
 ## [0.0.19] 2021-03-29
 ### Changed
 - Integration of Message Queue
 - Change caching configuration file from `StringCache...` to `Cache...`
-### Fixes
+### Fixed
 - Update dependency of `wutsi-stream-memcached` to `v1.1.0` to fix a NPE
 - FIX: RabbitMQ configuration variables (`rabbitnq...` -> `rabbitmq...`)
 
