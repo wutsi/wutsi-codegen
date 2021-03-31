@@ -10,8 +10,9 @@ open class Context(
     val outputDirectory: String = ".${File.separator}out",
     val jdkVersion: String = "11",
     val githubUser: String? = null,
+    val githubProject: String? = null,
     val herokuApp: String? = null,
-    val inputUrl: URL? = null
+    val inputUrl: URL? = null,
 ) {
     companion object {
         const val SERVICE_LOGGING = "service:logging"

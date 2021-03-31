@@ -42,13 +42,13 @@ internal class SdkCLITest {
         doReturn(openAPI).whenever(openAPILoader).load(url)
 
         val args = arrayOf(
-            "server",
-            "-a like",
-            "-p com.wutsi.test",
-            "-i $url",
-            "-o ./target",
-            "-j 11",
-            "-g foo"
+            "sdk",
+            "-name", "like",
+            "-package", "com.wutsi.test",
+            "-in", "$url",
+            "-out", "./target",
+            "-jdk", "11",
+            "-github_user", "foo"
         )
         cli.run(args)
 
@@ -72,11 +72,11 @@ internal class SdkCLITest {
         doReturn(openAPI).whenever(openAPILoader).load(url)
 
         val args = arrayOf(
-            "server",
-            "-a like",
-            "-p com.wutsi.test",
-            "-i $url",
-            "-o ./target"
+            "sdk",
+            "-name", "like",
+            "-package", "com.wutsi.test",
+            "-in", "$url",
+            "-out", "./target"
         )
         cli.run(args)
 

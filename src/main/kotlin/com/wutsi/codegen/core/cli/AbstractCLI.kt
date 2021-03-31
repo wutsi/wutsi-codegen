@@ -9,12 +9,13 @@ import org.apache.commons.cli.UnrecognizedOptionException
 
 abstract class AbstractCLI : CLI {
     companion object {
-        const val OPTION_INPUT_FILE = "i"
-        const val OPTION_API_NAME = "a"
-        const val OPTION_BASE_PACKAGE = "p"
-        const val OPTION_OUTPUT_DIR = "o"
-        const val OPTION_GITHUB_USER = "g"
-        const val OPTION_JDK_VERSION = "j"
+        const val OPTION_INPUT_FILE = "in"
+        const val OPTION_API_NAME = "name"
+        const val OPTION_BASE_PACKAGE = "package"
+        const val OPTION_OUTPUT_DIR = "out"
+        const val OPTION_GITHUB_USER = "github_user"
+        const val OPTION_GITHUB_PROJECT = "github_project"
+        const val OPTION_JDK_VERSION = "jdk"
         const val OPTION_HELP = "h"
         const val OPTION_SERVICE_CACHE = "service_cache"
         const val OPTION_SERVICE_LOGGER = "service_logger"

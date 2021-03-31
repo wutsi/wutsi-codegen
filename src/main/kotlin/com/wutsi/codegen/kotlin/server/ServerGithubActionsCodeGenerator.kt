@@ -44,7 +44,7 @@ class ServerGithubActionsCodeGenerator : AbstractMustacheCodeGenerator() {
         val result = mutableMapOf<String, Any?>()
         if (context.hasService(Context.SERVICE_DATABASE)) {
             result["database"] = true
-            result["databaseName"] = CaseUtil.toSnakeCase(context.apiName)
+            result["databaseName"] = CaseUtil.toSnakeCase(context.apiName).toLowerCase()
         }
         if (context.hasService(Context.SERVICE_CACHE)) {
             result["cache"] = true

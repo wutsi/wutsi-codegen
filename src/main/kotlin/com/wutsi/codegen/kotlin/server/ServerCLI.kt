@@ -68,8 +68,9 @@ class ServerCLI(
             outputDirectory = cmd.getOptionValue(OPTION_OUTPUT_DIR).trim(),
             jdkVersion = cmd.getOptionValue(OPTION_JDK_VERSION)?.trimIndent() ?: DEFAULT_JDK_VERSION,
             githubUser = cmd.getOptionValue(OPTION_GITHUB_USER)?.trim(),
+            githubProject = cmd.getOptionValue(OPTION_GITHUB_PROJECT)?.trim(),
             herokuApp = cmd.getOptionValue(OPTION_HEROKU_APP)?.trim(),
-            inputUrl = URL(cmd.getOptionValue(OPTION_INPUT_FILE).trim()),
+            inputUrl = URL(cmd.getOptionValue(OPTION_INPUT_FILE).trim())
         )
         if (cmd.hasOption(OPTION_SERVICE_CACHE))
             context.addService(Context.SERVICE_CACHE)

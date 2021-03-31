@@ -1,13 +1,14 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.21] 2021-03-30
+## [0.0.20] 2021-03-31
+### Added
+- README generator
+- Add swagger-ui code generator
+
 ### Changed
 - Do not overide `application..yml` files
-
-## [0.0.20] 2021-03-30
-### Changed
+- Add missing repository `wutsi-stream-rabbitmq` in `pom.xml`
 - Exclude from code coverage configuration classes
-- Add swagger-ui code generator
 
 ## [0.0.19] 2021-03-29
 ### Changed
