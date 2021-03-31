@@ -64,6 +64,13 @@ abstract class AbstractCodeGeneratorCLI(
                 .desc("Your github username")
                 .build()
         )
+        options.addOption(
+            Option.builder(OPTION_GITHUB_PROJECT)
+                .hasArg()
+                .argName("github-project")
+                .desc("The github project name")
+                .build()
+        )
     }
 
     override fun run(args: Array<String>, cmd: CommandLine) {

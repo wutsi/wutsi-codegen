@@ -124,6 +124,10 @@
       <name>bintray</name>
       <url>http://jcenter.bintray.com</url>
     </repository>
+    <repository>
+      <id>wutsi-stream-rabbitmq</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-stream-rabbitmq</url>
+    </repository>
   </repositories>
 
   <build>
@@ -217,6 +221,10 @@
           </execution>
         </executions>
         <configuration>
+          <excludes>
+            <exclude>**/config/*</exclude>
+            <exclude>**/Application*</exclude>
+          </excludes>
           <rules>
             <rule implementation="org.jacoco.maven.RuleConfiguration">
               <element>BUNDLE</element>

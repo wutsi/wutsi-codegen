@@ -3,10 +3,10 @@
 
 [![JDK](https://img.shields.io/badge/jdk-11-brightgreen.svg)](https://jdk.java.net/11/)
 ![](https://img.shields.io/badge/language-kotlin-blue.svg)
-[![JDK](https://img.shields.io/badge/version-0.0.19-brightgreen.svg)](https://jdk.java.net/11/)
+[![](https://img.shields.io/badge/version-0.0.20-brightgreen.svg)]
 
 Generates code from OpenAPI V3 specifications.
 
 # Code Generators
-- [SDK Code Generator](src/doc/SDK.md)
-- [Server Code Generator](src/doc/Server.md)
+- [SDK Code Generator](docs/SDK.md)
+- [Server Code Generator](docs/Server.md)

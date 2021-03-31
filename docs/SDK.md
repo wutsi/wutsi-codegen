@@ -2,19 +2,14 @@ Generate the API SDK in Kotlin from an OpenAPIV3 schemas.
 
 ## Usage
 ```
-java -jar wutsi-codegen sdk
-    -i <openapi-file-url>
-    -n <api-name>
-    -p <base-package>
-    -o <output-dir>
-    -g <github-user>
-
-  <openapi-file-url> REQUIRED - URL of the OpenAPI file
-  <api-name>         REQUIRED - Name of the API
-  <base-package>     REQUIRED - Base package of the SDK
-  <output-dir>       REQUIRED - Output directory to the generate files will be stored. Default = ./out.
-  <github-user>      OPTIONAL - Github username.
-```
+java wutsi-codegen-<version>.jar sdk [options]
+ -github_project <github-project>   The github project name
+ -github_user <github-user>         Your github username
+ -in <openapi-file-url>             (REQUIRED) URL of the OpenAPIV3 file that describe the API
+ -jdk <jdk-version>                 Version of the JDK of the project. Default: 1.8
+ -name <api-name>                   (REQUIRED) Name of the API. Ex: like
+ -out <output-dir>                  (REQUIRED) Output directory. Where to store the generated files
+ -package <base-package>            (REQUIRED) Base package of the api. Ex: com.foo.bar```
 
 ## Output
 The SDK generator will generate the following files:

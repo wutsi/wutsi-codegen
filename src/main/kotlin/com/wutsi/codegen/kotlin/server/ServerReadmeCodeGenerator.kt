@@ -3,13 +3,18 @@ package com.wutsi.codegen.kotlin.server
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.AbstractMustacheCodeGenerator
 import com.wutsi.codegen.core.util.CaseUtil
-import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 
-class ServerConfigCodeGenerator(private val mapper: KotlinMapper) : AbstractMustacheCodeGenerator() {
+class ServerReadmeCodeGenerator() : AbstractMustacheCodeGenerator() {
     override fun toMustacheScope(openAPI: OpenAPI, context: Context) = mapOf(
-        "services" to toServices(context)
+        "services" to toServices(context),
+        "setupDatabase" to context.hasService(Context.SERVICE_DATABASE),
+        "setupGithub" to (context.hasService(Context.SERVICE_MQUEUE) || context.hasService(Context.SERVICE_DATABASE)),
+        "githubProject" to context.githubProject,
+        "description" to openAPI.info.description,
+        "githubUser" to context.githubUser,
+        "jdkVersion" to context.jdkVersion
     )
 
     override fun canGenerate(file: File) = !file.exists()
@@ -30,16 +35,13 @@ class ServerConfigCodeGenerator(private val mapper: KotlinMapper) : AbstractMust
     }
 
     override fun generate(openAPI: OpenAPI, context: Context) {
-        generate("application.yml", openAPI, context)
-        generate("application-test.yml", openAPI, context)
-        generate("application-prod.yml", openAPI, context)
-    }
+        if (context.githubUser == null || context.githubUser == null)
+            return
 
-    private fun generate(filename: String, spec: OpenAPI, context: Context) {
         generate(
-            inputPath = "/kotlin/server/$filename.mustache",
-            outputFile = File("${context.outputDirectory}/src/main/resources/$filename"),
-            openAPI = spec,
+            inputPath = "/kotlin/server/README.md.mustache",
+            outputFile = File("${context.outputDirectory}/README.md"),
+            openAPI = openAPI,
             context = context
         )
     }

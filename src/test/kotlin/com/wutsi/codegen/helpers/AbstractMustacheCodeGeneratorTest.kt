@@ -64,6 +64,7 @@ internal abstract class AbstractMustacheCodeGeneratorTest {
     protected fun createOpenAPI(): OpenAPI {
         val openAPI = OpenAPI()
         openAPI.info = Info()
+        openAPI.info.title = "test"
         openAPI.info.version = "1.3.7"
         openAPI.info.description = "This api used for managing likes on links"
         return openAPI
