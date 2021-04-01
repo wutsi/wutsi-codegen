@@ -1,9 +1,11 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.21] 2021-03-31
+## [0.0.21] 2021-04-01
 ### Changed
 - data classes moved from package `.model` to `.dto`
 - Remove version from README
+### Fixed
+- Fix the hardcoded URL downloaded
 
 ## [0.0.20] 2021-03-31
 ### Added
