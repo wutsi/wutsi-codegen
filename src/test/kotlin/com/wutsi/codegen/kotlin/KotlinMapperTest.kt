@@ -48,7 +48,7 @@ internal class KotlinMapperTest {
         val type = mapper.toType("Foo", schema)
 
         assertEquals("Foo", type.name)
-        assertEquals("com.wutsi.codegen.test.model", type.packageName)
+        assertEquals("com.wutsi.codegen.test.dto", type.packageName)
         assertEquals(2, type.fields.size)
     }
 

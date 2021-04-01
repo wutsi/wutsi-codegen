@@ -17,7 +17,7 @@ import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.media.Schema
 
-abstract class AbstractModelCodeGenerator(protected val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
+abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
     abstract fun parameterAnnotationSpecs(field: Field): List<AnnotationSpec>
 
     override fun generate(openAPI: OpenAPI, context: Context) {

@@ -37,7 +37,7 @@ internal class SdkCodeGeneratorTest {
         val codegen = SdkCodeGenerator(mapper = KotlinMapper(context))
 
         assertEquals(4, codegen.generators.size)
-        assertTrue(codegen.generators[0] is SdkModelCodeGenerator)
+        assertTrue(codegen.generators[0] is SdkDtoCodeGenerator)
         assertTrue(codegen.generators[1] is SdkApiCodeGenerator)
         assertTrue(codegen.generators[2] is SdkMavenCodeGenerator)
         assertTrue(codegen.generators[3] is GitCodeGenerator)

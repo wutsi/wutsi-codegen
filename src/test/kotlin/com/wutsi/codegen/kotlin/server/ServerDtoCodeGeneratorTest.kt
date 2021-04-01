@@ -13,14 +13,14 @@ import java.math.BigDecimal
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-internal class ServerModelCodeGeneratorTest {
+internal class ServerDtoCodeGeneratorTest {
     val context = Context(
         apiName = "Test",
-        outputDirectory = "./target/wutsi/codegen/sdk",
+        outputDirectory = "./target/wutsi/codegen/server",
         basePackage = "com.wutsi.test"
     )
 
-    val codegen = ServerModelCodeGenerator(
+    val codegen = ServerDtoCodeGenerator(
         KotlinMapper(context)
     )
 
@@ -136,11 +136,11 @@ internal class ServerModelCodeGeneratorTest {
         )
 
         // Model files
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/ErrorResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeRequest.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/CreateLikeResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/GetStatsResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/SearchLikeResponse.kt").exists())
-        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/model/Like.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/dto/ErrorResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/dto/CreateLikeRequest.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/dto/CreateLikeResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/dto/GetStatsResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/dto/SearchLikeResponse.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/dto/Like.kt").exists())
     }
 }

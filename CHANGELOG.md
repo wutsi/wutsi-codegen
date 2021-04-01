@@ -1,10 +1,15 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.21] 2021-03-31
+### Changed
+- data classes moved from package `.model` to `.dto`
+- Remove version from README
+
 ## [0.0.20] 2021-03-31
 ### Added
 - README generator
 - Add swagger-ui code generator
-
+-
 ### Changed
 - Do not overide `application..yml` files
 - Add missing repository `wutsi-stream-rabbitmq` in `pom.xml`
