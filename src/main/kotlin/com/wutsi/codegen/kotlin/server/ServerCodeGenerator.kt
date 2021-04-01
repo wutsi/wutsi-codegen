@@ -10,7 +10,7 @@ import io.swagger.v3.oas.models.OpenAPI
 class ServerCodeGenerator(
     private val mapper: KotlinMapper,
     val generators: List<CodeGenerator> = listOf(
-        ServerModelCodeGenerator(mapper),
+        ServerDtoCodeGenerator(mapper),
         ServerDelegateCodeGenerator(mapper),
         ServerControllerCodeGenerator(mapper),
         ServerMavenCodeGenerator(mapper),

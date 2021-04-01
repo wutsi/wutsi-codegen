@@ -120,7 +120,7 @@ class KotlinMapper(private val context: Context) {
 
     fun <T> toType(name: String, schema: Schema<T>) = Type(
         name = toCamelCase(name, true),
-        packageName = toPackage(context.basePackage, "model"),
+        packageName = toPackage(context.basePackage, "dto"),
         fields = schema.properties?.map { toField(it.key, it.value, schema as Schema<Any>) } ?: emptyList()
     )
 

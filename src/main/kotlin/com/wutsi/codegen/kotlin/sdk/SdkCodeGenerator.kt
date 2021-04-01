@@ -9,7 +9,7 @@ import io.swagger.v3.oas.models.OpenAPI
 class SdkCodeGenerator(
     private val mapper: KotlinMapper,
     val generators: List<CodeGenerator> = listOf(
-        SdkModelCodeGenerator(mapper),
+        SdkDtoCodeGenerator(mapper),
         SdkApiCodeGenerator(mapper),
         SdkMavenCodeGenerator(mapper),
         GitCodeGenerator()
