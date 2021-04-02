@@ -84,9 +84,9 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
 
     override fun funCodeBloc(endpoint: Endpoint): CodeBlock {
         val params = mutableListOf<String>()
+        endpoint.parameters.forEach { params.add(it.field.name) }
         if (endpoint.request != null)
             params.add(REQUEST_VARIABLE)
-        endpoint.parameters.forEach { params.add(it.field.name) }
 
         val statement = "$DELEGATE_VARIABLE.$INVOKE_FUNCTION(" + params.joinToString() + ")"
         val builder = CodeBlock.builder()

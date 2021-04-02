@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.22] 2021-04-01
+### Fixed
+- Fixed order parameter in the controller
+
 ## [0.0.21] 2021-04-01
 ### Changed
 - data classes moved from package `.model` to `.dto`
