@@ -7,6 +7,7 @@
 - Fixed order parameter in the controller
 - Do not add CloudMQ to Heroku server
 - API Link in README
+- SDK CLI code generator
 
 ## [0.0.21] 2021-04-01
 ### Changed
