@@ -1,5 +1,11 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.23] 2021-04-03
+### Added
+- SDK GithubActions generator
+- SDK Readme generator
+- CORS Filter
+
 ## [0.0.22] 2021-04-02
 ### Added
 - Support object

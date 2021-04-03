@@ -31,7 +31,7 @@ internal class ServerGithubActionsCodeGeneratorTest : AbstractMustacheCodeGenera
         val openAPI = createOpenAPI()
         val context = Context(
             apiName = "Test",
-            outputDirectory = "./target/wutsi/codegen/github",
+            outputDirectory = "./target/wutsi/codegen/server",
             basePackage = "com.wutsi.test",
             jdkVersion = "1.8",
             herokuApp = "foo-app"
