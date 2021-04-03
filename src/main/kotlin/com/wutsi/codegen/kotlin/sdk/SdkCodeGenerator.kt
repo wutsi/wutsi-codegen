@@ -12,7 +12,9 @@ class SdkCodeGenerator(
         SdkDtoCodeGenerator(mapper),
         SdkApiCodeGenerator(mapper),
         SdkMavenCodeGenerator(mapper),
-        GitCodeGenerator()
+        GitCodeGenerator(),
+        SdkGithubActionsCodeGenerator(),
+        SdkReadmeCodeGenerator()
     )
 ) : CodeGenerator {
     override fun generate(openAPI: OpenAPI, context: Context) {
