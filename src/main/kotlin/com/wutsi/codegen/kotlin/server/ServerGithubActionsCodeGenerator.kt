@@ -35,8 +35,9 @@ class ServerGithubActionsCodeGenerator : AbstractMustacheCodeGenerator() {
             addons.add(mapOf("addonName" to "memcachier"))
         if (context.hasService(Context.SERVICE_DATABASE))
             addons.add(mapOf("addonName" to "heroku-postgresql"))
-        if (context.hasService(Context.SERVICE_MQUEUE))
-            addons.add(mapOf("addonName" to "cloudamqp"))
+//        Never add MQUEUE.. Queues are shared
+//        if (context.hasService(Context.SERVICE_MQUEUE))
+//            addons.add(mapOf("addonName" to "cloudamqp"))
         return addons
     }
 

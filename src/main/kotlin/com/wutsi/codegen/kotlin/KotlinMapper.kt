@@ -15,6 +15,7 @@ import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.media.ArraySchema
+import io.swagger.v3.oas.models.media.ObjectSchema
 import io.swagger.v3.oas.models.media.Schema
 import io.swagger.v3.oas.models.parameters.CookieParameter
 import io.swagger.v3.oas.models.parameters.HeaderParameter
@@ -157,14 +158,13 @@ class KotlinMapper(private val context: Context) {
     }
 
     fun <T> toParametrizedType(property: Schema<T>): Type? {
-        var result: KClass<*>? = null
-        if (property.type == "array") {
-            val ref = (property as ArraySchema).items?.`$ref`
-            val type = ref?.let { context.getType(it) } ?: null
-            if (type == null)
-                throw IllegalStateException("Unable to resolve the reference: $ref")
+        if (property.type == "array" || property.type == "object") {
+            val ref = if (property.type == "array")
+                (property as ArraySchema).items?.`$ref`
+            else
+                (property as ObjectSchema).`$ref`
 
-            return type
+            return ref?.let { context.getType(it) } ?: throw IllegalStateException("Unable to resolve the reference: $ref")
         } else {
             return null
         }

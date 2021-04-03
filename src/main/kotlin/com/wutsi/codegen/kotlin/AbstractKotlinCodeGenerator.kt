@@ -99,6 +99,7 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
                 LocalDate::class -> "LocalDate.now()"
                 OffsetDateTime::class -> "OffsetDateTime.now()"
                 List::class -> "emptyList()"
+                Any::class -> if (field.parametrizedType != null) "${field.parametrizedType.name}()" else null
                 else -> return null
             }
         } else {

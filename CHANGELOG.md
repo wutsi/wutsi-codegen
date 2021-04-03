@@ -1,5 +1,14 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.22] 2021-04-02
+### Added
+- Support object
+### Fixed
+- Fixed order parameter in the controller
+- Do not add CloudMQ to Heroku server
+- API Link in README
+- SDK CLI code generator
+
 ## [0.0.21] 2021-04-01
 ### Changed
 - data classes moved from package `.model` to `.dto`

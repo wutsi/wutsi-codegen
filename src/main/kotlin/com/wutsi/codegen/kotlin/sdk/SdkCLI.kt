@@ -4,10 +4,9 @@ import com.wutsi.codegen.core.generator.AbstractCodeGeneratorCLI
 import com.wutsi.codegen.core.generator.CodeGeneratorFactory
 import com.wutsi.codegen.core.openapi.DefaultOpenAPILoader
 import com.wutsi.codegen.core.openapi.OpenAPILoader
-import com.wutsi.codegen.kotlin.server.ServerCodeGeneratorFactory
 
 class SdkCLI(
-    codeGeneratorFactory: CodeGeneratorFactory = ServerCodeGeneratorFactory(),
+    codeGeneratorFactory: CodeGeneratorFactory = SdkCodeGeneratorFactory(),
     openAPILoader: OpenAPILoader = DefaultOpenAPILoader()
 ) : AbstractCodeGeneratorCLI(codeGeneratorFactory, openAPILoader) {
     override fun name() = "sdk"

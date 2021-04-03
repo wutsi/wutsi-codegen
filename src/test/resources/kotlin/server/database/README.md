@@ -56,4 +56,5 @@ $ mvn spring-boot:run
 That's it... the API is up and running! Start sending requests :-)
 
 # Links
-- [API](docs/api/)
+- [API](https://foo.github.io/test-service/api/)
+
