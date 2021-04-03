@@ -2,7 +2,6 @@ package com.wutsi.codegen.kotlin.server
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.helpers.AbstractMustacheCodeGeneratorTest
-import com.wutsi.codegen.kotlin.KotlinMapper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -15,7 +14,7 @@ internal class ServerConfigCodeGeneratorTest : AbstractMustacheCodeGeneratorTest
         jdkVersion = "1.8"
     )
 
-    override fun getCodeGenerator(context: Context) = ServerConfigCodeGenerator(KotlinMapper(context))
+    override fun getCodeGenerator(context: Context) = ServerConfigCodeGenerator()
 
     @Test
     fun `generate`() {

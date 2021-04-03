@@ -15,7 +15,7 @@ class ServerCodeGenerator(
         ServerControllerCodeGenerator(mapper),
         ServerMavenCodeGenerator(mapper),
         ServerLauncherCodeGenerator(),
-        ServerConfigCodeGenerator(mapper),
+        ServerConfigCodeGenerator(),
         ServerHerokuCodeGenerator(mapper),
         EditorConfigCodeGenerator(),
         ServerGithubActionsCodeGenerator(),
