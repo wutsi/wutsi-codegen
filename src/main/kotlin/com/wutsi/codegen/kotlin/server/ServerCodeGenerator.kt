@@ -23,7 +23,8 @@ class ServerCodeGenerator(
         CacheCodeGenerator(),
         MQueueCodeGenerator(),
         SwaggerCodeGenerator(),
-        ServerReadmeCodeGenerator()
+        ServerReadmeCodeGenerator(),
+        CorsCodeGenerator()
     )
 ) : CodeGenerator {
 

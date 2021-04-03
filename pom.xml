@@ -25,6 +25,7 @@
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <kotlinpoet.version>1.7.2</kotlinpoet.version>
     <mustache.version>0.9.4</mustache.version>
+    <servlet-api.version>2.5</servlet-api.version>
     <spring.version>5.3.5</spring.version>
     <spring-boot.version>2.4.4</spring-boot.version>
     <spring-tx.version>2.4.4</spring-tx.version>
@@ -105,6 +106,11 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
       <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-api.version}</version>
     </dependency>
 
     <dependency>
