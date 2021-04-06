@@ -28,7 +28,7 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
     fun loadModels(spec: OpenAPI, context: Context): List<Type> {
         // Sort the key
         val stack = mutableListOf<String>()
-        spec.components.schemas.map { push(it.key, it.value, stack) }
+        spec.components?.schemas?.map { push(it.key, it.value, stack) }
 
         // Load
         val result = mutableListOf<Type>()
@@ -42,7 +42,7 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
                 context.register(key, type)
             }
         }
-        spec.components.schemas.map { mapper.toType(it.key, it.value) }
+        spec.components?.schemas?.map { mapper.toType(it.key, it.value) }
 
         return result
     }
