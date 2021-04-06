@@ -17,6 +17,7 @@ class ServerMavenCodeGenerator(private val mapper: KotlinMapper) : AbstractMaven
         "jdkVersion" to context.jdkVersion,
         "version" to openAPI.info?.version,
         "githubUser" to context.githubUser,
+        "githubProject" to context.githubProject,
         "services" to toServices(context)
     )
 

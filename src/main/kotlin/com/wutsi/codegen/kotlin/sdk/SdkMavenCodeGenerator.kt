@@ -14,9 +14,10 @@ class SdkMavenCodeGenerator(private val mapper: KotlinMapper) : AbstractMavenCod
         "groupId" to context.basePackage,
         "jdkVersion" to context.jdkVersion,
         "version" to openAPI.info?.version,
-        "githubUser" to context.githubUser
+        "githubUser" to context.githubUser,
+        "githubProject" to context.githubProject
     )
 
     fun artifactId(context: Context): String =
-        CaseUtil.toSnakeCase(context.apiName.toLowerCase()) + "-sdk"
+        CaseUtil.toSnakeCase(context.apiName.toLowerCase()) + "-sdk-kotlin"
 }

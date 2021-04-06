@@ -89,6 +89,7 @@ abstract class AbstractCodeGeneratorCLI(
         basePackage = cmd.getOptionValue(OPTION_BASE_PACKAGE).trimIndent(),
         outputDirectory = cmd.getOptionValue(OPTION_OUTPUT_DIR).trim(),
         jdkVersion = cmd.getOptionValue(OPTION_JDK_VERSION)?.trimIndent() ?: DEFAULT_JDK_VERSION,
-        githubUser = cmd.getOptionValue(OPTION_GITHUB_USER)?.trim()
+        githubUser = cmd.getOptionValue(OPTION_GITHUB_USER)?.trim(),
+        githubProject = cmd.getOptionValue(OPTION_GITHUB_PROJECT)?.trim()
     )
 }
