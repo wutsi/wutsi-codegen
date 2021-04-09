@@ -6,7 +6,7 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.24</version>
+  <version>0.0.25</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>

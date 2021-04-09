@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.util.FileSystemUtils
 import java.io.File
+import kotlin.test.assertFalse
 
 internal class MQueueCodeGeneratorTest {
     val context = Context(
@@ -26,7 +27,7 @@ internal class MQueueCodeGeneratorTest {
     @Test
     fun localConfiguration() {
         val openAPI = createOpenAPI()
-        context.addService(Context.SERVICE_CACHE)
+        context.addService(Context.SERVICE_MQUEUE)
 
         codegen.generate(openAPI, context)
 
@@ -74,7 +75,7 @@ internal class MQueueCodeGeneratorTest {
     @Test
     fun remoteConfiguration() {
         val openAPI = createOpenAPI()
-        context.addService(Context.SERVICE_CACHE)
+        context.addService(Context.SERVICE_MQUEUE)
 
         codegen.generate(openAPI, context)
 
@@ -147,6 +148,16 @@ internal class MQueueCodeGeneratorTest {
             """.trimIndent(),
             text.trimIndent()
         )
+    }
+
+    @Test
+    private fun `do not generate files when service not enabled`() {
+        val openAPI = createOpenAPI()
+
+        codegen.generate(openAPI, context)
+
+        assertFalse(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/MQueueRemoteConfiguration.kt").exists())
+        assertFalse(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/MQueueLocalConfiguration.kt").exists())
     }
 
     private fun createOpenAPI(): OpenAPI {

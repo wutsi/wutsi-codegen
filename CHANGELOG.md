@@ -1,6 +1,10 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.23] 2021-04-03
+## [0.0.25] 2021-04-08
+### Changes
+- Do not generate cache/mqueue config when flag is not present in CLI
+
+## [0.0.24] 2021-04-03
 ### Changes
 - pom.xml SDK artifact-id
 

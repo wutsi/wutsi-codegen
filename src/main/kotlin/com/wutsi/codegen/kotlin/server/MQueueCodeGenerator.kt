@@ -29,6 +29,9 @@ import kotlin.reflect.KClass
 
 class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
+        if (!context.hasService(Context.SERVICE_MQUEUE))
+            return
+
         generateLocalConfiguration(context)
         generateRemoteConfiguration(context)
     }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.util.FileSystemUtils
 import java.io.File
+import kotlin.test.assertFalse
 
 internal class CacheCodeGeneratorTest {
     val context = Context(
@@ -131,6 +132,16 @@ internal class CacheCodeGeneratorTest {
             """.trimIndent(),
             text.trimIndent()
         )
+    }
+
+    @Test
+    private fun `do not generate files when service not enabled`() {
+        val openAPI = createOpenAPI()
+
+        codegen.generate(openAPI, context)
+
+        assertFalse(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/CacheRemoteConfiguration.kt").exists())
+        assertFalse(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/CacheLocalConfiguration.kt").exists())
     }
 
     private fun createOpenAPI(): OpenAPI {
