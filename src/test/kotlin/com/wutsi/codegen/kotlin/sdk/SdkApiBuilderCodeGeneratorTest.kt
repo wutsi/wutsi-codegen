@@ -34,7 +34,7 @@ internal class SdkApiBuilderCodeGeneratorTest {
                 import com.fasterxml.jackson.databind.ObjectMapper
 
                 public class TestApiBuilder {
-                  public fun build(env: Environment, mapper: ObjectMapper) = Feign.builder()
+                  public fun build(env: Environment, mapper: ObjectMapper) = feign.Feign.builder()
                     .client(feign.okhttp.OkHttpClient())
                     .encoder(feign.jackson.JacksonEncoder(mapper))
                     .decoder(feign.jackson.JacksonDecoder(mapper))
