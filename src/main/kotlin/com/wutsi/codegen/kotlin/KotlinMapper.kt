@@ -11,6 +11,7 @@ import com.wutsi.codegen.model.ParameterType.HEADER
 import com.wutsi.codegen.model.ParameterType.PATH
 import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
+import com.wutsi.codegen.model.Server
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.Operation
@@ -55,7 +56,17 @@ class KotlinMapper(private val context: Context) {
     fun toAPI(openAPI: OpenAPI) = Api(
         packageName = context.basePackage,
         name = toCamelCase("${context.apiName}Api", true),
-        endpoints = toEndpoints(openAPI)
+        endpoints = toEndpoints(openAPI),
+        servers = toServers(openAPI)
+    )
+
+    fun toServers(openAPI: OpenAPI): List<Server> {
+        return openAPI.servers?.map { toServer(it) } ?: emptyList()
+    }
+
+    fun toServer(server: io.swagger.v3.oas.models.servers.Server) = Server(
+        url = server.url,
+        description = server.description
     )
 
     fun toEndpoints(openAPI: OpenAPI): List<Endpoint> {

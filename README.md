@@ -7,6 +7,9 @@
 
 Generates code from OpenAPI V3 specifications.
 
+# Usage
+...
+
 # Code Generators
 - [SDK Code Generator](docs/SDK.md)
 - [Server Code Generator](docs/Server.md)

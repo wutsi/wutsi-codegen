@@ -4,9 +4,9 @@ info:
     description: This api used for managing likes on links
     version: 0.0.3
 servers:
-    -   url: 'https://com-wutsi-prod-like.herokuapp.com'
+    -   url: 'https://app-prod.herokuapp.com'
         description: Production
-    -   url: 'https://com-wutsi-int-like.herokuapp.com'
+    -   url: 'https://app-sandbox.herokuapp.com'
         description: Sandbox
 paths:
     /v1/likes:

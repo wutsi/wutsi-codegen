@@ -23,6 +23,9 @@ import kotlin.reflect.KClass
 
 class CacheCodeGenerator : AbstractKotlinCodeGenerator() {
     override fun generate(openAPI: OpenAPI, context: Context) {
+        if (!context.hasService(Context.SERVICE_CACHE))
+            return
+
         generateLocalConfiguration(context)
         generateRemoteConfiguration(context)
     }
