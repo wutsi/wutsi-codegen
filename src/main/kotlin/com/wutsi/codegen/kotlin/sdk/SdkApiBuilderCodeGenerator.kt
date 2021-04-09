@@ -44,7 +44,7 @@ class SdkApiBuilderCodeGenerator(private val mapper: KotlinMapper) : AbstractKot
             .addCode(
                 CodeBlock.of(
                     """
-                        return Feign.builder()
+                        return feign.Feign.builder()
                           .client(feign.okhttp.OkHttpClient())
                           .encoder(feign.jackson.JacksonEncoder(mapper))
                           .decoder(feign.jackson.JacksonDecoder(mapper))
