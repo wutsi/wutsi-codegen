@@ -1,6 +1,8 @@
 # See https://keepachangelog.com/en/1.0.0/
 
 ## [0.0.25] 2021-04-08
+### Added
+- Added SDK environment enum class
 ### Changes
 - Do not generate cache/mqueue config when flag is not present in CLI
 

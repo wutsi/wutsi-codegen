@@ -61,7 +61,7 @@ class KotlinMapper(private val context: Context) {
     )
 
     fun toServers(openAPI: OpenAPI): List<Server> {
-        return openAPI.servers.map { toServer(it) }
+        return openAPI.servers?.map { toServer(it) } ?: emptyList()
     }
 
     fun toServer(server: io.swagger.v3.oas.models.servers.Server) = Server(

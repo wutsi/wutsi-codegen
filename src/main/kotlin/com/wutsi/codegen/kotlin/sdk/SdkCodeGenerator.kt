@@ -15,7 +15,8 @@ class SdkCodeGenerator(
         GitCodeGenerator(),
         SdkGithubActionsCodeGenerator(),
         SdkReadmeCodeGenerator(),
-        SdkEnvironmentGenerator()
+        SdkEnvironmentGenerator(),
+        SdkApiBuilderCodeGenerator(mapper)
     )
 ) : CodeGenerator {
     override fun generate(openAPI: OpenAPI, context: Context) {

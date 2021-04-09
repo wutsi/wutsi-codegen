@@ -27,7 +27,7 @@ class SdkEnvironmentGenerator : AbstractKotlinCodeGenerator() {
     }
 
     private fun toModelTypeSpec(openAPI: OpenAPI, context: Context): TypeSpec {
-        val spec = TypeSpec.classBuilder(ClassName(context.basePackage, "Environment"))
+        val spec = TypeSpec.classBuilder(toClassname(context))
             .primaryConstructor(
                 FunSpec.constructorBuilder()
                     .addParameter("url", String::class, PUBLIC)
@@ -50,4 +50,6 @@ class SdkEnvironmentGenerator : AbstractKotlinCodeGenerator() {
         }
         return spec.build()
     }
+
+    fun toClassname(context: Context): ClassName = ClassName(context.basePackage, "Environment")
 }
