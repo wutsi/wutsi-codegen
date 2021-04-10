@@ -3,3 +3,8 @@ memcached:
   username: ${MEMCACHIER_USERNAME}
   password: ${MEMCACHIER_PASSWORD}
   servers: ${MEMCACHIER_SERVERS}
+
+logging:
+  pattern:
+    console: "request_id=%X{request_id} type=%level logger=%class{20} thread=%thread %m%n"
+    file: "request_id=%X{request_id} type=%level logger=%class{20} thread=%thread %m%n"

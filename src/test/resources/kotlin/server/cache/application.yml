@@ -35,3 +35,10 @@ spring:
 memcached:
   enabled: false
   ttl: ${SPRING_CACHE_TTL:86400}
+
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d type=%level logger=%class{20} thread=%thread %m%n"
+    file: "%d type=%level logger=%class{20} thread=%thread %m%n"
