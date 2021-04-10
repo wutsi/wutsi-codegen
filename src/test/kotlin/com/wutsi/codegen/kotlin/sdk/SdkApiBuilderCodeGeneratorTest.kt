@@ -44,7 +44,8 @@ internal class SdkApiBuilderCodeGeneratorTest {
                     .client(feign.okhttp.OkHttpClient())
                     .encoder(feign.jackson.JacksonEncoder(mapper))
                     .decoder(feign.jackson.JacksonDecoder(mapper))
-                    .logger(feign.slf4j.Slf4jLogger())
+                    .logger(feign.slf4j.Slf4jLogger(TestApi::class.java))
+                    .logLevel(feign.Logger.Level.BASIC)
                     .requestInterceptors(interceptors)
                     .target(TestApi::class.java, env.url)
                 }
