@@ -3,6 +3,7 @@
 ## [0.0.26] 2021-04-10
 ### Added
 - Add request interceptors
+- slf4j configuration
 
 ## [0.0.26] 2021-04-09
 ### Fixed
