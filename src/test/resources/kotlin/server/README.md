@@ -28,6 +28,11 @@ This api used for managing likes on links
         ...
         <servers>
             ...
+            <server>
+              <id>wutsi-tracing</id>
+              <username>${env.GITUB_USER}</username>
+              <password>${env.GITHUB_TOKEN}</password>
+            </server>
         </servers>
     </settings>
 ```

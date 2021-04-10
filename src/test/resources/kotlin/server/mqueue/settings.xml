@@ -12,6 +12,11 @@
       <password>${GITHUB_TOKEN}</password>
     </server>
     <server>
+      <id>wutsi-stream</id>
+      <username>foo</username>
+      <password>${GITHUB_TOKEN}</password>
+    </server>
+    <server>
       <id>wutsi-stream-rabbitmq</id>
       <username>foo</username>
       <password>${GITHUB_TOKEN}</password>

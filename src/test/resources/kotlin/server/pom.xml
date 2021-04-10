@@ -32,9 +32,15 @@
     <jackson-modules-java8.version>2.12.2</jackson-modules-java8.version>
     <klint.version>0.40.0</klint.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+    <wutsi-tracing.version>1.0.0</wutsi-tracing.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.wutsi.tracing</groupId>
+      <artifactId>wutsi-tracing</artifactId>
+      <version>${wutsi-tracing.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
@@ -113,6 +119,10 @@
       <id>central</id>
       <name>bintray</name>
       <url>http://jcenter.bintray.com</url>
+    </repository>
+    <repository>
+      <id>wutsi-tracing</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-tracing</url>
     </repository>
   </repositories>
 

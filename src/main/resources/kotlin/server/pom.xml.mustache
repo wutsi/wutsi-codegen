@@ -46,9 +46,15 @@
     <wutsi-stream-rabbitmq.version>1.0.0</wutsi-stream-rabbitmq.version>
     {{/mqueue}}
 {{/services}}
+    <wutsi-tracing.version>1.0.0</wutsi-tracing.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.wutsi.tracing</groupId>
+      <artifactId>wutsi-tracing</artifactId>
+      <version>${wutsi-tracing.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
@@ -172,6 +178,10 @@
       <id>central</id>
       <name>bintray</name>
       <url>http://jcenter.bintray.com</url>
+    </repository>
+    <repository>
+      <id>wutsi-tracing</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-tracing</url>
     </repository>
   {{#services}}
     {{#cache}}
