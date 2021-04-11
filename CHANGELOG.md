@@ -4,6 +4,8 @@
 ### Added
 - Add request interceptors
 - slf4j configuration
+### Fixed
+- Default value for `Boolean`
 
 ## [0.0.26] 2021-04-09
 ### Fixed

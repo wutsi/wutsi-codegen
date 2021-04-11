@@ -32,6 +32,7 @@
     <swagger-parser.version>2.0.24</swagger-parser.version>
     <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
     <wutsi-stream-rabbitmq.version>1.0.0</wutsi-stream-rabbitmq.version>
+    <wutsi-tracing.version>1.0.0</wutsi-tracing.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.code.style>official</kotlin.code.style>
@@ -59,9 +60,29 @@
       <id>wutsi-stream-rabbitmq</id>
       <url>https://maven.pkg.github.com/wutsi/wutsi-stream-rabbitmq</url>
     </repository>
+    <repository>
+      <id>wutsi-tracing</id>
+      <url>https://maven.pkg.github.com/wutsi/wutsi-tracing</url>
+    </repository>
   </repositories>
 
   <dependencies>
+    <dependency>
+      <groupId>com.wutsi</groupId>
+      <artifactId>wutsi-spring-memcached</artifactId>
+      <version>${wutsi-spring-memcached.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi</groupId>
+      <artifactId>wutsi-stream-rabbitmq</artifactId>
+      <version>${wutsi-stream-rabbitmq.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi.tracing</groupId>
+      <artifactId>wutsi-tracing</artifactId>
+      <version>${wutsi-tracing.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>com.github.spullara.mustache.java</groupId>
       <artifactId>compiler</artifactId>
@@ -148,17 +169,6 @@
       <artifactId>mockito-kotlin</artifactId>
       <version>${kotlin-mockito.version}</version>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.wutsi</groupId>
-      <artifactId>wutsi-spring-memcached</artifactId>
-      <version>${wutsi-spring-memcached.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.wutsi</groupId>
-      <artifactId>wutsi-stream-rabbitmq</artifactId>
-      <version>${wutsi-stream-rabbitmq.version}</version>
     </dependency>
   </dependencies>
 
