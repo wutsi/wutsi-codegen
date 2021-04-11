@@ -1,6 +1,6 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.26] 2021-04-10
+## [0.0.27] 2021-04-10
 ### Added
 - Add request interceptors
 - slf4j configuration
