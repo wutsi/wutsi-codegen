@@ -53,3 +53,11 @@ spring:
       minimum-pool-size: 8 #maximum pool size
       maximum-pool-size: 8 #maximum pool size
       max-lifetime: 1000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+
+
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"
+    file: "%d type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"

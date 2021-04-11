@@ -5,11 +5,14 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier.PUBLIC
+import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Api
+import feign.RequestInterceptor
 import io.swagger.v3.oas.models.OpenAPI
 
 class SdkApiBuilderCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
@@ -41,6 +44,14 @@ class SdkApiBuilderCodeGenerator(private val mapper: KotlinMapper) : AbstractKot
             .addModifiers(PUBLIC)
             .addParameter("env", SdkEnvironmentGenerator().toClassname(context))
             .addParameter("mapper", ObjectMapper::class)
+            .addParameter(
+                ParameterSpec.builder(
+                    "interceptors",
+                    List::class.parameterizedBy(RequestInterceptor::class)
+                )
+                    .defaultValue(CodeBlock.of("emptyList()"))
+                    .build()
+            )
             .addCode(
                 CodeBlock.of(
                     """
@@ -48,7 +59,9 @@ class SdkApiBuilderCodeGenerator(private val mapper: KotlinMapper) : AbstractKot
                           .client(feign.okhttp.OkHttpClient())
                           .encoder(feign.jackson.JacksonEncoder(mapper))
                           .decoder(feign.jackson.JacksonDecoder(mapper))
-                          .logger(feign.slf4j.Slf4jLogger())
+                          .logger(feign.slf4j.Slf4jLogger(${api.name}::class.java))
+                          .logLevel(feign.Logger.Level.BASIC)
+                          .requestInterceptors(interceptors)
                           .target(${api.name}::class.java, env.url)
                     """.trimIndent()
                 )

@@ -91,6 +91,7 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
 
             return when (field.type) {
                 String::class -> "\"\""
+                Boolean::class -> "false"
                 Int::class -> "0"
                 Long::class -> "0"
                 Float::class -> "0"
@@ -109,6 +110,7 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
                 Long::class -> field.default
                 Float::class -> field.default
                 Double::class -> field.default
+                Boolean::class -> field.default
                 else -> return null
             }
         }

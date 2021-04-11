@@ -24,7 +24,8 @@ class ServerCodeGenerator(
         MQueueCodeGenerator(),
         SwaggerCodeGenerator(),
         ServerReadmeCodeGenerator(),
-        CorsCodeGenerator()
+        CorsCodeGenerator(),
+        TracingCodeGenerator()
     )
 ) : CodeGenerator {
 
