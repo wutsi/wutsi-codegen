@@ -131,12 +131,8 @@
       <url>http://jcenter.bintray.com</url>
     </repository>
     <repository>
-      <id>wutsi-tracing</id>
-      <url>https://maven.pkg.github.com/wutsi/wutsi-tracing</url>
-    </repository>
-    <repository>
-      <id>wutsi-spring-memcached</id>
-      <url>https://maven.pkg.github.com/wutsi/wutsi-spring-memcached</url>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/wutsi/*</url>
     </repository>
   </repositories>
 

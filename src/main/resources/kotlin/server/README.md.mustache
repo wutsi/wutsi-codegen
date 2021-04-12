@@ -1,6 +1,5 @@
 {{#scope}}
 [![](https://github.com/{{githubUser}}/{{githubProject}}/actions/workflows/master.yml/badge.svg)](https://github.com/{{githubUser}}/{{githubProject}}/actions/workflows/master.yml)
-[![](https://github.com/{{githubUser}}/{{githubProject}}/actions/workflows/pull_request.yml/badge.svg)](https://github.com/{{githubUser}}/{{githubProject}}/actions/workflows/pull_request.yml)
 
 [![JDK](https://img.shields.io/badge/jdk-{{jdkVersion}}-brightgreen.svg)](https://jdk.java.net/{{jdkVersion}}/)
 [![](https://img.shields.io/badge/maven-3.6-brightgreen.svg)](https://maven.apache.org/download.cgi)
@@ -40,26 +39,10 @@
         <servers>
             ...
             <server>
-              <id>wutsi-tracing</id>
-              <username>${env.GITUB_USER}</username>
+              <id>github</id>
+              <username>${env.GITHUB_USER}</username>
               <password>${env.GITHUB_TOKEN}</password>
             </server>
-        {{#services}}
-            {{#cache}}
-            <server>
-              <id>wutsi-spring-memcached</id>
-              <username>${env.GITUB_USER}</username>
-              <password>${env.GITHUB_TOKEN}</password>
-            </server>
-            {{/cache}}
-            {{#mqueue}}
-            <server>
-              <id>wutsi-stream-rabbitmq</id>
-              <username>${env.GITUB_USER}</username>
-              <password>${env.GITHUB_TOKEN}</password>
-            </server>
-            {{/mqueue}}
-        {{/services}}
         </servers>
     </settings>
 ```
@@ -85,4 +68,5 @@ That's it... the API is up and running! Start sending requests :-)
 
 # Links
 - [API](https://{{githubUser}}.github.io/{{githubProject}}/api/)
+- [Documentation](docs/)
 {{/scope}}
