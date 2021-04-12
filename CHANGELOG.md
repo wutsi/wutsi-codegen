@@ -1,6 +1,6 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.27] 2021-04-10
+## [0.0.27] 2021-04-11
 ### Fixed
 - Supports nullable objects
 - Simplify maven dependencies to github
