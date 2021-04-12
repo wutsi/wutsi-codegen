@@ -11,8 +11,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
-import com.wutsi.tracing.RequestTracingContext
-import com.wutsi.tracing.TracingContextProvider
+import com.wutsi.tracing.TracingContext
 import feign.RequestInterceptor
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +19,6 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import javax.servlet.Filter
-import javax.servlet.http.HttpServletRequest
 import kotlin.reflect.KClass
 
 class TracingCodeGenerator : AbstractKotlinCodeGenerator() {
@@ -41,11 +39,9 @@ class TracingCodeGenerator : AbstractKotlinCodeGenerator() {
             .addAnnotation(Configuration::class)
             .primaryConstructor(
                 FunSpec.constructorBuilder()
-                    .addParameter(toParameterSpec("request", HttpServletRequest::class))
                     .addParameter(toParameterSpec("context", ApplicationContext::class))
                     .build()
             )
-            .addProperty(toPropertyStep("request", HttpServletRequest::class))
             .addProperty(toPropertyStep("context", ApplicationContext::class))
             .addFunction(
                 FunSpec.builder("tracingFilter")
@@ -54,33 +50,20 @@ class TracingCodeGenerator : AbstractKotlinCodeGenerator() {
                     .addCode(
                         CodeBlock.of(
                             """
-                                return com.wutsi.tracing.TracingFilter(tracingContextProvider())
+                                return com.wutsi.tracing.TracingFilter(tracingContext())
                             """.trimIndent()
                         )
                     )
                     .build()
             )
             .addFunction(
-                FunSpec.builder("requestTracingContext")
+                FunSpec.builder("tracingContext")
                     .addAnnotation(Bean::class)
-                    .returns(RequestTracingContext::class)
+                    .returns(TracingContext::class)
                     .addCode(
                         CodeBlock.of(
                             """
-                                return RequestTracingContext(request)
-                            """.trimIndent()
-                        )
-                    )
-                    .build()
-            )
-            .addFunction(
-                FunSpec.builder("tracingContextProvider")
-                    .addAnnotation(Bean::class)
-                    .returns(TracingContextProvider::class)
-                    .addCode(
-                        CodeBlock.of(
-                            """
-                                return TracingContextProvider(context)
+                                return com.wutsi.tracing.DynamicTracingContext(context)
                             """.trimIndent()
                         )
                     )
@@ -93,7 +76,7 @@ class TracingCodeGenerator : AbstractKotlinCodeGenerator() {
                     .addCode(
                         CodeBlock.of(
                             """
-                                return com.wutsi.tracing.TracingRequestInterceptor("$clientId", tracingContextProvider())
+                                return com.wutsi.tracing.TracingRequestInterceptor("$clientId", tracingContext())
                             """.trimIndent()
                         )
                     )

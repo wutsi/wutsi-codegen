@@ -1,6 +1,8 @@
 # See https://keepachangelog.com/en/1.0.0/
 
 ## [0.0.27] 2021-04-11
+### Added
+- Initialize MDC onEvent
 ### Fixed
 - Supports nullable objects
 - Simplify maven dependencies to github

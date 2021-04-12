@@ -33,7 +33,7 @@
     <klint.version>0.40.0</klint.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
     <wutsi-stream-rabbitmq.version>1.0.0</wutsi-stream-rabbitmq.version>
-    <wutsi-tracing.version>1.0.0</wutsi-tracing.version>
+    <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
   </properties>
 
   <dependencies>

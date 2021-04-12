@@ -16,6 +16,7 @@ import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.stream.EventStream
 import com.wutsi.stream.rabbitmq.RabbitMQEventStream
+import com.wutsi.tracing.TracingContext
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -72,7 +73,7 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
                     .addParameter(toParameterSpec("eventPublisher", ApplicationEventPublisher::class))
                     .build()
             )
-            .addProperty(toPropertyStep("eventPublisher", ApplicationEventPublisher::class))
+            .addProperty(toPropertySpec("eventPublisher", ApplicationEventPublisher::class))
             .addFunction(
                 FunSpec.builder("eventStream")
                     .addAnnotation(Bean::class)
@@ -107,14 +108,16 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
             )
             .primaryConstructor(
                 FunSpec.constructorBuilder()
+                    .addParameter(toParameterSpec("tracingContext", TracingContext::class))
                     .addParameter(toParameterSpec("eventPublisher", ApplicationEventPublisher::class))
                     .addParameter(toParameterSpec("url", String::class, "url"))
                     .addParameter(toParameterSpec("threadPoolSize", Int::class, "thread-pool-size"))
                     .build()
             )
-            .addProperty(toPropertyStep("eventPublisher", ApplicationEventPublisher::class))
-            .addProperty(toPropertyStep("url", String::class))
-            .addProperty(toPropertyStep("threadPoolSize", Int::class))
+            .addProperty(toPropertySpec("tracingContext", TracingContext::class))
+            .addProperty(toPropertySpec("eventPublisher", ApplicationEventPublisher::class))
+            .addProperty(toPropertySpec("url", String::class))
+            .addProperty(toPropertySpec("threadPoolSize", Int::class))
             .addFunction(
                 FunSpec.builder("connectionFactory")
                     .addAnnotation(Bean::class)
@@ -182,6 +185,7 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
                                     channel = channel(),
                                     handler = object : com.wutsi.stream.EventHandler {
                                         override fun onEvent(event: com.wutsi.stream.Event) {
+                                            com.wutsi.tracing.TracingMDCHelper.initMDC(tracingContext)
                                             eventPublisher.publishEvent(event)
                                         }
                                     }
@@ -226,7 +230,7 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
         return builder.build()
     }
 
-    private fun toPropertyStep(name: String, type: KClass<*>): PropertySpec =
+    private fun toPropertySpec(name: String, type: KClass<*>): PropertySpec =
         PropertySpec.builder(name, type)
             .initializer(name)
             .addModifiers(PRIVATE)
