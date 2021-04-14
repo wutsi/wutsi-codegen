@@ -7,6 +7,7 @@ import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.ParameterType.PATH
+import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
@@ -44,7 +45,26 @@ internal class SdkApiCodeGeneratorTest {
                                 name = "id",
                                 type = Long::class
                             )
+                        ),
+                        EndpointParameter(
+                            type = QUERY,
+                            name = "details",
+                            field = Field(
+                                name = "details",
+                                type = Boolean::class,
+                                default = "true"
+                            )
+                        ),
+                        EndpointParameter(
+                            type = QUERY,
+                            name = "color",
+                            field = Field(
+                                name = "color",
+                                type = String::class,
+                                default = "red"
+                            )
                         )
+
                     ),
                     response = Type(
                         packageName = "com.wutsi.test.model",
@@ -90,8 +110,12 @@ internal class SdkApiCodeGeneratorTest {
 
         val expected = """
             public interface Test {
-              @feign.RequestLine("GET /foo/{id}")
-              public fun getById(@feign.Param("id") id: kotlin.Long): com.wutsi.test.model.GetFooResponse
+              @feign.RequestLine("GET /foo/{id}?id={id}&details={details}&color={color}")
+              public fun getById(
+                @feign.Param("id") id: kotlin.Long,
+                @feign.Param("details") details: kotlin.Boolean = true,
+                @feign.Param("color") color: kotlin.String = "red"
+              ): com.wutsi.test.model.GetFooResponse
 
               @feign.RequestLine("DELETE /foo/{id}")
               public fun deleteById(@feign.Param("id") id: kotlin.Long): kotlin.Unit
