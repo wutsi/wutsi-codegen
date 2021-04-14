@@ -3,6 +3,8 @@
 ## [0.0.28] 2021-04-10
 ### Changed
 - Version of wutsi-stream-rabbitmq
+- Simplify maven dependency configuration for wutsi
+- Initialize MDC configure in the event handlers
 
 ## [0.0.27] 2021-04-10
 ### Added
