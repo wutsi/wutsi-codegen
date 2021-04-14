@@ -36,11 +36,9 @@ internal class TracingCodeGeneratorTest {
             """
                 package com.wutsi.test.config
 
-                import com.wutsi.tracing.RequestTracingContext
-                import com.wutsi.tracing.TracingContextProvider
+                import com.wutsi.tracing.TracingContext
                 import feign.RequestInterceptor
                 import javax.servlet.Filter
-                import javax.servlet.http.HttpServletRequest
                 import org.springframework.beans.factory.`annotation`.Autowired
                 import org.springframework.context.ApplicationContext
                 import org.springframework.context.`annotation`.Bean
@@ -49,22 +47,17 @@ internal class TracingCodeGeneratorTest {
                 @Configuration
                 public class TracingConfiguration(
                   @Autowired
-                  private val request: HttpServletRequest,
-                  @Autowired
                   private val context: ApplicationContext
                 ) {
                   @Bean
-                  public fun tracingFilter(): Filter = com.wutsi.tracing.TracingFilter(tracingContextProvider())
+                  public fun tracingFilter(): Filter = com.wutsi.tracing.TracingFilter(tracingContext())
 
                   @Bean
-                  public fun requestTracingContext(): RequestTracingContext = RequestTracingContext(request)
-
-                  @Bean
-                  public fun tracingContextProvider(): TracingContextProvider = TracingContextProvider(context)
+                  public fun tracingContext(): TracingContext = com.wutsi.tracing.DynamicTracingContext(context)
 
                   @Bean
                   public fun tracingRequestInterceptor(): RequestInterceptor =
-                      com.wutsi.tracing.TracingRequestInterceptor("test-server", tracingContextProvider())
+                      com.wutsi.tracing.TracingRequestInterceptor("test-server", tracingContext())
                 }
             """.trimIndent(),
             text.trimIndent()

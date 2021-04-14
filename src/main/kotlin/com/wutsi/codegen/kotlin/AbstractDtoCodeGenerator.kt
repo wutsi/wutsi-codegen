@@ -90,7 +90,7 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
             if (field.type == List::class)
                 type.parameterizedBy(ClassName(field.parametrizedType.packageName, field.parametrizedType.name))
             else
-                ClassName(field.parametrizedType.packageName, field.parametrizedType.name)
+                ClassName(field.parametrizedType.packageName, field.parametrizedType.name).copy(field.nullable)
         else
             type
     }

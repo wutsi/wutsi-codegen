@@ -17,7 +17,7 @@ class ServerReadmeCodeGenerator() : AbstractMustacheCodeGenerator() {
         "jdkVersion" to context.jdkVersion
     )
 
-    override fun canGenerate(file: File) = !file.exists()
+//    override fun canGenerate(file: File) = !file.exists()
 
     private fun toServices(context: Context): Map<String, Any?> {
         val result = mutableMapOf<String, Any?>()

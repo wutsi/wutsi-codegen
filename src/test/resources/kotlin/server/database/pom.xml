@@ -35,7 +35,7 @@
     <hikari-cp.version>4.0.3</hikari-cp.version>
     <postgresql.version>42.2.19</postgresql.version>
     <flyway.version>7.7.0</flyway.version>
-    <wutsi-tracing.version>1.0.0</wutsi-tracing.version>
+    <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
   </properties>
 
   <dependencies>
@@ -143,8 +143,8 @@
       <url>http://jcenter.bintray.com</url>
     </repository>
     <repository>
-      <id>wutsi-tracing</id>
-      <url>https://maven.pkg.github.com/wutsi/wutsi-tracing</url>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/wutsi/*</url>
     </repository>
   </repositories>
 

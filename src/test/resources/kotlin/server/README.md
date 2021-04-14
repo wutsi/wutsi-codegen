@@ -1,5 +1,4 @@
 [![](https://github.com/foo/test-service/actions/workflows/master.yml/badge.svg)](https://github.com/foo/test-service/actions/workflows/master.yml)
-[![](https://github.com/foo/test-service/actions/workflows/pull_request.yml/badge.svg)](https://github.com/foo/test-service/actions/workflows/pull_request.yml)
 
 [![JDK](https://img.shields.io/badge/jdk-1.8-brightgreen.svg)](https://jdk.java.net/1.8/)
 [![](https://img.shields.io/badge/maven-3.6-brightgreen.svg)](https://maven.apache.org/download.cgi)
@@ -29,8 +28,8 @@ This api used for managing likes on links
         <servers>
             ...
             <server>
-              <id>wutsi-tracing</id>
-              <username>${env.GITUB_USER}</username>
+              <id>github</id>
+              <username>${env.GITHUB_USER}</username>
               <password>${env.GITHUB_TOKEN}</password>
             </server>
         </servers>
@@ -58,4 +57,4 @@ That's it... the API is up and running! Start sending requests :-)
 
 # Links
 - [API](https://foo.github.io/test-service/api/)
-
+- [Documentation](docs/)
