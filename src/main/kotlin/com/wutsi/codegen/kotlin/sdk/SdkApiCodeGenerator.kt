@@ -7,6 +7,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier.ABSTRACT
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
@@ -81,7 +82,7 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCode
     }
 
     private fun toParameter(parameter: EndpointParameter): ParameterSpec {
-        val builder = ParameterSpec.builder(parameter.field.name, parameter.field.type)
+        val builder = ParameterSpec.builder(parameter.field.name, parameter.field.type.asTypeName().copy(parameter.field.nullable))
             .addAnnotation(
                 AnnotationSpec.builder(Param::class)
                     .addMember("\"${parameter.name}\"")
