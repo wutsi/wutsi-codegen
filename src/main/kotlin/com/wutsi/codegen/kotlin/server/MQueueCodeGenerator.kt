@@ -15,7 +15,6 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.stream.EventStream
-import com.wutsi.stream.rabbitmq.RabbitMQEventStream
 import com.wutsi.tracing.TracingContext
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,6 +24,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.annotation.Scheduled
 import java.util.concurrent.ExecutorService
 import kotlin.reflect.KClass
 
@@ -112,12 +112,16 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
                     .addParameter(toParameterSpec("eventPublisher", ApplicationEventPublisher::class))
                     .addParameter(toParameterSpec("url", String::class, "url"))
                     .addParameter(toParameterSpec("threadPoolSize", Int::class, "thread-pool-size"))
+                    .addParameter(toParameterSpec("maxRetries", Int::class, "rabbitmq.max-retries"))
+                    .addParameter(toParameterSpec("queueTtlSeconds", Long::class, "rabbitmq.queue-ttl-seconds"))
                     .build()
             )
             .addProperty(toPropertySpec("tracingContext", TracingContext::class))
             .addProperty(toPropertySpec("eventPublisher", ApplicationEventPublisher::class))
             .addProperty(toPropertySpec("url", String::class))
             .addProperty(toPropertySpec("threadPoolSize", Int::class))
+            .addProperty(toPropertySpec("maxRetries", Int::class))
+            .addProperty(toPropertySpec("queueTtlSeconds", Long::class))
             .addFunction(
                 FunSpec.builder("connectionFactory")
                     .addAnnotation(Bean::class)
@@ -176,13 +180,15 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
                             .addMember("destroyMethod=%S", "close")
                             .build()
                     )
-                    .returns(RabbitMQEventStream::class)
+                    .returns(EventStream::class)
                     .addCode(
                         CodeBlock.of(
                             """
                                 return com.wutsi.stream.rabbitmq.RabbitMQEventStream(
                                     name = "${CaseUtil.toCamelCase(context.apiName, false)}",
                                     channel = channel(),
+                                    queueTtlSeconds = queueTtlSeconds,
+                                    maxRetries = maxRetries,
                                     handler = object : com.wutsi.stream.EventHandler {
                                         override fun onEvent(event: com.wutsi.stream.Event) {
                                             com.wutsi.tracing.TracingMDCHelper.initMDC(tracingContext)
@@ -203,6 +209,22 @@ class MQueueCodeGenerator : AbstractKotlinCodeGenerator() {
                         CodeBlock.of(
                             """
                                 return com.wutsi.stream.rabbitmq.RabbitMQHealthIndicator(channel())
+                            """.trimIndent()
+                        )
+                    )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("replayDlq")
+                    .addAnnotation(
+                        AnnotationSpec.builder(Scheduled::class)
+                            .addMember("cron=\"\\\${rabbitmq.replay-cron}\"")
+                            .build()
+                    )
+                    .addCode(
+                        CodeBlock.of(
+                            """
+                                (eventStream() as com.wutsi.stream.rabbitmq.RabbitMQEventStream).replayDlq()
                             """.trimIndent()
                         )
                     )

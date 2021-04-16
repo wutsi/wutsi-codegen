@@ -1,6 +1,8 @@
 # See https://keepachangelog.com/en/1.0.0/
 
 ## [0.0.29] 2021-04-14
+### Changed
+- Integrate with wutsi-stream-rabbitmq 1.3.0 to support DLQ replay
 ### Fixed
 - API interface with query string
 
