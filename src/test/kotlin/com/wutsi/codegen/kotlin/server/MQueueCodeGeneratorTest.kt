@@ -89,11 +89,13 @@ internal class MQueueCodeGeneratorTest {
 
                 import com.rabbitmq.client.Channel
                 import com.rabbitmq.client.ConnectionFactory
-                import com.wutsi.stream.rabbitmq.RabbitMQEventStream
+                import com.wutsi.stream.EventStream
                 import com.wutsi.tracing.TracingContext
                 import java.util.concurrent.ExecutorService
                 import kotlin.Int
+                import kotlin.Long
                 import kotlin.String
+                import kotlin.Unit
                 import org.springframework.beans.factory.`annotation`.Autowired
                 import org.springframework.beans.factory.`annotation`.Value
                 import org.springframework.boot.actuate.health.HealthIndicator
@@ -101,6 +103,7 @@ internal class MQueueCodeGeneratorTest {
                 import org.springframework.context.ApplicationEventPublisher
                 import org.springframework.context.`annotation`.Bean
                 import org.springframework.context.`annotation`.Configuration
+                import org.springframework.scheduling.`annotation`.Scheduled
 
                 @Configuration
                 @ConditionalOnProperty(
@@ -115,7 +118,11 @@ internal class MQueueCodeGeneratorTest {
                   @Value(value="\${'$'}{rabbitmq.url}")
                   private val url: String,
                   @Value(value="\${'$'}{rabbitmq.thread-pool-size}")
-                  private val threadPoolSize: Int
+                  private val threadPoolSize: Int,
+                  @Value(value="\${'$'}{rabbitmq.max-retries}")
+                  private val maxRetries: Int,
+                  @Value(value="\${'$'}{rabbitmq.queue-ttl-seconds}")
+                  private val queueTtlSeconds: Long
                 ) {
                   @Bean
                   public fun connectionFactory(): ConnectionFactory {
@@ -134,9 +141,11 @@ internal class MQueueCodeGeneratorTest {
                       .createChannel()
 
                   @Bean(destroyMethod="close")
-                  public fun eventStream(): RabbitMQEventStream = com.wutsi.stream.rabbitmq.RabbitMQEventStream(
+                  public fun eventStream(): EventStream = com.wutsi.stream.rabbitmq.RabbitMQEventStream(
                       name = "test",
                       channel = channel(),
+                      queueTtlSeconds = queueTtlSeconds,
+                      maxRetries = maxRetries,
                       handler = object : com.wutsi.stream.EventHandler {
                           override fun onEvent(event: com.wutsi.stream.Event) {
                               com.wutsi.tracing.TracingMDCHelper.initMDC(tracingContext)
@@ -148,6 +157,11 @@ internal class MQueueCodeGeneratorTest {
                   @Bean
                   public fun rabbitMQHealthIndicator(): HealthIndicator =
                       com.wutsi.stream.rabbitmq.RabbitMQHealthIndicator(channel())
+
+                  @Scheduled(cron="\${'$'}{rabbitmq.replay-cron}")
+                  public fun replayDlq(): Unit {
+                    (eventStream() as com.wutsi.stream.rabbitmq.RabbitMQEventStream).replayDlq()
+                  }
                 }
             """.trimIndent(),
             text.trimIndent()

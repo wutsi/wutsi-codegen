@@ -7,12 +7,14 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier.ABSTRACT
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
+import com.wutsi.codegen.model.ParameterType.QUERY
 import feign.Param
 import feign.RequestLine
 import io.swagger.v3.oas.models.OpenAPI
@@ -45,7 +47,7 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCode
             .addModifiers(ABSTRACT)
             .addAnnotation(
                 AnnotationSpec.builder(RequestLine::class)
-                    .addMember("\"${endpoint.method} ${endpoint.path}\"")
+                    .addMember("%S", requestLine(endpoint))
                     .build()
             )
             .addParameters(endpoint.parameters.map { toParameter(it) })
@@ -65,12 +67,33 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCode
         return builder.build()
     }
 
+    private fun requestLine(endpoint: Endpoint): String {
+        val line = StringBuilder("${endpoint.method} ${endpoint.path}")
+        val queryParams = endpoint.parameters.filter { it.type == QUERY }
+        if (queryParams.isNotEmpty()) {
+            line.append("?")
+                .append(
+                    endpoint.parameters
+                        .map { "${it.name}={${it.name}}" }
+                        .joinToString("&")
+                )
+        }
+        return line.toString()
+    }
+
     private fun toParameter(parameter: EndpointParameter): ParameterSpec {
-        return ParameterSpec.builder(parameter.field.name, parameter.field.type)
+        val builder = ParameterSpec.builder(parameter.field.name, parameter.field.type.asTypeName().copy(parameter.field.nullable))
             .addAnnotation(
                 AnnotationSpec.builder(Param::class)
                     .addMember("\"${parameter.name}\"")
                     .build()
-            ).build()
+            )
+
+        val defaultValue = defaultValue(parameter.field)
+        if (defaultValue != null) {
+            builder.defaultValue(defaultValue)
+        }
+
+        return builder.build()
     }
 }

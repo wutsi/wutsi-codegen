@@ -24,8 +24,6 @@ memcached:
   {{#mqueue}}
 rabbitmq:
   enabled: true
-  url: ${CLOUDAMQP_URL}
-  thread-pool-size: 8
   {{/mqueue}}
 {{/services}}
 

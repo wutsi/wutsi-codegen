@@ -11,6 +11,7 @@ import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cache.annotation.EnableCaching
+import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import java.io.File
 
@@ -46,6 +47,8 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
             spec.addAnnotation(EnableTransactionManagement::class.java)
         if (context.hasService(Context.SERVICE_CACHE))
             spec.addAnnotation(EnableCaching::class.java)
+        if (context.hasService(Context.SERVICE_MQUEUE))
+            spec.addAnnotation(EnableScheduling::class.java)
 
         return spec.build()
     }
