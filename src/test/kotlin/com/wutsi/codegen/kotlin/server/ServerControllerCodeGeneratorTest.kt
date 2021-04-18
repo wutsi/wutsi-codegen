@@ -14,8 +14,10 @@ import com.wutsi.codegen.model.Request
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.springframework.util.FileSystemUtils
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,6 +37,11 @@ internal class ServerControllerCodeGeneratorTest {
     )
 
     val codegen = ServerControllerCodeGenerator(KotlinMapper(context))
+
+    @BeforeEach
+    fun setUp() {
+        FileSystemUtils.deleteRecursively(File(context.outputDirectory))
+    }
 
     @Test
     fun `toRequestMappingClass`() {
@@ -205,5 +212,10 @@ internal class ServerControllerCodeGeneratorTest {
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/DeleteController.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/StatsController.kt").exists())
         assertTrue(File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/endpoint/SearchController.kt").exists())
+
+        assertTrue(File("${context.outputDirectory}/src/test/kotlin/com/wutsi/test/endpoint/CreateControllerTest.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/test/kotlin/com/wutsi/test/endpoint/DeleteControllerTest.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/test/kotlin/com/wutsi/test/endpoint/StatsControllerTest.kt").exists())
+        assertTrue(File("${context.outputDirectory}/src/test/kotlin/com/wutsi/test/endpoint/SearchControllerTest.kt").exists())
     }
 }

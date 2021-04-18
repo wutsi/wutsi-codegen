@@ -44,7 +44,10 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
 
     override fun generate(openAPI: OpenAPI, context: Context) {
         val api = mapper.toAPI(openAPI)
-        api.endpoints.forEach { generateClass(it, context) }
+        api.endpoints.forEach {
+            generateClass(it, context)
+            generateTest(it, context)
+        }
     }
 
     fun generateClass(endpoint: Endpoint, context: Context): Boolean {
@@ -61,6 +64,9 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
             .build()
             .writeTo(file)
         return true
+    }
+
+    open fun generateTest(endpoint: Endpoint, context: Context) {
     }
 
     fun toTypeSpec(endpoint: Endpoint, context: Context): TypeSpec {
