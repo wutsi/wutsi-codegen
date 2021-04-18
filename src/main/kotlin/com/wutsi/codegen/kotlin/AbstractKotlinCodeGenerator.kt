@@ -20,6 +20,12 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
     protected fun getSourceDirectory(context: Context): File =
         File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}kotlin")
 
+    protected fun getResourceDirectory(context: Context): File =
+        File(context.outputDirectory + "${File.separator}src${File.separator}main${File.separator}resources")
+
+    protected fun getTestDirectory(context: Context): File =
+        File(context.outputDirectory + "${File.separator}src${File.separator}test${File.separator}kotlin")
+
     fun toValidationAnnotationSpecs(field: Field): List<AnnotationSpec> {
         val annotations = mutableListOf<AnnotationSpec>()
         if (field.required) {
