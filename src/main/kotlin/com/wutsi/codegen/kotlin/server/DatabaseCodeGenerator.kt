@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
@@ -34,7 +35,12 @@ class DatabaseCodeGenerator : AbstractKotlinCodeGenerator() {
                     .addAnnotation(Configuration::class)
                     .addType(
                         TypeSpec.companionObjectBuilder()
-                            .addProperty("cleaned", Boolean::class)
+                            .addProperty(
+                                PropertySpec.builder("cleaned", Boolean::class)
+                                    .mutable(true)
+                                    .initializer("false")
+                                    .build()
+                            )
                             .build()
                     )
                     .addFunction(

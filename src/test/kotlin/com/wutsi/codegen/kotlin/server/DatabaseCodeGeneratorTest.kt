@@ -58,7 +58,7 @@ internal class DatabaseCodeGeneratorTest {
                   }
 
                   public companion object {
-                    public val cleaned: Boolean
+                    public var cleaned: Boolean = false
                   }
                 }
             """.trimIndent(),
