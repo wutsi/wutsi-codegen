@@ -18,7 +18,7 @@ import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.media.Schema
 
 abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
-    abstract fun parameterAnnotationSpecs(field: Field): List<AnnotationSpec>
+    abstract fun parameterAnnotationSpecs(field: Field, getter: Boolean): List<AnnotationSpec>
 
     override fun generate(openAPI: OpenAPI, context: Context) {
         val models = loadModels(openAPI, context)
@@ -69,7 +69,7 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
             .addModifiers(KModifier.DATA)
             .primaryConstructor(
                 FunSpec.constructorBuilder()
-                    .addParameters(type.fields.map { toParameterSpec(it) })
+                    .addParameters(type.fields.map { toParameterSpec(it, true) })
                     .build()
             )
             .addProperties(type.fields.map { toPropertySpec(it) })
@@ -95,9 +95,9 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
             type
     }
 
-    fun toParameterSpec(field: Field): ParameterSpec {
+    fun toParameterSpec(field: Field, getter: Boolean): ParameterSpec {
         val builder = ParameterSpec.builder(field.name, toTypeName(field).copy(field.nullable))
-            .addAnnotations(parameterAnnotationSpecs(field))
+            .addAnnotations(parameterAnnotationSpecs(field, getter))
 
         val default = defaultValue(field, true)
         if (default != null)

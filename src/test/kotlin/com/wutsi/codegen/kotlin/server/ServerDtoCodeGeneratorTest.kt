@@ -28,34 +28,34 @@ internal class ServerDtoCodeGeneratorTest {
     fun `toParameterSpec - nullable type with default`() {
         val field = Field(name = "foo", type = String::class, nullable = true, default = "Yo")
 
-        assertEquals("foo: kotlin.String? = \"Yo\"", codegen.toParameterSpec(field).toString())
+        assertEquals("foo: kotlin.String? = \"Yo\"", codegen.toParameterSpec(field, true).toString())
     }
 
     @Test
     fun `toParameterSpec - non-nullable type with default`() {
         val field = Field(name = "foo", type = String::class, nullable = false, default = "Yo")
 
-        assertEquals("foo: kotlin.String = \"Yo\"", codegen.toParameterSpec(field).toString())
+        assertEquals("foo: kotlin.String = \"Yo\"", codegen.toParameterSpec(field, true).toString())
     }
 
     @Test
     fun `toParameterSpec - Required Int`() {
         val field = Field(name = "foo", type = Int::class, required = true, nullable = true)
-        val spec = codegen.toParameterSpec(field)
+        val spec = codegen.toParameterSpec(field, true)
         assertEquals("@get:javax.validation.constraints.NotNull foo: kotlin.Int? = null", spec.toString())
     }
 
     @Test
     fun `toParameterSpec - Required String`() {
         val field = Field(name = "foo", type = String::class, nullable = true, required = true)
-        val spec = codegen.toParameterSpec(field)
+        val spec = codegen.toParameterSpec(field, true)
         assertEquals("@get:javax.validation.constraints.NotBlank foo: kotlin.String? = null", spec.toString())
     }
 
     @Test
     fun `toParameterSpec - Required List`() {
         val field = Field(name = "foo", type = List::class, nullable = true, required = true)
-        val spec = codegen.toParameterSpec(field)
+        val spec = codegen.toParameterSpec(field, true)
         assertEquals(
             "@get:javax.validation.constraints.NotNull @get:javax.validation.constraints.NotEmpty foo: kotlin.collections.List? = null",
             spec.toString()
@@ -65,7 +65,7 @@ internal class ServerDtoCodeGeneratorTest {
     @Test
     fun `toParameterSpec - Min`() {
         val field = Field(name = "foo", type = Int::class, min = BigDecimal(5), nullable = false)
-        val spec = codegen.toParameterSpec(field)
+        val spec = codegen.toParameterSpec(field, true)
         assertEquals(
             "@get:javax.validation.constraints.Min(5) foo: kotlin.Int = 0",
             spec.toString()
@@ -75,7 +75,7 @@ internal class ServerDtoCodeGeneratorTest {
     @Test
     fun `toParameterSpec - Max`() {
         val field = Field(name = "foo", type = Int::class, max = BigDecimal(5), nullable = false)
-        val spec = codegen.toParameterSpec(field)
+        val spec = codegen.toParameterSpec(field, true)
         assertEquals(
             "@get:javax.validation.constraints.Max(5) foo: kotlin.Int = 0",
             spec.toString()
@@ -85,7 +85,7 @@ internal class ServerDtoCodeGeneratorTest {
     @Test
     fun `toParameterSpec - Size`() {
         val field = Field(name = "foo", type = String::class, minLength = 1, maxLength = 10, nullable = false)
-        val spec = codegen.toParameterSpec(field)
+        val spec = codegen.toParameterSpec(field, true)
         assertEquals(
             "@get:javax.validation.constraints.Size(min=1, max=10) foo: kotlin.String = \"\"",
             spec.toString()
@@ -95,7 +95,7 @@ internal class ServerDtoCodeGeneratorTest {
     @Test
     fun `toParameterSpec - Pattern`() {
         val field = Field(name = "foo", type = String::class, pattern = "xxx", nullable = true)
-        val spec = codegen.toParameterSpec(field)
+        val spec = codegen.toParameterSpec(field, true)
         assertEquals(
             "@get:javax.validation.constraints.Pattern(\"xxx\") foo: kotlin.String? = null",
             spec.toString()

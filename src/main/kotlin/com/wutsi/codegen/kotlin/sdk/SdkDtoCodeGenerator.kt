@@ -6,5 +6,5 @@ import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Field
 
 class SdkDtoCodeGenerator(mapper: KotlinMapper) : AbstractDtoCodeGenerator(mapper) {
-    override fun parameterAnnotationSpecs(field: Field): List<AnnotationSpec> = emptyList()
+    override fun parameterAnnotationSpecs(field: Field, getter: Boolean): List<AnnotationSpec> = emptyList()
 }

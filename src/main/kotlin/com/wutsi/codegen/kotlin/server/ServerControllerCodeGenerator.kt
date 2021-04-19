@@ -64,11 +64,11 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
             AnnotationSpec.builder(RequestBody::class).build()
         )
 
-    override fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec> {
+    override fun parameterAnnotations(parameter: EndpointParameter, getter: Boolean): List<AnnotationSpec> {
         val default = defaultValue(parameter.field)
         val result = mutableListOf<AnnotationSpec>()
         result.add(toAnnotationSpec(parameter, default))
-        result.addAll(super.toValidationAnnotationSpecs(parameter.field))
+        result.addAll(super.toValidationAnnotationSpecs(parameter.field, getter))
         return result
     }
 

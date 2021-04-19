@@ -3,6 +3,8 @@
 ## [0.0.29] 2021-04-17
 ### Added
 - Generate code for Flyway configuration
+### Fixed
+- Remove @get from method annotation
 
 ## [0.0.29] 2021-04-17
 ### Changed

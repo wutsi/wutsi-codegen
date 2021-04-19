@@ -34,7 +34,7 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
 
     protected abstract fun requestBodyAnnotations(requestBody: Request?): List<AnnotationSpec>
 
-    protected abstract fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec>
+    protected abstract fun parameterAnnotations(parameter: EndpointParameter, getter: Boolean): List<AnnotationSpec>
 
     protected abstract fun constructorSpec(endpoint: Endpoint, context: Context): FunSpec
 
@@ -93,7 +93,7 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
     fun toFunSpec(endpoint: Endpoint): FunSpec {
         val builder = FunSpec.builder(INVOKE_FUNCTION)
             .addAnnotations(functionAnnotations(endpoint))
-            .addParameters(endpoint.parameters.map { toParameterSpec(it) })
+            .addParameters(endpoint.parameters.map { toParameterSpec(it, false) })
             .addCode(funCodeBloc(endpoint))
 
         if (endpoint.request != null) {
@@ -112,9 +112,9 @@ abstract class AbstractServerCodeGenerator(protected val mapper: KotlinMapper) :
         return builder.build()
     }
 
-    fun toParameterSpec(parameter: EndpointParameter): ParameterSpec {
+    fun toParameterSpec(parameter: EndpointParameter, getter: Boolean): ParameterSpec {
         val builder = ParameterSpec.builder(parameter.field.name, parameter.field.type.asTypeName().copy(parameter.field.nullable))
-            .addAnnotations(parameterAnnotations(parameter))
+            .addAnnotations(parameterAnnotations(parameter, getter))
 
         val default = defaultValue(parameter.field)
         if (default != null)

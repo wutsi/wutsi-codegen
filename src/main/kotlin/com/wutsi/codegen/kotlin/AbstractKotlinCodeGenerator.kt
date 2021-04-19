@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.CodeGenerator
 import com.wutsi.codegen.model.Field
+import org.springframework.format.annotation.DateTimeFormat
 import java.io.File
 import java.time.LocalDate
 import java.time.OffsetDateTime
@@ -26,49 +27,40 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
     protected fun getTestDirectory(context: Context): File =
         File(context.outputDirectory + "${File.separator}src${File.separator}test${File.separator}kotlin")
 
-    fun toValidationAnnotationSpecs(field: Field): List<AnnotationSpec> {
+    fun toValidationAnnotationSpecs(field: Field, getter: Boolean): List<AnnotationSpec> {
         val annotations = mutableListOf<AnnotationSpec>()
         if (field.required) {
             if (field.type == String::class) {
                 annotations.add(
-                    AnnotationSpec.builder(NotBlank::class.java)
-                        .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
-                        .build()
+                    addGetter(AnnotationSpec.builder(NotBlank::class.java), getter).build()
                 )
             } else {
                 annotations.add(
-                    AnnotationSpec.builder(NotNull::class.java)
-                        .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
-                        .build()
+                    addGetter(AnnotationSpec.builder(NotNull::class.java), getter).build()
                 )
                 if (field.type == List::class) {
                     annotations.add(
-                        AnnotationSpec.builder(NotEmpty::class.java)
-                            .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
-                            .build()
+                        addGetter(AnnotationSpec.builder(NotEmpty::class.java), getter).build()
                     )
                 }
             }
         }
         if (field.min != null) {
             annotations.add(
-                AnnotationSpec.builder(Min::class.java)
-                    .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+                addGetter(AnnotationSpec.builder(Min::class.java), getter)
                     .addMember(field.min.toString())
                     .build()
             )
         }
         if (field.max != null) {
             annotations.add(
-                AnnotationSpec.builder(Max::class.java)
-                    .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+                addGetter(AnnotationSpec.builder(Max::class.java), getter)
                     .addMember(field.max.toString())
                     .build()
             )
         }
         if (field.minLength != null || field.maxLength != null) {
-            val builder = AnnotationSpec.builder(Size::class.java)
-                .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+            val builder = addGetter(AnnotationSpec.builder(Size::class.java), getter)
 
             if (field.minLength != null)
                 builder.addMember("min=" + field.minLength.toString())
@@ -79,13 +71,32 @@ abstract class AbstractKotlinCodeGenerator : CodeGenerator {
         }
         if (field.pattern != null) {
             annotations.add(
-                AnnotationSpec.builder(Pattern::class.java)
-                    .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+                addGetter(AnnotationSpec.builder(Pattern::class.java), getter)
                     .addMember("\"${field.pattern}\"")
                     .build()
             )
         }
+        if (field.type == LocalDate::class) {
+            annotations.add(
+                addGetter(AnnotationSpec.builder(DateTimeFormat::class.java), getter)
+                    .addMember("pattern=\"yyyy-MM-dd\"")
+                    .build()
+            )
+        }
+        if (field.type == OffsetDateTime::class) {
+            annotations.add(
+                addGetter(AnnotationSpec.builder(DateTimeFormat::class.java), getter)
+                    .addMember("pattern=\"yyyy-MM-dd'T'HH:mm:ssZ\"")
+                    .build()
+            )
+        }
         return annotations
+    }
+
+    private fun addGetter(builder: AnnotationSpec.Builder, getter: Boolean): AnnotationSpec.Builder {
+        if (getter)
+            builder.useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+        return builder
     }
 
     fun defaultValue(field: Field, nonNullableDefault: Boolean = false): String? {

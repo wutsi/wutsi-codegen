@@ -6,6 +6,6 @@ import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Field
 
 class ServerDtoCodeGenerator(mapper: KotlinMapper) : AbstractDtoCodeGenerator(mapper) {
-    override fun parameterAnnotationSpecs(field: Field): List<AnnotationSpec> =
-        toValidationAnnotationSpecs(field)
+    override fun parameterAnnotationSpecs(field: Field, getter: Boolean): List<AnnotationSpec> =
+        toValidationAnnotationSpecs(field, getter)
 }

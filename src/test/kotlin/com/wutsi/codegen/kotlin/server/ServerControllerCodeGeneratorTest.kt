@@ -74,7 +74,7 @@ internal class ServerControllerCodeGeneratorTest {
             name = "id",
             field = Field("id", String::class, required = true, default = "hello")
         )
-        val result = codegen.toParameterSpec(param)
+        val result = codegen.toParameterSpec(param, true)
         assertEquals(
             "@org.springframework.web.bind.`annotation`.PathVariable(name=\"id\") @get:javax.validation.constraints.NotBlank id: kotlin.String = \"hello\"",
             result.toString()
@@ -88,7 +88,7 @@ internal class ServerControllerCodeGeneratorTest {
             name = "id",
             field = Field("id", String::class)
         )
-        val result = codegen.toParameterSpec(param)
+        val result = codegen.toParameterSpec(param, true)
         assertEquals(
             "@org.springframework.web.bind.`annotation`.RequestHeader(name=\"id\", required=false) id: kotlin.String",
             result.toString()
@@ -102,7 +102,7 @@ internal class ServerControllerCodeGeneratorTest {
             name = "id",
             field = Field("id", String::class)
         )
-        val result = codegen.toParameterSpec(param)
+        val result = codegen.toParameterSpec(param, true)
         assertEquals(
             "@org.springframework.web.bind.`annotation`.RequestParam(name=\"id\", required=false) id: kotlin.String",
             result.toString()
