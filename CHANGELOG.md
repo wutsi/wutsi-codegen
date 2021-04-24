@@ -1,10 +1,12 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.29] 2021-04-17
+## [0.0.30] 2021-04-23
 ### Added
 - Generate code for Flyway configuration
+- Add @EnableScheduling annotation
 ### Fixed
 - Remove @get from method annotation
+- Add the date/time annotations
 
 ## [0.0.29] 2021-04-17
 ### Changed
