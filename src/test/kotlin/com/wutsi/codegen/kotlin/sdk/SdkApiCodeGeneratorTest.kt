@@ -110,7 +110,7 @@ internal class SdkApiCodeGeneratorTest {
 
         val expected = """
             public interface Test {
-              @feign.RequestLine("GET /foo/{id}?id={id}&details={details}&color={color}")
+              @feign.RequestLine("GET /foo/{id}?details={details}&color={color}")
               public fun getById(
                 @feign.Param("id") id: kotlin.Long,
                 @feign.Param("details") details: kotlin.Boolean = true,
