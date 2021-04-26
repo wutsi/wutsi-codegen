@@ -30,7 +30,7 @@ class ServerDelegateCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGene
     override fun requestBodyAnnotations(requestBody: Request?): List<AnnotationSpec> =
         emptyList()
 
-    override fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec> =
+    override fun parameterAnnotations(parameter: EndpointParameter, getter: Boolean): List<AnnotationSpec> =
         emptyList()
 
     override fun constructorSpec(endpont: Endpoint, context: Context): FunSpec =

@@ -11,6 +11,7 @@ import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cache.annotation.EnableCaching
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import java.io.File
@@ -42,6 +43,7 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
     private fun toTypeSpec(context: Context): TypeSpec {
         val spec = TypeSpec.classBuilder(ClassName(context.basePackage, CLASSNAME))
             .addAnnotation(SpringBootApplication::class)
+            .addAnnotation(EnableAsync::class)
 
         if (context.hasService(Context.SERVICE_DATABASE))
             spec.addAnnotation(EnableTransactionManagement::class.java)

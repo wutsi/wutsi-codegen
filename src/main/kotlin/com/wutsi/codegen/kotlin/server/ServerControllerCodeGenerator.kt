@@ -3,9 +3,12 @@ package com.wutsi.codegen.kotlin.server
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.KotlinMapper
@@ -15,6 +18,9 @@ import com.wutsi.codegen.model.ParameterType.HEADER
 import com.wutsi.codegen.model.ParameterType.PATH
 import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
+import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -58,11 +64,11 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
             AnnotationSpec.builder(RequestBody::class).build()
         )
 
-    override fun parameterAnnotations(parameter: EndpointParameter): List<AnnotationSpec> {
+    override fun parameterAnnotations(parameter: EndpointParameter, getter: Boolean): List<AnnotationSpec> {
         val default = defaultValue(parameter.field)
         val result = mutableListOf<AnnotationSpec>()
         result.add(toAnnotationSpec(parameter, default))
-        result.addAll(super.toValidationAnnotationSpecs(parameter.field))
+        result.addAll(super.toValidationAnnotationSpecs(parameter.field, getter))
         return result
     }
 
@@ -126,4 +132,43 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
             HEADER -> RequestHeader::class
             else -> throw IllegalStateException("Parameter type not supported: ${parameter.type}")
         }
+
+    override fun generateTest(endpoint: Endpoint, context: Context) {
+        val directory = getTestDirectory(context)
+        val packageName = packageName(endpoint, context)
+        val classname = className(endpoint) + "Test"
+        val file = File(
+            directory.absolutePath +
+                "/$packageName.$classname".replace('.', '/') +
+                ".kt"
+        )
+        if (file.exists()) {
+            return
+        }
+
+        System.out.println("Generating $file")
+        FileSpec.builder(packageName, classname)
+            .addType(
+                TypeSpec.classBuilder(ClassName(packageName, classname))
+                    .addAnnotation(
+                        AnnotationSpec.builder(SpringBootTest::class)
+                            .addMember("webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT")
+                            .build()
+                    )
+                    .addProperty(
+                        PropertySpec.builder("port", Int::class)
+                            .addAnnotation(LocalServerPort::class)
+                            .initializer("0")
+                            .build()
+                    )
+                    .addFunction(
+                        FunSpec.builder("invoke")
+                            .addAnnotation(Test::class)
+                            .build()
+                    )
+                    .build()
+            )
+            .build()
+            .writeTo(directory)
+    }
 }

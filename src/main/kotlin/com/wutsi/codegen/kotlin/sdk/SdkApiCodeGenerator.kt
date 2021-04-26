@@ -73,7 +73,7 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCode
         if (queryParams.isNotEmpty()) {
             line.append("?")
                 .append(
-                    endpoint.parameters
+                    queryParams
                         .map { "${it.name}={${it.name}}" }
                         .joinToString("&")
                 )

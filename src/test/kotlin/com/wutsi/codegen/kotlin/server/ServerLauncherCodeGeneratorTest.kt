@@ -45,8 +45,10 @@ internal class ServerLauncherCodeGeneratorTest {
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
+                import org.springframework.scheduling.`annotation`.EnableAsync
 
                 @SpringBootApplication
+                @EnableAsync
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -76,9 +78,11 @@ internal class ServerLauncherCodeGeneratorTest {
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
+                import org.springframework.scheduling.`annotation`.EnableAsync
                 import org.springframework.transaction.`annotation`.EnableTransactionManagement
 
                 @SpringBootApplication
+                @EnableAsync
                 @EnableTransactionManagement
                 public class Application
 
@@ -110,8 +114,10 @@ internal class ServerLauncherCodeGeneratorTest {
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
                 import org.springframework.cache.`annotation`.EnableCaching
+                import org.springframework.scheduling.`annotation`.EnableAsync
 
                 @SpringBootApplication
+                @EnableAsync
                 @EnableCaching
                 public class Application
 
@@ -142,9 +148,11 @@ internal class ServerLauncherCodeGeneratorTest {
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
+                import org.springframework.scheduling.`annotation`.EnableAsync
                 import org.springframework.scheduling.`annotation`.EnableScheduling
 
                 @SpringBootApplication
+                @EnableAsync
                 @EnableScheduling
                 public class Application
 
