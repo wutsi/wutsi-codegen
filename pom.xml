@@ -30,7 +30,7 @@
     <spring.version>5.3.5</spring.version>
     <spring-boot.version>2.4.4</spring-boot.version>
     <spring-tx.version>2.4.4</spring-tx.version>
-    <swagger-parser.version>2.0.24</swagger-parser.version>
+    <swagger-parser.version>2.0.25</swagger-parser.version>
     <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
     <wutsi-stream-rabbitmq.version>1.5.0</wutsi-stream-rabbitmq.version>
     <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
