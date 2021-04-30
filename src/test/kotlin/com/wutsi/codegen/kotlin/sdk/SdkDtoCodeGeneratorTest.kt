@@ -71,6 +71,30 @@ internal class SdkDtoCodeGeneratorTest {
     }
 
     @Test
+    fun testToModelTypeWithStringArraySpec() {
+        val type = Type(
+            name = "Foo",
+            packageName = "com.wutsi",
+            fields = listOf(
+                Field(
+                    name = "var1",
+                    type = List::class,
+                    parametrizedType = Type(name = "String", packageName = "kotlin")
+                )
+            )
+        )
+
+        val spec = codegen.toModelTypeSpec(type)
+
+        val expected = """
+            public data class Foo(
+              public val var1: kotlin.collections.List<kotlin.String> = emptyList()
+            )
+        """.trimIndent()
+        assertEquals(expected, spec.toString().trimIndent())
+    }
+
+    @Test
     fun `generate`() {
         val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
         codegen.generate(

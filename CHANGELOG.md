@@ -1,6 +1,8 @@
 # See https://keepachangelog.com/en/1.0.0/
 
 ## [0.0.31] 2021-04-28
+### Added
+- Mapping of list of primitives
 ### Changed
 - Updated dependencies versions in pom.xml
 ### Fixed

@@ -136,7 +136,7 @@ class KotlinMapper(private val context: Context) {
         fields = schema.properties?.map { toField(it.key, it.value, schema as Schema<Any>) } ?: emptyList()
     )
 
-    fun <T> toField(name: String, property: Schema<T>, schema: Schema<T>? = null) = Field(
+    fun toField(name: String, property: Schema<*>, schema: Schema<*>? = null) = Field(
         name = toCamelCase(name, false),
         type = toKClass(property),
         parametrizedType = toParametrizedType(property),
@@ -170,9 +170,17 @@ class KotlinMapper(private val context: Context) {
 
     fun <T> toParametrizedType(property: Schema<T>): Type? {
         if (property.type == "array" || property.type == "object") {
-            val ref = if (property.type == "array")
+            val ref = if (property.type == "array") {
+                val type = (property as ArraySchema).items?.type
+                if (type != null) {
+                    val ktype = OPENAPI_TYPE_TO_KOLTIN[type]
+                    if (ktype != null)
+                        return Type(name = ktype.simpleName!!, packageName = "kotlin")
+                    else
+                        null
+                }
                 (property as ArraySchema).items?.`$ref`
-            else
+            } else
                 (property as ObjectSchema).`$ref`
 
             return ref?.let { context.getType(it) } ?: throw IllegalStateException("Unable to resolve the reference: $ref")
