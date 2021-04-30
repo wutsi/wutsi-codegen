@@ -1,4 +1,3 @@
-{{#scope}}
 server:
   port: 8080
   compression:
@@ -21,12 +20,10 @@ management:
 spring:
   main:
     lazy-initialization: false
-{{#security}}
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
       - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
-{{/security}}
 
   jackson:
     deserialization:
@@ -38,47 +35,7 @@ spring:
     default-property-inclusion:
       - non_null
       - non_empty
-{{#services}}
-  {{#database}}
 
-  flyway:
-    baseline-on-migrate: true
-    clean-disabled: false
-
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-
-  datasource:
-    url: "jdbc:postgresql://localhost:5432/{{databaseName}}"
-    username: "postgres"
-    password: "postgres"
-    hikari:
-      connection-timeout: 20000 #maximum number of milliseconds that a client will wait for a connection
-      idle-timeout: 10000 #maximum idle time for connection
-      minimum-idle: 8 #minimum number of idle connections maintained by HikariCP in a connection pool
-      minimum-pool-size: 8 #maximum pool size
-      maximum-pool-size: 8 #maximum pool size
-      max-lifetime: 1000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
-  {{/database}}
-
-  {{#cache}}
-memcached:
-  enabled: false
-  ttl: ${SPRING_CACHE_TTL:86400}
-  {{/cache}}
-  {{#mqueue}}
-rabbitmq:
-  enabled: false
-  url: ${CLOUDAMQP_URL}
-  thread-pool-size: 8
-  max-retries: 10
-  queue-ttl-seconds: 86400       # 24 heures
-  replay-cron: "0 */15 * * * *"  # Replay DLQ every 15 mins
-  {{/mqueue}}
-{{/services}}
 
 logging:
   level:
@@ -86,5 +43,3 @@ logging:
   pattern:
     console: "%d type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"
     file: "%d type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"
-{{/scope}}
-

@@ -2,8 +2,10 @@ package com.wutsi.codegen.helpers
 
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.CodeGenerator
+import com.wutsi.codegen.kotlin.sdk.SdkCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
+import io.swagger.v3.parser.OpenAPIV3Parser
 import org.apache.commons.io.IOUtils
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.util.FileSystemUtils
@@ -61,12 +63,17 @@ internal abstract class AbstractMustacheCodeGeneratorTest {
         Thread.sleep(DELAY)
     }
 
-    protected fun createOpenAPI(): OpenAPI {
-        val openAPI = OpenAPI()
-        openAPI.info = Info()
-        openAPI.info.title = "test"
-        openAPI.info.version = "1.3.7"
-        openAPI.info.description = "This api used for managing likes on links"
-        return openAPI
+    protected fun createOpenAPI(withSecurity: Boolean = false): OpenAPI {
+        if (withSecurity) {
+            val yaml = IOUtils.toString(SdkCodeGenerator::class.java.getResourceAsStream("/api.yaml"), "utf-8")
+            return OpenAPIV3Parser().readContents(yaml).openAPI
+        } else {
+            val openAPI = OpenAPI()
+            openAPI.info = Info()
+            openAPI.info.title = "test"
+            openAPI.info.version = "1.3.7"
+            openAPI.info.description = "This api used for managing likes on links"
+            return openAPI
+        }
     }
 }

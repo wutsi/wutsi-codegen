@@ -146,7 +146,7 @@ class KotlinMapper(private val context: Context) {
             requests.add(
                 Request(
                     contentType = contentType,
-                    type = context.getType(media.schema.`$ref`)!!,
+                    type = context.getType(media.schema.`$ref`) ?: Type("Any", "kotlin"),
                     required = body.required?.let { it } ?: false,
                 )
             )

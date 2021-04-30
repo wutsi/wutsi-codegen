@@ -3,13 +3,18 @@ package com.wutsi.codegen.kotlin.server
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.AbstractMustacheCodeGenerator
 import com.wutsi.codegen.core.util.CaseUtil
+import com.wutsi.codegen.kotlin.KotlinMapper
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 
 class ServerConfigCodeGenerator : AbstractMustacheCodeGenerator() {
-    override fun toMustacheScope(openAPI: OpenAPI, context: Context) = mapOf(
-        "services" to toServices(context)
-    )
+    override fun toMustacheScope(openAPI: OpenAPI, context: Context): Map<String, Any> {
+        val api = KotlinMapper(context).toAPI(openAPI)
+        return mapOf(
+            "services" to toServices(context),
+            "security" to api.isSecured()
+        )
+    }
 
     override fun canGenerate(file: File) = !file.exists()
 
