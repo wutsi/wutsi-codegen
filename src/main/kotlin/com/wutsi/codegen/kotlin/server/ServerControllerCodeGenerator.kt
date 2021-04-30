@@ -21,6 +21,7 @@ import com.wutsi.codegen.model.Request
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -51,12 +52,26 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
                 .build()
         )
 
-    override fun functionAnnotations(endpoint: Endpoint): List<AnnotationSpec> =
-        listOf(
+    override fun functionAnnotations(endpoint: Endpoint): List<AnnotationSpec> {
+        val annotations = mutableListOf<AnnotationSpec>()
+        annotations.add(
             AnnotationSpec.builder(toRequestMappingClass(endpoint))
                 .addMember("%S", endpoint.path)
                 .build()
         )
+
+        val security = endpoint.securities.find { it.scopes.isNotEmpty() }
+        if (security != null) {
+            val scope = security.scopes.map { "hasAuthority('$it')" }.joinToString(separator = " AND ")
+            annotations.add(
+                AnnotationSpec.builder(PreAuthorize::class.java)
+                    .addMember("value=%S", scope)
+                    .build()
+            )
+        }
+
+        return annotations
+    }
 
     override fun requestBodyAnnotations(requestBody: Request?): List<AnnotationSpec> =
         listOf(
