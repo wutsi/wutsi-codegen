@@ -57,7 +57,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ErrorResponse'
             security:
-                -   api_key: [ ]
+                -   api_key: [ like ]
             tags:
                 - Like
         post:
@@ -130,7 +130,7 @@ paths:
                 '200':
                     description: Success
             security:
-                -   api_key: [ ]
+                -   api_key: [ like, admin ]
             tags:
                 - Like
 components:

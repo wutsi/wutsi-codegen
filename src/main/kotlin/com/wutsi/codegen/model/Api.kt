@@ -4,5 +4,6 @@ data class Api(
     val packageName: String,
     val name: String,
     val endpoints: List<Endpoint>,
-    val servers: List<Server> = emptyList()
+    val servers: List<Server> = emptyList(),
+    val securities: List<Security> = emptyList()
 )

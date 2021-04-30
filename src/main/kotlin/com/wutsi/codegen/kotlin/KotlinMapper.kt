@@ -5,12 +5,21 @@ import com.wutsi.codegen.core.util.CaseUtil.toCamelCase
 import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
+import com.wutsi.codegen.model.EndpointSecurity
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.ParameterType.COOKIE
 import com.wutsi.codegen.model.ParameterType.HEADER
 import com.wutsi.codegen.model.ParameterType.PATH
 import com.wutsi.codegen.model.ParameterType.QUERY
 import com.wutsi.codegen.model.Request
+import com.wutsi.codegen.model.Security
+import com.wutsi.codegen.model.SecurityLocation
+import com.wutsi.codegen.model.SecurityType
+import com.wutsi.codegen.model.SecurityType.API_KEY
+import com.wutsi.codegen.model.SecurityType.HTTP
+import com.wutsi.codegen.model.SecurityType.INVALID
+import com.wutsi.codegen.model.SecurityType.OAUTH2
+import com.wutsi.codegen.model.SecurityType.OPENID
 import com.wutsi.codegen.model.Server
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
@@ -25,6 +34,8 @@ import io.swagger.v3.oas.models.parameters.PathParameter
 import io.swagger.v3.oas.models.parameters.QueryParameter
 import io.swagger.v3.oas.models.parameters.RequestBody
 import io.swagger.v3.oas.models.responses.ApiResponses
+import io.swagger.v3.oas.models.security.SecurityRequirement
+import io.swagger.v3.oas.models.security.SecurityScheme
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import kotlin.reflect.KClass
@@ -57,17 +68,48 @@ class KotlinMapper(private val context: Context) {
         packageName = context.basePackage,
         name = toCamelCase("${context.apiName}Api", true),
         endpoints = toEndpoints(openAPI),
-        servers = toServers(openAPI)
+        servers = toServers(openAPI),
+        securities = toSecurities(openAPI)
     )
 
-    fun toServers(openAPI: OpenAPI): List<Server> {
-        return openAPI.servers?.map { toServer(it) } ?: emptyList()
-    }
+    fun toServers(openAPI: OpenAPI): List<Server> =
+        openAPI.servers?.map { toServer(it) } ?: emptyList()
 
     fun toServer(server: io.swagger.v3.oas.models.servers.Server) = Server(
         url = server.url,
         description = server.description
     )
+
+    fun toSecurities(openAPI: OpenAPI): List<Security> =
+        openAPI.components?.securitySchemes?.entries?.map { toSecurity(it.key, it.value) } ?: emptyList()
+
+    fun toSecurity(name: String, scheme: SecurityScheme) = Security(
+        name = name,
+        location = toSecurityLocaltion(scheme.`in`),
+        type = toSecurityType(scheme.type)
+    )
+
+    fun toSecurityLocaltion(location: SecurityScheme.In): SecurityLocation =
+        if (location == SecurityScheme.In.COOKIE)
+            SecurityLocation.COOKIE
+        else if (location == SecurityScheme.In.HEADER)
+            SecurityLocation.HEADER
+        else if (location == SecurityScheme.In.QUERY)
+            SecurityLocation.QUERY
+        else
+            SecurityLocation.INVALID
+
+    fun toSecurityType(type: SecurityScheme.Type): SecurityType =
+        if (type == SecurityScheme.Type.APIKEY)
+            API_KEY
+        else if (type == SecurityScheme.Type.HTTP)
+            HTTP
+        else if (type == SecurityScheme.Type.OAUTH2)
+            OAUTH2
+        else if (type == SecurityScheme.Type.OPENIDCONNECT)
+            OPENID
+        else
+            INVALID
 
     fun toEndpoints(openAPI: OpenAPI): List<Endpoint> {
         val endpoints = mutableListOf<Endpoint>()
@@ -89,7 +131,13 @@ class KotlinMapper(private val context: Context) {
         method = method.toUpperCase(),
         request = operation.requestBody?.let { toRequest(it) } ?: null,
         response = toResponse(operation.responses),
-        parameters = operation.parameters?.map { toParameter(it) } ?: emptyList()
+        parameters = operation.parameters?.map { toParameter(it) } ?: emptyList(),
+        securities = operation.security?.map { toEndpointSecurity(it) } ?: emptyList()
+    )
+
+    fun toEndpointSecurity(security: SecurityRequirement) = EndpointSecurity(
+        name = security.keys.toList()[0],
+        scopes = security[security.keys.toList()[0]]?.toList() ?: emptyList()
     )
 
     fun toRequest(body: RequestBody): Request {
