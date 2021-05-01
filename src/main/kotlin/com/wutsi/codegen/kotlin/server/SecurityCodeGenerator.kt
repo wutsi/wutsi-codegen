@@ -83,7 +83,9 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
                                         org.springframework.security.config.http.SessionCreationPolicy.STATELESS
                                     )
                                     .and()
-                                    .authorizeRequests().anyRequest().authenticated()
+                                    .authorizeRequests()
+                                    .antMatchers("/actuator/**").permitAll()
+                                    .anyRequest().authenticated()
                                     .and()
                                     .addFilterBefore(authenticationFilter(), org.springframework.security.web.authentication.AnonymousAuthenticationFilter::class.java)
                             """.trimIndent()
