@@ -26,7 +26,8 @@ class ServerCodeGenerator(
         ServerReadmeCodeGenerator(),
         CorsCodeGenerator(),
         TracingCodeGenerator(),
-        DatabaseCodeGenerator()
+        DatabaseCodeGenerator(),
+        SecurityCodeGenerator()
     )
 ) : CodeGenerator {
 

@@ -3,15 +3,14 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  {{#scope}}
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>{{artifactId}}</artifactId>
-  <groupId>{{groupId}}</groupId>
-  <version>{{version}}</version>
+  <artifactId>test-server</artifactId>
+  <groupId>com.wutsi.test</groupId>
+  <version>0.0.3</version>
   <packaging>jar</packaging>
-  <name>{{artifactId}}</name>
+  <name>test-server</name>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -23,7 +22,7 @@
     <jacoco.threshold.line>0.10</jacoco.threshold.line>
     <jacoco.threshold.class>0.10</jacoco.threshold.class>
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
-    <jdk.version>{{jdkVersion}}</jdk.version>
+    <jdk.version>1.8</jdk.version>
 
     <javax-validation.version>2.0.1.Final</javax-validation.version>
     <junit.version>5.7.1</junit.version>
@@ -33,22 +32,8 @@
     <jackson-modules-java8.version>2.12.3</jackson-modules-java8.version>
     <klint.version>0.41.0</klint.version>
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
-{{#security}}
     <wutsi-security.version>1.0.0</wutsi-security.version>
-{{/security}}
-{{#services}}
-    {{#database}}
-    <hikari-cp.version>4.0.3</hikari-cp.version>
-    <postgresql.version>42.2.20</postgresql.version>
-    <flyway.version>7.8.2</flyway.version>
-    {{/database}}
-    {{#cache}}
-    <wutsi-spring-memcached.version>1.1.0</wutsi-spring-memcached.version>
-    {{/cache}}
-    {{#mqueue}}
     <wutsi-stream-rabbitmq.version>1.5.0</wutsi-stream-rabbitmq.version>
-    {{/mqueue}}
-{{/services}}
     <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
   </properties>
 
@@ -93,7 +78,6 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-{{#security}}
     <dependency>
       <groupId>com.wutsi.security</groupId>
       <artifactId>wutsi-security</artifactId>
@@ -108,41 +92,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-{{/security}}
-{{#services}}
-    {{#database}}
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <version>${hikari-cp.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>${postgresql.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
-      <version>${flyway.version}</version>
-    </dependency>
-    {{/database}}
-    {{#cache}}
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-cache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.wutsi</groupId>
-      <artifactId>wutsi-spring-memcached</artifactId>
-      <version>${wutsi-spring-memcached.version}</version>
-    </dependency>
-    {{/cache}}
-    {{#mqueue}}
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
@@ -152,8 +101,6 @@
       <artifactId>wutsi-stream-rabbitmq</artifactId>
       <version>${wutsi-stream-rabbitmq.version}</version>
     </dependency>
-    {{/mqueue}}
-{{/services}}
 
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
@@ -217,9 +164,6 @@
         <configuration>
           <compilerPlugins>
             <plugin>spring</plugin>
-          {{#jpa}}
-            <plugin>jpa</plugin>
-          {{/jpa}}
           </compilerPlugins>
           <jvmTarget>${jdk.version}</jvmTarget>
         </configuration>
@@ -375,5 +319,4 @@
     </plugins>
   </build>
 
-  {{/scope}}
 </project>

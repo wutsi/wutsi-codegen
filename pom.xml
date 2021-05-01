@@ -31,6 +31,7 @@
     <spring-boot.version>2.4.4</spring-boot.version>
     <spring-tx.version>2.4.4</spring-tx.version>
     <swagger-parser.version>2.0.24</swagger-parser.version>
+    <wutsi-security.version>1.0.0</wutsi-security.version>
     <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
     <wutsi-stream-rabbitmq.version>1.5.0</wutsi-stream-rabbitmq.version>
     <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
@@ -69,6 +70,11 @@
       <groupId>com.wutsi</groupId>
       <artifactId>wutsi-stream-rabbitmq</artifactId>
       <version>${wutsi-stream-rabbitmq.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi.security</groupId>
+      <artifactId>wutsi-security</artifactId>
+      <version>${wutsi-security.version}</version>
     </dependency>
     <dependency>
       <groupId>com.wutsi.tracing</groupId>
