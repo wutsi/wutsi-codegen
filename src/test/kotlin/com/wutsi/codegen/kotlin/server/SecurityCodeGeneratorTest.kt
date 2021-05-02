@@ -96,9 +96,9 @@ internal class SecurityCodeGeneratorTest {
                   public companion object {
                     public val SECURED_ENDPOINTS: RequestMatcher =
                         org.springframework.security.web.util.matcher.OrRequestMatcher(
-                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes"),
-                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes/stats"),
-                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes/*")
+                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes","POST"),
+                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes/stats","GET"),
+                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes/*","DELETE")
                         )
                   }
                 }

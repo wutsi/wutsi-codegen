@@ -60,7 +60,6 @@ class ServerLauncherCodeGenerator() : AbstractKotlinCodeGenerator() {
             spec.addAnnotation(EnableScheduling::class.java)
         if (api.isSecured()) {
             spec.addAnnotation(EnableWebSecurity::class.java)
-            spec.addAnnotation(SpringBootApplication::class.java)
             spec.addAnnotation(
                 AnnotationSpec.builder(EnableGlobalMethodSecurity::class.java)
                     .addMember("prePostEnabled = true")

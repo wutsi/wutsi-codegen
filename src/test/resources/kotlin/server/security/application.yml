@@ -36,6 +36,10 @@ spring:
       - non_null
       - non_empty
 
+security:
+  api-key:
+    id: "00000"
+    header: "Authorization"
 
 logging:
   level:

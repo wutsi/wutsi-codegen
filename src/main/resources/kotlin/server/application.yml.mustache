@@ -79,6 +79,12 @@ rabbitmq:
   replay-cron: "0 */15 * * * *"  # Replay DLQ every 15 mins
   {{/mqueue}}
 {{/services}}
+{{#security}}
+security:
+  api-key:
+    id: "00000"
+    header: "Authorization"
+{{/security}}
 
 logging:
   level:

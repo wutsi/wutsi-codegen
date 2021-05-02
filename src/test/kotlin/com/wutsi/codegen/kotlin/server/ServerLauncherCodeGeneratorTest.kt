@@ -90,7 +90,6 @@ internal class ServerLauncherCodeGeneratorTest {
                 @EnableAsync
                 @EnableTransactionManagement
                 @EnableWebSecurity
-                @SpringBootApplication
                 @EnableGlobalMethodSecurity(prePostEnabled = true)
                 public class Application
 

@@ -62,14 +62,26 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
     private fun toRequestMather(api: Api): String {
         val items = api.endpoints
             .filter { it.isSecured() }
-            .map { "org.springframework.security.web.util.matcher.AntPathRequestMatcher(\"" + toAntPath(it) + "\")" }
+            .map { "org.springframework.security.web.util.matcher.AntPathRequestMatcher(\"${toAntPath(it)}\",\"${it.method}\")" }
+            .toSet()
         return "org.springframework.security.web.util.matcher.OrRequestMatcher(\n" +
             items.joinToString(",\n") +
             "\n)"
     }
 
-    private fun toAntPath(endpoint: Endpoint): String =
-        endpoint.path.replace("(\\{.+\\})".toRegex(), "*")
+    private fun toAntPath(endpoint: Endpoint): String {
+        val tokens = endpoint.path.split("/")
+        if (tokens.isEmpty())
+            return endpoint.path
+        else {
+            val xtokens = tokens
+                .filter { it.isNotEmpty() }
+                .map { if (it.startsWith("{")) "*" else it }
+            return "/" + xtokens.joinToString(separator = "/")
+        }
+
+        endpoint.path.replace("(\\{.+})".toRegex(), "*")
+    }
 
     private fun toSpringSecurityTypeSpec(api: Api, className: ClassName): TypeSpec =
         TypeSpec.classBuilder(className)

@@ -26,6 +26,11 @@ rabbitmq:
   enabled: true
   {{/mqueue}}
 {{/services}}
+{{#security}}
+security:
+  api-key:
+    id: ${API_KEY_ID}
+{{/security}}
 
 logging:
   pattern:
