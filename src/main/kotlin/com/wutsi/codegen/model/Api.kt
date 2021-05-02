@@ -8,5 +8,5 @@ data class Api(
     val securities: List<Security> = emptyList()
 ) {
     fun isSecured(): Boolean =
-        endpoints.find { it.securities.isNotEmpty() } != null
+        endpoints.find { it.isSecured() } != null
 }

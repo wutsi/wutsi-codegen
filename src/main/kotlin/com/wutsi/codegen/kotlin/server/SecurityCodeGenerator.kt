@@ -14,6 +14,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
+import com.wutsi.codegen.model.Api
+import com.wutsi.codegen.model.Endpoint
 import com.wutsi.security.SecurityApi
 import com.wutsi.security.apikey.ApiKeyAuthenticationProvider
 import com.wutsi.security.apikey.ApiKeyContext
@@ -32,6 +34,7 @@ import org.springframework.core.env.Environment
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.web.util.matcher.RequestMatcher
 import javax.servlet.Filter
 import kotlin.reflect.KClass
 
@@ -41,23 +44,36 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
         if (!api.isSecured())
             return
 
-        generateSpringSecurityConfiguration(context)
+        generateSpringSecurityConfiguration(api, context)
         generateApiKeyConfiguration(context)
     }
 
-    private fun generateSpringSecurityConfiguration(context: Context) {
+    private fun generateSpringSecurityConfiguration(api: Api, context: Context) {
         val directory = getSourceDirectory(context)
         val classname = ClassName(context.basePackage + ".config", "SecurityConfiguration")
 
         System.out.println("Generating $classname to $directory")
         FileSpec.builder(classname.packageName, classname.simpleName)
-            .addType(toSpringSecurityTypeSpec(classname))
+            .addType(toSpringSecurityTypeSpec(api, classname))
             .build()
             .writeTo(getSourceDirectory(context))
     }
 
-    private fun toSpringSecurityTypeSpec(className: ClassName): TypeSpec =
+    private fun toRequestMather(api: Api): String {
+        val items = api.endpoints
+            .filter { it.isSecured() }
+            .map { "org.springframework.security.web.util.matcher.AntPathRequestMatcher(\"" + toAntPath(it) + "\")" }
+        return "org.springframework.security.web.util.matcher.OrRequestMatcher(\n" +
+            items.joinToString(",\n") +
+            "\n)"
+    }
+
+    private fun toAntPath(endpoint: Endpoint): String =
+        endpoint.path.replace("(\\{.+\\})".toRegex(), "*")
+
+    private fun toSpringSecurityTypeSpec(api: Api, className: ClassName): TypeSpec =
         TypeSpec.classBuilder(className)
+            .superclass(WebSecurityConfigurerAdapter::class)
             .addAnnotation(Configuration::class)
             .primaryConstructor(
                 FunSpec.constructorBuilder()
@@ -65,9 +81,17 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
                     .addParameter(toParameterSpec("apiKeyHeader", String::class, "api-key.header"))
                     .build()
             )
-            .superclass(WebSecurityConfigurerAdapter::class)
             .addProperty(toPropertySpec("apiKeyProvider", ApiKeyProvider::class))
             .addProperty(toPropertySpec("apiKeyHeader", String::class))
+            .addType(
+                TypeSpec.companionObjectBuilder()
+                    .addProperty(
+                        PropertySpec.builder("SECURED_ENDPOINTS", RequestMatcher::class)
+                            .initializer(toRequestMather(api))
+                            .build()
+                    )
+                    .build()
+            )
             .addFunction(
                 FunSpec.builder("configure")
                     .addModifiers(OVERRIDE)
@@ -84,8 +108,8 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
                                     )
                                     .and()
                                     .authorizeRequests()
-                                    .antMatchers("/actuator/**").permitAll()
-                                    .anyRequest().authenticated()
+                                    .requestMatchers(SECURED_ENDPOINTS).authenticated()
+                                    .anyRequest().permitAll()
                                     .and()
                                     .addFilterBefore(authenticationFilter(), org.springframework.security.web.authentication.AnonymousAuthenticationFilter::class.java)
                             """.trimIndent()
@@ -123,7 +147,7 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
                             val filter = com.wutsi.security.apikey.ApiKeyAuthenticationFilter(
                                 headerName = apiKeyHeader,
                                 apiProvider = apiKeyProvider,
-                                pattern = "/**"
+                                requestMatcher = SECURED_ENDPOINTS
                             )
                             filter.setAuthenticationManager(authenticationManagerBean())
                             return filter

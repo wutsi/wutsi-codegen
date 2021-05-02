@@ -8,4 +8,6 @@ data class Endpoint(
     val response: Type? = null,
     val parameters: List<EndpointParameter> = emptyList(),
     val securities: List<EndpointSecurity> = emptyList()
-)
+) {
+    fun isSecured(): Boolean = securities.isNotEmpty()
+}

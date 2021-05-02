@@ -50,6 +50,7 @@ internal class SecurityCodeGeneratorTest {
                 import org.springframework.security.config.`annotation`.authentication.builders.AuthenticationManagerBuilder
                 import org.springframework.security.config.`annotation`.web.builders.HttpSecurity
                 import org.springframework.security.config.`annotation`.web.configuration.WebSecurityConfigurerAdapter
+                import org.springframework.security.web.util.matcher.RequestMatcher
 
                 @Configuration
                 public class SecurityConfiguration(
@@ -67,7 +68,9 @@ internal class SecurityCodeGeneratorTest {
                             org.springframework.security.config.http.SessionCreationPolicy.STATELESS
                         )
                         .and()
-                        .authorizeRequests().anyRequest().authenticated()
+                        .authorizeRequests()
+                        .requestMatchers(SECURED_ENDPOINTS).authenticated()
+                        .anyRequest().permitAll()
                         .and()
                         .addFilterBefore(authenticationFilter(),
                         org.springframework.security.web.authentication.AnonymousAuthenticationFilter::class.java)
@@ -84,10 +87,19 @@ internal class SecurityCodeGeneratorTest {
                     val filter = com.wutsi.security.apikey.ApiKeyAuthenticationFilter(
                         headerName = apiKeyHeader,
                         apiProvider = apiKeyProvider,
-                        pattern = "/**"
+                        requestMatcher = SECURED_ENDPOINTS
                     )
                     filter.setAuthenticationManager(authenticationManagerBean())
                     return filter
+                  }
+
+                  public companion object {
+                    public val SECURED_ENDPOINTS: RequestMatcher =
+                        org.springframework.security.web.util.matcher.OrRequestMatcher(
+                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes"),
+                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes/stats"),
+                        org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes/*")
+                        )
                   }
                 }
             """.trimIndent(),
