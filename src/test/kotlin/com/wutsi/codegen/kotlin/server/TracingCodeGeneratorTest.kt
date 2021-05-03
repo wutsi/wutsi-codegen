@@ -37,7 +37,7 @@ internal class TracingCodeGeneratorTest {
                 package com.wutsi.test.config
 
                 import com.wutsi.tracing.TracingContext
-                import feign.RequestInterceptor
+                import com.wutsi.tracing.TracingRequestInterceptor
                 import javax.servlet.Filter
                 import org.springframework.beans.factory.`annotation`.Autowired
                 import org.springframework.context.ApplicationContext
@@ -56,8 +56,8 @@ internal class TracingCodeGeneratorTest {
                   public fun tracingContext(): TracingContext = com.wutsi.tracing.DynamicTracingContext(context)
 
                   @Bean
-                  public fun tracingRequestInterceptor(): RequestInterceptor =
-                      com.wutsi.tracing.TracingRequestInterceptor("test-server", tracingContext())
+                  public fun tracingRequestInterceptor(): TracingRequestInterceptor =
+                      TracingRequestInterceptor("test-server", tracingContext())
                 }
             """.trimIndent(),
             text.trimIndent()

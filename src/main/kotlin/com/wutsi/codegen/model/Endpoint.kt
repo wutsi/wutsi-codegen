@@ -6,5 +6,8 @@ data class Endpoint(
     val method: String,
     val request: Request? = null,
     val response: Type? = null,
-    val parameters: List<EndpointParameter> = emptyList()
-)
+    val parameters: List<EndpointParameter> = emptyList(),
+    val securities: List<EndpointSecurity> = emptyList()
+) {
+    fun isSecured(): Boolean = securities.isNotEmpty()
+}

@@ -1,5 +1,14 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.31] 2021-05-02
+### Added
+- Mapping of list of primitives
+- Support spring securities
+### Changed
+- Updated dependencies versions in pom.xml
+### Fixed
+- Default value of `Double` and `Float` set to `0.0`
+
 ## [0.0.30] 2021-04-23
 ### Added
 - Generate code for Flyway configuration

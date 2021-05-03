@@ -6,31 +6,32 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.30</version>
+  <version>0.0.31</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>
 
   <properties>
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
     <jacoco.threshold.line>0.95</jacoco.threshold.line>
     <jacoco.threshold.class>0.85</jacoco.threshold.class>
 
     <commons-cli.version>1.4</commons-cli.version>
-    <feign.version>11.0</feign.version>
-    <flyway.version>7.7.0</flyway.version>
-    <junit.version>5.6.0</junit.version>
-    <klint.version>0.40.0</klint.version>
+    <feign.version>11.1</feign.version>
+    <flyway.version>7.8.2</flyway.version>
+    <junit.version>5.7.1</junit.version>
+    <klint.version>0.41.0</klint.version>
     <kotlin.version>1.4.31</kotlin.version>
     <kotlin-ktlint.version>0.38.1</kotlin-ktlint.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
-    <kotlinpoet.version>1.7.2</kotlinpoet.version>
-    <mustache.version>0.9.4</mustache.version>
+    <kotlinpoet.version>1.8.0</kotlinpoet.version>
+    <mustache.version>0.9.7</mustache.version>
     <servlet-api.version>2.5</servlet-api.version>
-    <spring.version>5.3.5</spring.version>
-    <spring-boot.version>2.4.4</spring-boot.version>
-    <spring-tx.version>2.4.4</spring-tx.version>
-    <swagger-parser.version>2.0.24</swagger-parser.version>
+    <spring.version>5.3.6</spring.version>
+    <spring-boot.version>2.4.5</spring-boot.version>
+    <spring-tx.version>2.4.5</spring-tx.version>
+    <swagger-parser.version>2.0.25</swagger-parser.version>
+    <wutsi-security.version>1.0.0</wutsi-security.version>
     <wutsi-spring-memcached.version>1.0.0</wutsi-spring-memcached.version>
     <wutsi-stream-rabbitmq.version>1.5.0</wutsi-stream-rabbitmq.version>
     <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
@@ -69,6 +70,11 @@
       <groupId>com.wutsi</groupId>
       <artifactId>wutsi-stream-rabbitmq</artifactId>
       <version>${wutsi-stream-rabbitmq.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wutsi.security</groupId>
+      <artifactId>wutsi-security</artifactId>
+      <version>${wutsi-security.version}</version>
     </dependency>
     <dependency>
       <groupId>com.wutsi.tracing</groupId>
@@ -119,6 +125,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
+      <version>${spring-boot.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
       <version>${spring-boot.version}</version>
     </dependency>
     <dependency>
@@ -249,7 +260,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <id>ktlint</id>

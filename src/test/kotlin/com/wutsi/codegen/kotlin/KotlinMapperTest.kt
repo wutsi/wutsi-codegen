@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.PathItem
 import io.swagger.v3.oas.models.Paths
 import io.swagger.v3.oas.models.info.Info
+import io.swagger.v3.oas.models.media.ArraySchema
 import io.swagger.v3.oas.models.media.Content
 import io.swagger.v3.oas.models.media.MediaType
 import io.swagger.v3.oas.models.media.Schema
@@ -28,7 +29,6 @@ import java.time.OffsetDateTime
 import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -89,15 +89,29 @@ internal class KotlinMapperTest {
         assertEquals(property.maxItems, field.maxItems)
     }
 
+    fun `toField - string array`() {
+        val schema = Schema<String>()
+
+        val property = Schema<String>()
+        property.type = "array"
+    }
+
     @Test
     fun `toField - non-required property`() {
         val schema = Schema<String>()
 
-        val property = Schema<String>()
-        property.type = "string"
+        val property = ArraySchema()
+        property.type = "array"
+        property.name = "foo"
+
+        val item = Schema<String>()
+        item.type = "string"
+        property.items = item
 
         val field = mapper.toField("foo", property, schema)
-        assertFalse(field.required)
+        assertEquals("foo", field.name)
+        assertEquals(List::class, field.type)
+        assertEquals(Type(name = "String", packageName = "kotlin"), field.parametrizedType)
     }
 
     @Test

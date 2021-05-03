@@ -60,6 +60,17 @@ internal class ServerMavenCodeGeneratorTest : AbstractMustacheCodeGeneratorTest(
     }
 
     @Test
+    fun `generate with security`() {
+        val openAPI = createOpenAPI(withSecurity = true)
+        val context = createContext()
+        context.addService(Context.SERVICE_MQUEUE)
+        getCodeGenerator(context).generate(openAPI, context)
+
+        assertContent("/kotlin/server/security/pom.xml", "${context.outputDirectory}/pom.xml")
+        assertContent("/kotlin/server/security/settings.xml", "${context.outputDirectory}/settings.xml")
+    }
+
+    @Test
     fun `generate - do not override`() {
         val openAPI = createOpenAPI()
         val context = createContext()

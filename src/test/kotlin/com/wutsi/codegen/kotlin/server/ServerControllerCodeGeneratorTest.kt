@@ -5,6 +5,7 @@ import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.kotlin.sdk.SdkCodeGenerator
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
+import com.wutsi.codegen.model.EndpointSecurity
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.ParameterType
 import com.wutsi.codegen.model.ParameterType.HEADER
@@ -153,6 +154,33 @@ internal class ServerControllerCodeGeneratorTest {
                 @org.springframework.web.bind.`annotation`.PostMapping("/v1/foo")
                 public fun invoke(@org.springframework.web.bind.`annotation`.RequestParam(name="bar", required=false) bar: kotlin.String? = null): kotlin.Unit {
                   delegate.invoke(bar)
+                }
+            """.trimIndent(),
+            result.toString().trimIndent()
+        )
+    }
+
+    @Test
+    fun `toFuncSpec - security scope`() {
+        val endpoint = Endpoint(
+            name = "create",
+            method = "POST",
+            path = "/v1/foo",
+            response = null,
+            securities = listOf(
+                EndpointSecurity(
+                    name = "foo",
+                    scopes = listOf("scope1", "scope2")
+                )
+            )
+        )
+        val result = codegen.toFunSpec(endpoint)
+        assertEquals(
+            """
+                @org.springframework.web.bind.`annotation`.PostMapping("/v1/foo")
+                @org.springframework.security.access.prepost.PreAuthorize(value="hasAuthority('scope1') AND hasAuthority('scope2')")
+                public fun invoke(): kotlin.Unit {
+                  delegate.invoke()
                 }
             """.trimIndent(),
             result.toString().trimIndent()

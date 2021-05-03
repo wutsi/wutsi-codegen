@@ -12,7 +12,7 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.tracing.TracingContext
-import feign.RequestInterceptor
+import com.wutsi.tracing.TracingRequestInterceptor
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -72,11 +72,11 @@ class TracingCodeGenerator : AbstractKotlinCodeGenerator() {
             .addFunction(
                 FunSpec.builder("tracingRequestInterceptor")
                     .addAnnotation(Bean::class)
-                    .returns(RequestInterceptor::class)
+                    .returns(TracingRequestInterceptor::class)
                     .addCode(
                         CodeBlock.of(
                             """
-                                return com.wutsi.tracing.TracingRequestInterceptor("$clientId", tracingContext())
+                                return TracingRequestInterceptor("$clientId", tracingContext())
                             """.trimIndent()
                         )
                     )

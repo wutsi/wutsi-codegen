@@ -32,8 +32,8 @@ internal class SdkDtoCodeGeneratorTest {
         assertEquals("\"\"", codegen.defaultValue(Field(name = "foo", type = String::class, nullable = false), true))
         assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Int::class, nullable = false), true))
         assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Long::class, nullable = false), true))
-        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Float::class, nullable = false), true))
-        assertEquals("0", codegen.defaultValue(Field(name = "foo", type = Double::class, nullable = false), true))
+        assertEquals("0.0", codegen.defaultValue(Field(name = "foo", type = Float::class, nullable = false), true))
+        assertEquals("0.0", codegen.defaultValue(Field(name = "foo", type = Double::class, nullable = false), true))
         assertEquals("LocalDate.now()", codegen.defaultValue(Field(name = "foo", type = LocalDate::class, nullable = false), true))
         assertEquals("OffsetDateTime.now()", codegen.defaultValue(Field(name = "foo", type = OffsetDateTime::class, nullable = false), true))
         assertEquals("emptyList()", codegen.defaultValue(Field(name = "foo", type = List::class, nullable = false), true))
@@ -65,6 +65,30 @@ internal class SdkDtoCodeGeneratorTest {
             public data class Foo(
               public val var1: kotlin.Int = 0,
               public val var2: kotlin.String = ""
+            )
+        """.trimIndent()
+        assertEquals(expected, spec.toString().trimIndent())
+    }
+
+    @Test
+    fun testToModelTypeWithStringArraySpec() {
+        val type = Type(
+            name = "Foo",
+            packageName = "com.wutsi",
+            fields = listOf(
+                Field(
+                    name = "var1",
+                    type = List::class,
+                    parametrizedType = Type(name = "String", packageName = "kotlin")
+                )
+            )
+        )
+
+        val spec = codegen.toModelTypeSpec(type)
+
+        val expected = """
+            public data class Foo(
+              public val var1: kotlin.collections.List<kotlin.String> = emptyList()
             )
         """.trimIndent()
         assertEquals(expected, spec.toString().trimIndent())
