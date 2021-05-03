@@ -19,9 +19,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.transaction.annotation.EnableTransactionManagement
-import java.io.File
 
-class ServerLauncherCodeGenerator() : AbstractKotlinCodeGenerator() {
+class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
     companion object {
         const val CLASSNAME = "Application"
     }
@@ -35,9 +34,9 @@ class ServerLauncherCodeGenerator() : AbstractKotlinCodeGenerator() {
     private fun generateClass(api: Api, context: Context) {
         val directory = getSourceDirectory(context)
         val classname = ClassName(context.basePackage, CLASSNAME)
-        val relativePath = classname.toString().replace('.', File.separatorChar)
-        if (File(directory.absolutePath + File.separator + relativePath + ".kt").exists())
-            return
+//        val relativePath = classname.toString().replace('.', File.separatorChar)
+//        if (File(directory.absolutePath + File.separator + relativePath + ".kt").exists())
+//            return
 
         System.out.println("Generating $classname to $directory")
         FileSpec.builder(classname.packageName, classname.simpleName)

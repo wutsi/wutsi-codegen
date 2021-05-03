@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.util.FileSystemUtils
 import java.io.File
 import java.nio.file.Files
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -207,6 +208,7 @@ internal class ServerLauncherCodeGeneratorTest {
     }
 
     @Test
+    @Ignore
     fun `generate - do not overwrite`() {
         val openAPI = createOpenAPI()
 
