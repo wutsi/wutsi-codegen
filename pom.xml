@@ -21,7 +21,7 @@
     <flyway.version>7.8.2</flyway.version>
     <junit.version>5.7.1</junit.version>
     <klint.version>0.41.0</klint.version>
-    <kotlin.version>1.4.31</kotlin.version>
+    <kotlin.version>1.5.0</kotlin.version>
     <kotlin-ktlint.version>0.38.1</kotlin-ktlint.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <kotlinpoet.version>1.8.0</kotlinpoet.version>
