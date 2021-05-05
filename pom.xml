@@ -6,18 +6,18 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.31</version>
+  <version>0.0.32</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>
 
   <properties>
-    <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
     <jacoco.threshold.line>0.95</jacoco.threshold.line>
     <jacoco.threshold.class>0.85</jacoco.threshold.class>
 
     <commons-cli.version>1.4</commons-cli.version>
-    <feign.version>11.1</feign.version>
+    <feign.version>11.2</feign.version>
     <flyway.version>7.8.2</flyway.version>
     <junit.version>5.7.1</junit.version>
     <klint.version>0.41.0</klint.version>

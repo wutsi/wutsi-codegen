@@ -22,20 +22,20 @@
   <properties>
     <jacoco.threshold.line>0.10</jacoco.threshold.line>
     <jacoco.threshold.class>0.10</jacoco.threshold.class>
-    <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
     <jdk.version>{{jdkVersion}}</jdk.version>
 
     <feign.version>11.2</feign.version>
     <javax-validation.version>2.0.1.Final</javax-validation.version>
     <junit.version>5.7.1</junit.version>
-    <kotlin.version>1.4.31</kotlin.version>
+    <kotlin.version>1.5.0</kotlin.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
     <jackson-module-kotlin.version>2.12.3</jackson-module-kotlin.version>
     <jackson-modules-java8.version>2.12.3</jackson-modules-java8.version>
     <klint.version>0.41.0</klint.version>
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
 {{#security}}
-    <wutsi-security.version>1.0.0</wutsi-security.version>
+    <wutsi-security.version>1.2.0</wutsi-security.version>
 {{/security}}
 {{#services}}
     {{#database}}
@@ -47,10 +47,10 @@
     <wutsi-spring-memcached.version>1.1.0</wutsi-spring-memcached.version>
     {{/cache}}
     {{#mqueue}}
-    <wutsi-stream-rabbitmq.version>1.6.0</wutsi-stream-rabbitmq.version>
+    <wutsi-stream-rabbitmq.version>1.7.0</wutsi-stream-rabbitmq.version>
     {{/mqueue}}
 {{/services}}
-    <wutsi-tracing.version>1.2.0</wutsi-tracing.version>
+    <wutsi-tracing.version>1.4.0</wutsi-tracing.version>
   </properties>
 
   <dependencies>
