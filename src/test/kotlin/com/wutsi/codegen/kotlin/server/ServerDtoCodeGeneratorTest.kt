@@ -108,7 +108,7 @@ internal class ServerDtoCodeGeneratorTest {
             name = "Foo",
             packageName = "com.wutsi",
             fields = listOf(
-                Field(name = "var1", type = Int::class, required = true, min = BigDecimal(1)),
+                Field(name = "var1", type = Int::class, required = true, nullable = true, min = BigDecimal(1)),
                 Field(name = "var2", type = String::class, nullable = false, required = true)
             )
         )
@@ -119,7 +119,7 @@ internal class ServerDtoCodeGeneratorTest {
             public data class Foo(
               @get:javax.validation.constraints.NotNull
               @get:javax.validation.constraints.Min(1)
-              public val var1: kotlin.Int = 0,
+              public val var1: kotlin.Int? = null,
               @get:javax.validation.constraints.NotBlank
               public val var2: kotlin.String = ""
             )

@@ -174,7 +174,7 @@ class KotlinMapper(private val context: Context) {
             CookieParameter::class.java -> COOKIE
             else -> throw IllegalStateException("Unsupported parameters ${parameter.javaClass}")
         },
-        field = toField(parameter.name, parameter.schema),
+        field = toField(parameter.name, parameter.schema, null, parameter.required),
         name = parameter.name
     )
 
@@ -184,12 +184,12 @@ class KotlinMapper(private val context: Context) {
         fields = schema.properties?.map { toField(it.key, it.value, schema as Schema<Any>) } ?: emptyList()
     )
 
-    fun toField(name: String, property: Schema<*>, schema: Schema<*>? = null) = Field(
+    fun toField(name: String, property: Schema<*>, schema: Schema<*>? = null, required: Boolean? = null) = Field(
         name = toCamelCase(name, false),
         type = toKClass(property),
         parametrizedType = toParametrizedType(property),
         default = property.default?.toString(),
-        required = schema?.required?.contains(name) == true,
+        required = required ?: (schema?.required?.contains(name) == true),
         min = property.minimum,
         max = property.maximum,
         pattern = property.pattern,
