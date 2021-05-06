@@ -1,5 +1,12 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.32] 2021-05-07
+### Added
+- Auto increase version of SDK
+- Add support for renovate
+### Changed
+- Update dependency version
+
 ## [0.0.31] 2021-05-02
 ### Added
 - Mapping of list of primitives

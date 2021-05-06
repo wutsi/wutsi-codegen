@@ -6,6 +6,7 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.CodeGenerator
 import com.wutsi.codegen.github.GitCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
+import com.wutsi.codegen.renovate.RenovateCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -36,7 +37,7 @@ internal class SdkCodeGeneratorTest {
     fun `generators`() {
         val codegen = SdkCodeGenerator(mapper = KotlinMapper(context))
 
-        assertEquals(8, codegen.generators.size)
+        assertEquals(9, codegen.generators.size)
         assertTrue(codegen.generators[0] is SdkDtoCodeGenerator)
         assertTrue(codegen.generators[1] is SdkApiCodeGenerator)
         assertTrue(codegen.generators[2] is SdkMavenCodeGenerator)
@@ -45,5 +46,6 @@ internal class SdkCodeGeneratorTest {
         assertTrue(codegen.generators[5] is SdkReadmeCodeGenerator)
         assertTrue(codegen.generators[6] is SdkEnvironmentGenerator)
         assertTrue(codegen.generators[7] is SdkApiBuilderCodeGenerator)
+        assertTrue(codegen.generators[8] is RenovateCodeGenerator)
     }
 }

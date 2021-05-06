@@ -16,9 +16,9 @@
   <properties>
     <jdk.version>1.8</jdk.version>
 
-    <feign.version>11.0</feign.version>
+    <feign.version>11.2</feign.version>
     <javax-validation.version>2.0.1.Final</javax-validation.version>
-    <kotlin.version>1.4.31</kotlin.version>
+    <kotlin.version>1.5.0</kotlin.version>
   </properties>
 
   <dependencies>
@@ -26,21 +26,25 @@
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-core</artifactId>
       <version>${feign.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-okhttp</artifactId>
       <version>${feign.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-jackson</artifactId>
       <version>${feign.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-slf4j</artifactId>
       <version>${feign.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -50,6 +54,17 @@
     </dependency>
   </dependencies>
 
+  <scm>
+    <developerConnection>scm:git:https://github.com/foo/test-sdk-kotlin.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Maven Packages</name>
+      <url>https://maven.pkg.github.com/foo/test-sdk-kotlin</url>
+    </repository>
+  </distributionManagement>
 
   <build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
