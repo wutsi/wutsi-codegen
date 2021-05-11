@@ -111,6 +111,7 @@ internal class SdkApiCodeGeneratorTest {
         val expected = """
             public interface Test {
               @feign.RequestLine("GET /foo/{id}?details={details}&color={color}")
+              @feign.Headers("Content-Type: application/json")
               public fun getById(
                 @feign.Param("id") id: kotlin.Long,
                 @feign.Param("details") details: kotlin.Boolean = true,
@@ -118,9 +119,11 @@ internal class SdkApiCodeGeneratorTest {
               ): com.wutsi.test.model.GetFooResponse
 
               @feign.RequestLine("DELETE /foo/{id}")
+              @feign.Headers("Content-Type: application/json")
               public fun deleteById(@feign.Param("id") id: kotlin.Long): kotlin.Unit
 
               @feign.RequestLine("POST /foo")
+              @feign.Headers("Content-Type: application/json")
               public fun create(request: com.wutsi.test.model.CreateFooRequest): com.wutsi.test.model.CreateFooResponse
             }
         """.trimIndent()

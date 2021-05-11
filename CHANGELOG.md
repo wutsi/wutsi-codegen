@@ -4,6 +4,7 @@
 ### Added
 - Auto increase version of SDK
 - Add support for renovate
+- Add `Content-Type` header on SDK endpoints
 ### Changed
 - Update dependency version
 
