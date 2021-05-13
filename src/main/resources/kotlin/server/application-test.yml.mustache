@@ -14,22 +14,21 @@ spring:
     password: ${SPRING_DATABASE_PASSWORD}
   {{/database}}
 
+wutsi:
+  client-id: "{{name}}"
   {{#cache}}
-memcached:
-  enabled: true
-  username: ${MEMCACHIER_USERNAME}
-  password: ${MEMCACHIER_PASSWORD}
-  servers: ${MEMCACHIER_SERVERS}
+  memcached:
+    enabled: true
   {{/cache}}
   {{#mqueue}}
-rabbitmq:
-  enabled: true
+  rabbitmq:
+    enabled: true
   {{/mqueue}}
 {{/services}}
 {{#security}}
-security:
-  api-key:
-    id: ${API_KEY_ID}
+  security:
+    api-key:
+      id: ${API_KEY_ID}
 {{/security}}
 
 logging:

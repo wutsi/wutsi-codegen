@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 
 internal class EditorConfigCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
     override fun createContext() = Context(
-        apiName = "Test",
+        apiName = "test",
         outputDirectory = "./target/wutsi/codegen/editorconfig",
         basePackage = "com.wutsi.test",
         jdkVersion = "1.8"

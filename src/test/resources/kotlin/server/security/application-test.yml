@@ -1,6 +1,8 @@
-security:
-  api-key:
-    id: ${API_KEY_ID}
+wutsi:
+  client-id: "test"
+  security:
+    api-key:
+      id: ${API_KEY_ID}
 
 logging:
   pattern:

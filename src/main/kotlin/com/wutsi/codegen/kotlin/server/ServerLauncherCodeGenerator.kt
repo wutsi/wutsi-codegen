@@ -11,6 +11,9 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Api
+import com.wutsi.platform.EnableWutsiCore
+import com.wutsi.platform.EnableWutsiSecurity
+import com.wutsi.platform.EnableWutsiSite
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cache.annotation.EnableCaching
@@ -19,6 +22,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.transaction.annotation.EnableTransactionManagement
+import java.io.File
 
 class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
     companion object {
@@ -34,9 +38,9 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
     private fun generateClass(api: Api, context: Context) {
         val directory = getSourceDirectory(context)
         val classname = ClassName(context.basePackage, CLASSNAME)
-//        val relativePath = classname.toString().replace('.', File.separatorChar)
-//        if (File(directory.absolutePath + File.separator + relativePath + ".kt").exists())
-//            return
+        val relativePath = classname.toString().replace('.', File.separatorChar)
+        if (File(directory.absolutePath + File.separator + relativePath + ".kt").exists())
+            return
 
         System.out.println("Generating $classname to $directory")
         FileSpec.builder(classname.packageName, classname.simpleName)
@@ -50,6 +54,7 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
         val spec = TypeSpec.classBuilder(ClassName(context.basePackage, CLASSNAME))
             .addAnnotation(SpringBootApplication::class)
             .addAnnotation(EnableAsync::class)
+            .addAnnotation(EnableWutsiCore::class)
 
         if (context.hasService(Context.SERVICE_DATABASE))
             spec.addAnnotation(EnableTransactionManagement::class.java)
@@ -64,7 +69,12 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
                     .addMember("prePostEnabled = true")
                     .build()
             )
+            if (api.name != "security")
+                spec.addAnnotation(EnableWutsiSecurity::class.java)
         }
+        if (api.name != "site")
+            spec.addAnnotation(EnableWutsiSite::class.java)
+
         return spec.build()
     }
 

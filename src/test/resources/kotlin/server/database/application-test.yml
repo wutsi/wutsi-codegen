@@ -10,6 +10,8 @@ spring:
     username: ${SPRING_DATABASE_USERNAME}
     password: ${SPRING_DATABASE_PASSWORD}
 
+wutsi:
+  client-id: "test"
 
 logging:
   pattern:

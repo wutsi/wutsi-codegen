@@ -1,5 +1,7 @@
-rabbitmq:
-  enabled: true
+wutsi:
+  client-id: "test"
+  rabbitmq:
+    enabled: true
 
 logging:
   pattern:

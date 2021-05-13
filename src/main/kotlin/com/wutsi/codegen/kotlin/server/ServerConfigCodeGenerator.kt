@@ -12,7 +12,9 @@ class ServerConfigCodeGenerator : AbstractMustacheCodeGenerator() {
         val api = KotlinMapper(context).toAPI(openAPI)
         return mapOf(
             "services" to toServices(context),
-            "security" to api.isSecured()
+            "security" to api.isSecured(),
+            "basePackage" to context.basePackage,
+            "name" to context.apiName.toLowerCase()
         )
     }
 

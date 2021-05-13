@@ -21,12 +21,9 @@ class ServerCodeGenerator(
         EditorConfigCodeGenerator(),
         ServerGithubActionsCodeGenerator(),
         GitCodeGenerator(),
-        CacheCodeGenerator(),
-        MQueueCodeGenerator(),
         SwaggerCodeGenerator(),
         ServerReadmeCodeGenerator(),
         CorsCodeGenerator(),
-        TracingCodeGenerator(),
         DatabaseCodeGenerator(),
         SecurityCodeGenerator(),
         RenovateCodeGenerator()

@@ -24,24 +24,20 @@
     <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
     <jdk.version>1.8</jdk.version>
 
-    <feign.version>11.2</feign.version>
     <javax-validation.version>2.0.1.Final</javax-validation.version>
     <junit.version>5.7.1</junit.version>
     <kotlin.version>1.5.0</kotlin.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
-    <jackson-module-kotlin.version>2.12.3</jackson-module-kotlin.version>
-    <jackson-modules-java8.version>2.12.3</jackson-modules-java8.version>
     <klint.version>0.41.0</klint.version>
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
-    <wutsi-spring-memcached.version>1.1.0</wutsi-spring-memcached.version>
-    <wutsi-tracing.version>1.4.0</wutsi-tracing.version>
+    <wutsi-platform.version>1.1.0</wutsi-platform.version>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>com.wutsi.tracing</groupId>
-      <artifactId>wutsi-tracing</artifactId>
-      <version>${wutsi-tracing.version}</version>
+      <groupId>com.wutsi.platform</groupId>
+      <artifactId>wutsi-platform</artifactId>
+      <version>${wutsi-platform.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
@@ -49,37 +45,9 @@
       <version>${kotlin.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.module</groupId>
-      <artifactId>jackson-module-kotlin</artifactId>
-      <version>${jackson-module-kotlin.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.module</groupId>
-      <artifactId>jackson-modules-java8</artifactId>
-      <version>${jackson-modules-java8.version}</version>
-      <type>pom</type>
-      <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.github.openfeign</groupId>
-      <artifactId>feign-core</artifactId>
-      <version>${feign.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.openfeign</groupId>
-      <artifactId>feign-okhttp</artifactId>
-      <version>${feign.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.openfeign</groupId>
-      <artifactId>feign-jackson</artifactId>
-      <version>${feign.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.openfeign</groupId>
-      <artifactId>feign-slf4j</artifactId>
-      <version>${feign.version}</version>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-reflect</artifactId>
+      <version>${kotlin.version}</version>
     </dependency>
 
     <dependency>
@@ -102,11 +70,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.wutsi</groupId>
-      <artifactId>wutsi-spring-memcached</artifactId>
-      <version>${wutsi-spring-memcached.version}</version>
     </dependency>
 
     <dependency>
@@ -146,11 +109,6 @@
       <id>maven</id>
       <name>maven</name>
       <url>https://repo1.maven.org/maven2</url>
-    </repository>
-    <repository>
-      <id>central</id>
-      <name>bintray</name>
-      <url>http://jcenter.bintray.com</url>
     </repository>
     <repository>
       <id>github</id>

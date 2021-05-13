@@ -5,6 +5,7 @@
 - Auto increase version of SDK
 - Add support for renovate
 - Add `Content-Type` header on SDK endpoints
+- Integration of `wutsi-platform` and simplification of dependecies
 ### Changed
 - Update dependency version
 
