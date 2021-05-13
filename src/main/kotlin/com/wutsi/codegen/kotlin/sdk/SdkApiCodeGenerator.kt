@@ -15,6 +15,7 @@ import com.wutsi.codegen.model.Api
 import com.wutsi.codegen.model.Endpoint
 import com.wutsi.codegen.model.EndpointParameter
 import com.wutsi.codegen.model.ParameterType.QUERY
+import feign.Headers
 import feign.Param
 import feign.RequestLine
 import io.swagger.v3.oas.models.OpenAPI
@@ -48,6 +49,11 @@ class SdkApiCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCode
             .addAnnotation(
                 AnnotationSpec.builder(RequestLine::class)
                     .addMember("%S", requestLine(endpoint))
+                    .build()
+            )
+            .addAnnotation(
+                AnnotationSpec.builder(Headers::class.java)
+                    .addMember("%S", "Content-Type: application/json")
                     .build()
             )
             .addParameters(endpoint.parameters.map { toParameter(it) })

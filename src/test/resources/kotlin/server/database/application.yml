@@ -54,10 +54,13 @@ spring:
       maximum-pool-size: 8 #maximum pool size
       max-lifetime: 1000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
 
+wutsi:
+  client-id: "test"
 
 logging:
   level:
     root: INFO
+    com.wutsi.test: DEBUG
   pattern:
     console: "%d type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"
     file: "%d type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"

@@ -4,6 +4,7 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.CodeGenerator
 import com.wutsi.codegen.github.GitCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
+import com.wutsi.codegen.renovate.RenovateCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 
 class SdkCodeGenerator(
@@ -16,7 +17,8 @@ class SdkCodeGenerator(
         SdkGithubActionsCodeGenerator(),
         SdkReadmeCodeGenerator(),
         SdkEnvironmentGenerator(),
-        SdkApiBuilderCodeGenerator(mapper)
+        SdkApiBuilderCodeGenerator(mapper),
+        RenovateCodeGenerator()
     )
 ) : CodeGenerator {
     override fun generate(openAPI: OpenAPI, context: Context) {

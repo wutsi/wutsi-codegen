@@ -39,13 +39,11 @@ internal class SecurityCodeGeneratorTest {
             """
                 package com.wutsi.test.config
 
-                import com.wutsi.security.apikey.ApiKeyAuthenticationProvider
-                import com.wutsi.security.apikey.ApiKeyProvider
+                import com.wutsi.platform.security.apikey.ApiKeyAuthenticationProvider
+                import com.wutsi.platform.security.apikey.ApiKeyProvider
                 import javax.servlet.Filter
-                import kotlin.String
                 import kotlin.Unit
                 import org.springframework.beans.factory.`annotation`.Autowired
-                import org.springframework.beans.factory.`annotation`.Value
                 import org.springframework.context.`annotation`.Configuration
                 import org.springframework.security.config.`annotation`.authentication.builders.AuthenticationManagerBuilder
                 import org.springframework.security.config.`annotation`.web.builders.HttpSecurity
@@ -55,9 +53,7 @@ internal class SecurityCodeGeneratorTest {
                 @Configuration
                 public class SecurityConfiguration(
                   @Autowired
-                  private val apiKeyProvider: ApiKeyProvider,
-                  @Value(value="\${'$'}{security.api-key.header}")
-                  private val apiKeyHeader: String
+                  private val apiKeyProvider: ApiKeyProvider
                 ) : WebSecurityConfigurerAdapter() {
                   public override fun configure(http: HttpSecurity): Unit {
                     http
@@ -84,8 +80,7 @@ internal class SecurityCodeGeneratorTest {
                       ApiKeyAuthenticationProvider()
 
                   public fun authenticationFilter(): Filter {
-                    val filter = com.wutsi.security.apikey.ApiKeyAuthenticationFilter(
-                        headerName = apiKeyHeader,
+                    val filter = com.wutsi.platform.security.apikey.ApiKeyAuthenticationFilter(
                         apiProvider = apiKeyProvider,
                         requestMatcher = SECURED_ENDPOINTS
                     )
@@ -101,90 +96,6 @@ internal class SecurityCodeGeneratorTest {
                         org.springframework.security.web.util.matcher.AntPathRequestMatcher("/v1/likes/*","DELETE")
                         )
                   }
-                }
-            """.trimIndent(),
-            text.trimIndent()
-        )
-    }
-
-    @Test
-    fun apiKeyConfiguration() {
-        val openAPI = createOpenAPI()
-        codegen.generate(openAPI, context)
-
-        val file = File("${context.outputDirectory}/src/main/kotlin/com/wutsi/test/config/ApiKeyConfiguration.kt")
-        assertTrue(file.exists())
-
-        val text = file.readText()
-        kotlin.test.assertEquals(
-            """
-                package com.wutsi.test.config
-
-                import com.fasterxml.jackson.databind.ObjectMapper
-                import com.wutsi.security.SecurityApi
-                import com.wutsi.security.apikey.ApiKeyContext
-                import com.wutsi.security.apikey.ApiKeyProvider
-                import com.wutsi.security.apikey.ApiKeyRequestInterceptor
-                import com.wutsi.stream.EventStream
-                import com.wutsi.stream.EventSubscription
-                import com.wutsi.tracing.TracingRequestInterceptor
-                import kotlin.String
-                import org.springframework.beans.factory.`annotation`.Autowired
-                import org.springframework.beans.factory.`annotation`.Value
-                import org.springframework.context.ApplicationContext
-                import org.springframework.context.`annotation`.Bean
-                import org.springframework.context.`annotation`.Configuration
-                import org.springframework.core.env.Environment
-
-                @Configuration
-                public class ApiKeyConfiguration(
-                  @Autowired
-                  private val context: ApplicationContext,
-                  @Autowired
-                  private val env: Environment,
-                  @Autowired
-                  private val mapper: ObjectMapper,
-                  @Autowired
-                  private val tracingRequestInterceptor: TracingRequestInterceptor,
-                  @Autowired
-                  private val eventStream: EventStream,
-                  @Value(value="\${'$'}{security.api-key.id}")
-                  private val apiKeyId: String,
-                  @Value(value="\${'$'}{security.api-key.header}")
-                  private val apiKeyHeader: String
-                ) {
-                  @Bean
-                  public fun apiKeyRequestInterceptor(): ApiKeyRequestInterceptor =
-                      ApiKeyRequestInterceptor(apiKeyContext())
-
-                  @Bean
-                  public fun apiKeyContext(): ApiKeyContext = com.wutsi.security.apikey.DynamicApiKeyContext(
-                      headerName = apiKeyHeader,
-                      apiKeyId = apiKeyId,
-                      context = context
-                  )
-
-                  @Bean
-                  public fun apiKeyProvider(): ApiKeyProvider = ApiKeyProvider(securityApi())
-
-                  @Bean
-                  public fun securitySubscription(): EventSubscription =
-                      EventSubscription(com.wutsi.security.event.SecurityEventStream.NAME, eventStream)
-
-                  public fun securityEnvironment(): com.wutsi.security.Environment = if
-                      (env.acceptsProfiles(org.springframework.core.env.Profiles.of("prod")))
-                      com.wutsi.security.Environment.PRODUCTION
-                  else
-                      com.wutsi.security.Environment.SANDBOX
-
-                  @Bean
-                  public fun securityApi(): SecurityApi = com.wutsi.security.SecurityApiBuilder()
-                      .build(
-                          env = securityEnvironment(),
-                          mapper = mapper,
-                          interceptors = kotlin.collections.listOf(tracingRequestInterceptor,
-                      apiKeyRequestInterceptor())
-                      )
                 }
             """.trimIndent(),
             text.trimIndent()

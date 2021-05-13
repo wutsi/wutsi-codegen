@@ -10,7 +10,9 @@ internal class SdkMavenCodeGeneratorTest : AbstractMustacheCodeGeneratorTest() {
         apiName = "Test",
         outputDirectory = "./target/wutsi/codegen/sdk",
         basePackage = "com.wutsi.test",
-        jdkVersion = "1.8"
+        jdkVersion = "1.8",
+        githubProject = "test-sdk",
+        githubUser = "foo"
     )
 
     override fun getCodeGenerator(context: Context) = SdkMavenCodeGenerator(KotlinMapper(context))

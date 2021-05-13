@@ -1,8 +1,7 @@
-memcached:
-  enabled: true
-  username: ${MEMCACHIER_USERNAME}
-  password: ${MEMCACHIER_PASSWORD}
-  servers: ${MEMCACHIER_SERVERS}
+wutsi:
+  client-id: "test"
+  memcached:
+    enabled: true
 
 logging:
   pattern:

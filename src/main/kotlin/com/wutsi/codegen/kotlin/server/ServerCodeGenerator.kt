@@ -5,6 +5,7 @@ import com.wutsi.codegen.core.generator.CodeGenerator
 import com.wutsi.codegen.editorconfig.EditorConfigCodeGenerator
 import com.wutsi.codegen.github.GitCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
+import com.wutsi.codegen.renovate.RenovateCodeGenerator
 import io.swagger.v3.oas.models.OpenAPI
 
 class ServerCodeGenerator(
@@ -20,14 +21,12 @@ class ServerCodeGenerator(
         EditorConfigCodeGenerator(),
         ServerGithubActionsCodeGenerator(),
         GitCodeGenerator(),
-        CacheCodeGenerator(),
-        MQueueCodeGenerator(),
         SwaggerCodeGenerator(),
         ServerReadmeCodeGenerator(),
         CorsCodeGenerator(),
-        TracingCodeGenerator(),
         DatabaseCodeGenerator(),
-        SecurityCodeGenerator()
+        SecurityCodeGenerator(),
+        RenovateCodeGenerator()
     )
 ) : CodeGenerator {
 

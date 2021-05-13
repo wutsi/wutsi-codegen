@@ -46,6 +46,8 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
+                import com.wutsi.platform.EnableWutsiCore
+                import com.wutsi.platform.EnableWutsiSite
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -53,6 +55,8 @@ internal class ServerLauncherCodeGeneratorTest {
 
                 @SpringBootApplication
                 @EnableAsync
+                @EnableWutsiCore
+                @EnableWutsiSite
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -79,6 +83,9 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
+                import com.wutsi.platform.EnableWutsiCore
+                import com.wutsi.platform.EnableWutsiSecurity
+                import com.wutsi.platform.EnableWutsiSite
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -89,9 +96,12 @@ internal class ServerLauncherCodeGeneratorTest {
 
                 @SpringBootApplication
                 @EnableAsync
+                @EnableWutsiCore
                 @EnableTransactionManagement
                 @EnableWebSecurity
                 @EnableGlobalMethodSecurity(prePostEnabled = true)
+                @EnableWutsiSecurity
+                @EnableWutsiSite
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -118,6 +128,8 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
+                import com.wutsi.platform.EnableWutsiCore
+                import com.wutsi.platform.EnableWutsiSite
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -126,7 +138,9 @@ internal class ServerLauncherCodeGeneratorTest {
 
                 @SpringBootApplication
                 @EnableAsync
+                @EnableWutsiCore
                 @EnableTransactionManagement
+                @EnableWutsiSite
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -153,6 +167,8 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
+                import com.wutsi.platform.EnableWutsiCore
+                import com.wutsi.platform.EnableWutsiSite
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -161,7 +177,9 @@ internal class ServerLauncherCodeGeneratorTest {
 
                 @SpringBootApplication
                 @EnableAsync
+                @EnableWutsiCore
                 @EnableCaching
+                @EnableWutsiSite
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -188,6 +206,8 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
+                import com.wutsi.platform.EnableWutsiCore
+                import com.wutsi.platform.EnableWutsiSite
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -196,7 +216,9 @@ internal class ServerLauncherCodeGeneratorTest {
 
                 @SpringBootApplication
                 @EnableAsync
+                @EnableWutsiCore
                 @EnableScheduling
+                @EnableWutsiSite
                 public class Application
 
                 public fun main(vararg args: String): Unit {
