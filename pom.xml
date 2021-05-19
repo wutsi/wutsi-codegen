@@ -16,7 +16,7 @@
 
     <commons-cli.version>1.4</commons-cli.version>
     <feign.version>11.2</feign.version>
-    <flyway.version>7.9.0</flyway.version>
+    <flyway.version>7.9.1</flyway.version>
     <junit.version>5.7.2</junit.version>
     <klint.version>0.41.0</klint.version>
     <kotlin.version>1.5.0</kotlin.version>
