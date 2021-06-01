@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.33] 2021-05-01
+### Added
+- Feign retry and request options
+
 ## [0.0.32] 2021-05-07
 ### Added
 - Auto increase version of SDK

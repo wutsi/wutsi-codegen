@@ -32,14 +32,18 @@ internal class SdkApiBuilderCodeGeneratorTest {
                 package com.wutsi.test
 
                 import com.fasterxml.jackson.databind.ObjectMapper
+                import feign.Request
                 import feign.RequestInterceptor
+                import feign.Retryer
                 import kotlin.collections.List
 
                 public class TestApiBuilder {
                   public fun build(
                     env: Environment,
                     mapper: ObjectMapper,
-                    interceptors: List<RequestInterceptor> = emptyList()
+                    interceptors: List<RequestInterceptor> = emptyList(),
+                    options: Request.Options = Request.Options(),
+                    retryer: Retryer = Retryer.Default()
                   ) = feign.Feign.builder()
                     .client(feign.okhttp.OkHttpClient())
                     .encoder(feign.jackson.JacksonEncoder(mapper))
@@ -47,6 +51,8 @@ internal class SdkApiBuilderCodeGeneratorTest {
                     .logger(feign.slf4j.Slf4jLogger(TestApi::class.java))
                     .logLevel(feign.Logger.Level.BASIC)
                     .requestInterceptors(interceptors)
+                    .options(options)
+                    .retryer(retryer)
                     .target(TestApi::class.java, env.url)
                 }
             """.trimIndent(),

@@ -12,7 +12,9 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Api
+import feign.Request
 import feign.RequestInterceptor
+import feign.Retryer
 import io.swagger.v3.oas.models.OpenAPI
 
 class SdkApiBuilderCodeGenerator(private val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
@@ -52,6 +54,22 @@ class SdkApiBuilderCodeGenerator(private val mapper: KotlinMapper) : AbstractKot
                     .defaultValue(CodeBlock.of("emptyList()"))
                     .build()
             )
+            .addParameter(
+                ParameterSpec.builder(
+                    "options",
+                    Request.Options::class
+                )
+                    .defaultValue(CodeBlock.of("Request.Options()"))
+                    .build()
+            )
+            .addParameter(
+                ParameterSpec.builder(
+                    "retryer",
+                    Retryer::class
+                )
+                    .defaultValue(CodeBlock.of("Retryer.Default()"))
+                    .build()
+            )
             .addCode(
                 CodeBlock.of(
                     """
@@ -62,6 +80,8 @@ class SdkApiBuilderCodeGenerator(private val mapper: KotlinMapper) : AbstractKot
                           .logger(feign.slf4j.Slf4jLogger(${api.name}::class.java))
                           .logLevel(feign.Logger.Level.BASIC)
                           .requestInterceptors(interceptors)
+                          .options(options)
+                          .retryer(retryer)
                           .target(${api.name}::class.java, env.url)
                     """.trimIndent()
                 )
