@@ -4,7 +4,7 @@
 
   <artifactId>wutsi-codegen</artifactId>
   <groupId>com.wutsi</groupId>
-  <version>0.0.44-SNAPSHOT</version>
+  <version>0.0.44</version>
   <packaging>jar</packaging>
 
   <name>wutsi-codegen</name>
@@ -41,7 +41,7 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/wutsi/wutsi-codegen.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>wutsi-codegen-0.0.44</tag>
   </scm>
 
   <distributionManagement>
