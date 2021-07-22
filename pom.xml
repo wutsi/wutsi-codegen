@@ -26,7 +26,7 @@
     <mustache.version>0.9.10</mustache.version>
     <servlet-api.version>2.5</servlet-api.version>
     <spring.version>5.3.9</spring.version>
-    <spring-boot.version>2.5.2</spring-boot.version>
+    <spring-boot.version>2.5.3</spring-boot.version>
     <spring-tx.version>2.4.5</spring-tx.version>
     <swagger-parser.version>2.0.27</swagger-parser.version>
     <wutsi-platform.version>1.1.0</wutsi-platform.version>
