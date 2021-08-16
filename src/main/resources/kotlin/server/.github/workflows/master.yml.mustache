@@ -48,11 +48,21 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_TEST}}
           HEROKU_APP: {{herokuApp}}-test
+        {{#services}}
+          {{#mqueue}}
+          CLOUDAMQP_URL: ${{secrets.CLOUDAMQP_URL_TEST}}
+          {{/mqueue}}
+        {{/services}}
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}
           heroku buildpacks:add heroku/jvm --app ${HEROKU_APP}
           heroku config:set --app ${HEROKU_APP} APP_PROFILE=test
+        {{#services}}
+          {{#mqueue}}
+          heroku config:set --app ${HEROKU_APP} CLOUDAMQP_URL=${CLOUDAMQP_URL}
+          {{/mqueue}}
+        {{/services}}
         {{#herokuAddons}}
           heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
         {{/herokuAddons}}
@@ -65,11 +75,21 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_PROD}}
           HEROKU_APP: {{herokuApp}}-prod
+        {{#services}}
+          {{#mqueue}}
+          CLOUDAMQP_URL: ${{secrets.CLOUDAMQP_URL_PROD}}
+          {{/mqueue}}
+        {{/services}}
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}
           heroku buildpacks:add heroku/jvm --app ${HEROKU_APP}
           heroku config:set --app ${HEROKU_APP} APP_PROFILE=prod
+        {{#services}}
+          {{#mqueue}}
+          heroku config:set --app ${HEROKU_APP} CLOUDAMQP_URL=${CLOUDAMQP_URL}
+          {{/mqueue}}
+        {{/services}}
         {{#herokuAddons}}
           heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
         {{/herokuAddons}}

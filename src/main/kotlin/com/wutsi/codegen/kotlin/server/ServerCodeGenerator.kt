@@ -23,7 +23,6 @@ class ServerCodeGenerator(
         GitCodeGenerator(),
         SwaggerCodeGenerator(),
         ServerReadmeCodeGenerator(),
-        CorsCodeGenerator(),
         DatabaseCodeGenerator(),
         SecurityCodeGenerator(),
         RenovateCodeGenerator()

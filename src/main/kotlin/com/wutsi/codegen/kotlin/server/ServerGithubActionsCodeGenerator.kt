@@ -19,6 +19,8 @@ class ServerGithubActionsCodeGenerator : AbstractGithubActionsCodeGenerator() {
         "secrets.HEROKU_API_KEY" to "{{secrets.HEROKU_API_KEY}}",
         "secrets.HEROKU_API_KEY_TEST" to "{{secrets.HEROKU_API_KEY_TEST}}",
         "secrets.HEROKU_API_KEY_PROD" to "{{secrets.HEROKU_API_KEY_PROD}}",
+        "secrets.CLOUDAMQP_URL_TEST" to "{{secrets.CLOUDAMQP_URL_TEST}}",
+        "secrets.CLOUDAMQP_URL_PROD" to "{{secrets.CLOUDAMQP_URL_PROD}}",
         "herokuApp" to context.herokuApp,
         "herokuAddons" to toAddOns(context),
         "services" to toServices(context)
@@ -46,6 +48,9 @@ class ServerGithubActionsCodeGenerator : AbstractGithubActionsCodeGenerator() {
         }
         if (context.hasService(Context.SERVICE_CACHE)) {
             result["cache"] = true
+        }
+        if (context.hasService(Context.SERVICE_MQUEUE)) {
+            result["mqueue"] = true
         }
         return result
     }

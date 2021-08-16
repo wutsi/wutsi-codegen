@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -49,6 +50,22 @@ class ServerControllerCodeGenerator(mapper: KotlinMapper) : AbstractServerCodeGe
     override fun classAnnotations(endpoint: Endpoint): List<AnnotationSpec> =
         listOf(
             AnnotationSpec.builder(RestController::class)
+                .build(),
+            AnnotationSpec.builder(CrossOrigin::class)
+                .addMember("origins = [\"*\"]")
+                .addMember("allowedHeaders = [\"Content-Type\", \"Authorization\", \"Content-Length\", \"X-Requested-With\"]")
+                .addMember(
+                    """
+                    methods = [
+                        org.springframework.web.bind.annotation.RequestMethod.GET,
+                        org.springframework.web.bind.annotation.RequestMethod.DELETE,
+                        org.springframework.web.bind.annotation.RequestMethod.OPTIONS,
+                        org.springframework.web.bind.annotation.RequestMethod.HEAD,
+                        org.springframework.web.bind.annotation.RequestMethod.POST,
+                        org.springframework.web.bind.annotation.RequestMethod.PUT
+                    ]
+                    """.trimIndent()
+                )
                 .build()
         )
 
