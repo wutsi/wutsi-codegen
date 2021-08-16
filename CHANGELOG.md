@@ -3,6 +3,7 @@
 ## [0.0.49] 2021-08-16
 ### Changed
 - Add `@CrossOrigin` annotation to controller code generator
+- Add dependency to `wutsi-platform-core`
 ### Removed
 CORS Filter code generator
 
