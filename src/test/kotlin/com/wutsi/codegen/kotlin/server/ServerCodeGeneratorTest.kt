@@ -38,7 +38,7 @@ internal class ServerCodeGeneratorTest {
     fun `generators`() {
         val codegen = ServerCodeGenerator(mapper = KotlinMapper(context))
 
-        assertEquals(16, codegen.generators.size)
+        assertEquals(15, codegen.generators.size)
         assertTrue(codegen.generators[0] is ServerDtoCodeGenerator)
         assertTrue(codegen.generators[1] is ServerDelegateCodeGenerator)
         assertTrue(codegen.generators[2] is ServerControllerCodeGenerator)
@@ -51,9 +51,8 @@ internal class ServerCodeGeneratorTest {
         assertTrue(codegen.generators[9] is GitCodeGenerator)
         assertTrue(codegen.generators[10] is SwaggerCodeGenerator)
         assertTrue(codegen.generators[11] is ServerReadmeCodeGenerator)
-        assertTrue(codegen.generators[12] is CorsCodeGenerator)
-        assertTrue(codegen.generators[13] is DatabaseCodeGenerator)
-        assertTrue(codegen.generators[14] is SecurityCodeGenerator)
-        assertTrue(codegen.generators[15] is RenovateCodeGenerator)
+        assertTrue(codegen.generators[12] is DatabaseCodeGenerator)
+        assertTrue(codegen.generators[13] is SecurityCodeGenerator)
+        assertTrue(codegen.generators[14] is RenovateCodeGenerator)
     }
 }

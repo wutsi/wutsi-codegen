@@ -1,5 +1,11 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.49] 2021-08-16
+### Changed
+- Add `@CrossOrigin` annotation to controller code generator
+### Removed
+CORS Filter code generator
+
 ## [0.0.32] 2021-05-07
 ### Added
 - Auto increase version of SDK
