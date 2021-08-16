@@ -50,7 +50,7 @@ jobs:
           HEROKU_APP: {{herokuApp}}-test
         {{#services}}
           {{#mqueue}}
-          RABBITMQ_CLOUDAMQP_URL: ${{secrets.RABBITMQ_CLOUDAMQP_URL_TEST}}
+          CLOUDAMQP_URL: ${{secrets.CLOUDAMQP_URL_TEST}}
           {{/mqueue}}
         {{/services}}
         run: |
@@ -63,7 +63,7 @@ jobs:
         {{/herokuAddons}}
         {{#services}}
           {{#mqueue}}
-          heroku config:set --app ${CLOUDAMQP_URL} APP_PROFILE=${RABBITMQ_CLOUDAMQP_URL}
+          heroku config:set --app ${HEROKU_APP} APP_PROFILE=${CLOUDAMQP_URL}
           {{/mqueue}}
         {{/services}}
           heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}
@@ -77,7 +77,7 @@ jobs:
           HEROKU_APP: {{herokuApp}}-prod
         {{#services}}
           {{#mqueue}}
-          RABBITMQ_CLOUDAMQP_URL: ${{secrets.RABBITMQ_CLOUDAMQP_URL_PROD}}
+          CLOUDAMQP_URL: ${{secrets.CLOUDAMQP_URL_PROD}}
           {{/mqueue}}
         {{/services}}
         run: |
@@ -90,7 +90,7 @@ jobs:
         {{/herokuAddons}}
         {{#services}}
           {{#mqueue}}
-          heroku config:set --app ${CLOUDAMQP_URL} APP_PROFILE=${RABBITMQ_CLOUDAMQP_URL}
+          heroku config:set --app ${HEROKU_APP} APP_PROFILE=${CLOUDAMQP_URL}
           {{/mqueue}}
         {{/services}}
           heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}

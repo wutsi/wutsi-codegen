@@ -41,6 +41,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_TEST}}
           HEROKU_APP: foo-app-test
+          CLOUDAMQP_URL: ${{secrets.CLOUDAMQP_URL_TEST}}
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}
@@ -49,6 +50,7 @@ jobs:
           heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
           heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
           heroku addons -a ${HEROKU_APP} | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a ${HEROKU_APP}
+          heroku config:set --app ${HEROKU_APP} APP_PROFILE=${CLOUDAMQP_URL}
           heroku deploy:jar target/test-server.jar --app ${HEROKU_APP}
           echo Health check....
           sleep 90
@@ -58,6 +60,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_PROD}}
           HEROKU_APP: foo-app-prod
+          CLOUDAMQP_URL: ${{secrets.CLOUDAMQP_URL_PROD}}
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}
@@ -66,6 +69,7 @@ jobs:
           heroku addons -a ${HEROKU_APP} | grep papertrail && echo 'addon: papertrail exists' ||  heroku addons:create papertrail -a ${HEROKU_APP}
           heroku addons -a ${HEROKU_APP} | grep memcachier && echo 'addon: memcachier exists' ||  heroku addons:create memcachier -a ${HEROKU_APP}
           heroku addons -a ${HEROKU_APP} | grep heroku-postgresql && echo 'addon: heroku-postgresql exists' ||  heroku addons:create heroku-postgresql -a ${HEROKU_APP}
+          heroku config:set --app ${HEROKU_APP} APP_PROFILE=${CLOUDAMQP_URL}
           heroku deploy:jar target/test-server.jar --app ${HEROKU_APP}
           echo Health check....
           sleep 90
