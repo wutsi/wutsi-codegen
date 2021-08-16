@@ -48,6 +48,11 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_TEST}}
           HEROKU_APP: {{herokuApp}}-test
+        {{#services}}
+          {{#mqueue}}
+          RABBITMQ_CLOUDAMQP_URL: ${{secrets.RABBITMQ_CLOUDAMQP_URL_TEST}}
+          {{/mqueue}}
+        {{/services}}
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}
@@ -56,6 +61,11 @@ jobs:
         {{#herokuAddons}}
           heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
         {{/herokuAddons}}
+        {{#services}}
+          {{#mqueue}}
+          heroku config:set --app ${CLOUDAMQP_URL} APP_PROFILE=${RABBITMQ_CLOUDAMQP_URL}
+          {{/mqueue}}
+        {{/services}}
           heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}
           echo Health check....
           sleep 90
@@ -65,6 +75,11 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY_PROD}}
           HEROKU_APP: {{herokuApp}}-prod
+        {{#services}}
+          {{#mqueue}}
+          RABBITMQ_CLOUDAMQP_URL: ${{secrets.RABBITMQ_CLOUDAMQP_URL_PROD}}
+          {{/mqueue}}
+        {{/services}}
         run: |
           heroku apps | grep ${HEROKU_APP} && echo 'app: ${HEROKU_APP} exists' ||  heroku apps:create ${HEROKU_APP}
           heroku buildpacks:clear --app ${HEROKU_APP}
@@ -73,6 +88,11 @@ jobs:
         {{#herokuAddons}}
           heroku addons -a ${HEROKU_APP} | grep {{addonName}} && echo 'addon: {{addonName}} exists' ||  heroku addons:create {{addonName}} -a ${HEROKU_APP}
         {{/herokuAddons}}
+        {{#services}}
+          {{#mqueue}}
+          heroku config:set --app ${CLOUDAMQP_URL} APP_PROFILE=${RABBITMQ_CLOUDAMQP_URL}
+          {{/mqueue}}
+        {{/services}}
           heroku deploy:jar target/{{artifactId}}.jar --app ${HEROKU_APP}
           echo Health check....
           sleep 90

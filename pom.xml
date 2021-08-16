@@ -16,7 +16,6 @@
     <jacoco.threshold.class>0.85</jacoco.threshold.class>
 
     <commons-cli.version>1.4</commons-cli.version>
-    <feign.version>11.6</feign.version>
     <flyway.version>7.13.0</flyway.version>
     <junit.version>5.7.2</junit.version>
     <klint.version>0.42.1</klint.version>
@@ -30,10 +29,8 @@
     <spring-boot.version>2.5.3</spring-boot.version>
     <spring-tx.version>2.4.5</spring-tx.version>
     <swagger-parser.version>2.0.27</swagger-parser.version>
-    <wutsi-platform.version>1.1.0</wutsi-platform.version>
-    <wutsi-spring-memcached.version>1.1.0</wutsi-spring-memcached.version>
-    <wutsi-stream-rabbitmq.version>1.7.0</wutsi-stream-rabbitmq.version>
-    <wutsi-tracing.version>1.4.0</wutsi-tracing.version>
+    <wutsi-platform.version>1.1.10</wutsi-platform.version>
+    <wutsi-platform-core.version>0.0.10</wutsi-platform-core.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.code.style>official</kotlin.code.style>
@@ -66,15 +63,15 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.wutsi.platform</groupId>
-      <artifactId>wutsi-platform</artifactId>
-      <version>${wutsi-platform.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.github.spullara.mustache.java</groupId>
       <artifactId>compiler</artifactId>
       <version>${mustache.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.nhaarman.mockitokotlin2</groupId>
+      <artifactId>mockito-kotlin</artifactId>
+      <version>${kotlin-mockito.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.squareup</groupId>
@@ -82,24 +79,43 @@
       <version>${kotlinpoet.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-core</artifactId>
-      <version>${flyway.version}</version>
+      <groupId>com.wutsi</groupId>
+      <artifactId>wutsi-platform-core</artifactId>
+      <version>${wutsi-platform-core.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.wutsi.platform</groupId>
+      <artifactId>wutsi-platform</artifactId>
+      <version>${wutsi-platform.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>commons-cli</groupId>
       <artifactId>commons-cli</artifactId>
       <version>${commons-cli.version}</version>
     </dependency>
-    <dependency>
-      <groupId>io.github.openfeign</groupId>
-      <artifactId>feign-core</artifactId>
-      <version>${feign.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>io.swagger.parser.v3</groupId>
       <artifactId>swagger-parser</artifactId>
       <version>${swagger-parser.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-api.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+      <version>${flyway.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${spring.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -127,22 +143,10 @@
       <version>${spring-boot.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-tx</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet-api.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test-junit5</artifactId>
@@ -164,12 +168,6 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.nhaarman.mockitokotlin2</groupId>
-      <artifactId>mockito-kotlin</artifactId>
-      <version>${kotlin-mockito.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
