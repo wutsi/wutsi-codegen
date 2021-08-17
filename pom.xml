@@ -15,7 +15,7 @@
     <jacoco.threshold.class>0.85</jacoco.threshold.class>
 
     <commons-cli.version>1.4</commons-cli.version>
-    <flyway.version>7.13.0</flyway.version>
+    <flyway.version>7.14.0</flyway.version>
     <junit.version>5.7.2</junit.version>
     <klint.version>0.42.1</klint.version>
     <kotlin.version>1.5.21</kotlin.version>
