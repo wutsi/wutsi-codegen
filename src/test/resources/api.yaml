@@ -206,7 +206,15 @@ components:
                     format: date-time
                     nullable: false
                     example: '2017-07-21T17:32:28Z'
+
         ErrorResponse:
+            type: object
+            properties:
+                error:
+                    type: object
+                    $ref: "#/components/schemas/Error"
+
+        Error:
             type: object
             properties:
                 type:
@@ -216,6 +224,7 @@ components:
                 description:
                     type: string
                     nullable: false
+
     securitySchemes:
         api_key:
             type: apiKey
