@@ -15,6 +15,7 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.model.Field
 import com.wutsi.codegen.model.Type
 import io.swagger.v3.oas.models.OpenAPI
+import io.swagger.v3.oas.models.media.ArraySchema
 import io.swagger.v3.oas.models.media.Schema
 
 abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : AbstractKotlinCodeGenerator() {
@@ -26,15 +27,19 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
     }
 
     fun loadModels(spec: OpenAPI, context: Context): List<Type> {
+        println("Loading models...")
+
         // Sort the key
         val stack = mutableListOf<String>()
-        spec.components?.schemas?.map { push(it.key, it.value, stack) }
+        val schemas = spec.components?.schemas
+        schemas?.map { push(schemas, it.key, it.value, stack) }
 
         // Load
         val result = mutableListOf<Type>()
         stack.forEach {
             val key = "#/components/schemas/$it"
             if (context.getType(key) == null) {
+                println(" Loading model $key")
                 val schema = spec.components.schemas[it]
                 val type = mapper.toType(it, schema!!)
                 result.add(type)
@@ -47,12 +52,35 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
         return result
     }
 
-    private fun push(key: String, schema: Schema<*>, stack: MutableList<String>) {
+    private fun push(schemas: Map<String, Schema<*>>, key: String, schema: Schema<*>, stack: MutableList<String>) {
+        if (stack.contains(key))
+            return
+
         schema.properties.forEach {
-            if (it.value.type == "array" && it.value.`$ref` != null)
-                push(it.value.`$ref`, it.value, stack)
+            if (it.value.type == "object" && it.value.`$ref` != null) {
+                val ref = it.value.`$ref`
+                if (ref != null) {
+                    val xkey = key(ref)
+                    val xschema = schemas[xkey]
+                    push(schemas, xkey, xschema as Schema<*>, stack)
+                }
+            } else if (it.value.type == "array") {
+                val ref = (it.value as ArraySchema).items.`$ref`
+                if (ref != null) {
+                    val xkey = key(ref)
+                    val xschema = schemas[xkey]
+                    push(schemas, xkey, xschema as Schema<*>, stack)
+                }
+            }
         }
-        stack.add(0, key)
+
+        stack.add(key)
+        println(" $key - $stack")
+    }
+
+    private fun key(ref: String): String {
+        val i = ref.lastIndexOf('/')
+        return ref.substring(i + 1)
     }
 
     private fun generateModel(type: Type, context: Context) {
