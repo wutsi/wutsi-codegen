@@ -75,7 +75,7 @@ abstract class AbstractDtoCodeGenerator(protected val mapper: KotlinMapper) : Ab
         }
 
         stack.add(key)
-        println(" $key - $stack")
+//        println(" $key - $stack")
     }
 
     private fun key(ref: String): String {
