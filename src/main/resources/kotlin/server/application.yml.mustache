@@ -69,6 +69,9 @@ wutsi:
   platform:
     security:
       type: "jtw"
+  {{#security}}
+      secured-endpoints: {{{endpoints}}}
+  {{/security}}
       jwt:
         api-key: 00000
     cache:

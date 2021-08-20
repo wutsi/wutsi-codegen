@@ -1,5 +1,9 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.52] 2021-08-20
+### Changed
+- Spring Security and Cache dependencies always avaialble
+
 ## [0.0.49] 2021-08-16
 ### Added
 - dependency to `wutsi-platform-core`

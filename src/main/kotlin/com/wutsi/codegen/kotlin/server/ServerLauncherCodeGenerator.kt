@@ -1,6 +1,5 @@
 package com.wutsi.codegen.kotlin.server
 
-import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
@@ -11,16 +10,11 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.kotlin.AbstractKotlinCodeGenerator
 import com.wutsi.codegen.kotlin.KotlinMapper
 import com.wutsi.codegen.model.Api
-import com.wutsi.platform.EnableWutsiCore
-import com.wutsi.platform.EnableWutsiSecurity
-import com.wutsi.platform.EnableWutsiSite
+import com.wutsi.platform.core.WutsiApplication
 import io.swagger.v3.oas.models.OpenAPI
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cache.annotation.EnableCaching
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import java.io.File
 
@@ -52,28 +46,13 @@ class ServerLauncherCodeGenerator : AbstractKotlinCodeGenerator() {
 
     private fun toTypeSpec(api: Api, context: Context): TypeSpec {
         val spec = TypeSpec.classBuilder(ClassName(context.basePackage, CLASSNAME))
+            .addAnnotation(WutsiApplication::class)
             .addAnnotation(SpringBootApplication::class)
             .addAnnotation(EnableAsync::class)
-            .addAnnotation(EnableWutsiCore::class)
+            .addAnnotation(EnableScheduling::class.java)
 
         if (context.hasService(Context.SERVICE_DATABASE))
             spec.addAnnotation(EnableTransactionManagement::class.java)
-        if (context.hasService(Context.SERVICE_CACHE))
-            spec.addAnnotation(EnableCaching::class.java)
-        if (context.hasService(Context.SERVICE_MQUEUE))
-            spec.addAnnotation(EnableScheduling::class.java)
-        if (api.isSecured()) {
-            spec.addAnnotation(EnableWebSecurity::class.java)
-            spec.addAnnotation(
-                AnnotationSpec.builder(EnableGlobalMethodSecurity::class.java)
-                    .addMember("prePostEnabled = true")
-                    .build()
-            )
-            if (api.name != "security")
-                spec.addAnnotation(EnableWutsiSecurity::class.java)
-        }
-        if (api.name != "site")
-            spec.addAnnotation(EnableWutsiSite::class.java)
 
         return spec.build()
     }

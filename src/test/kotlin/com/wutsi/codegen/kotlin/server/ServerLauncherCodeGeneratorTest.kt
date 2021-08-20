@@ -46,17 +46,17 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
-                import com.wutsi.platform.EnableWutsiCore
-                import com.wutsi.platform.EnableWutsiSite
+                import com.wutsi.platform.core.WutsiApplication
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
                 import org.springframework.scheduling.`annotation`.EnableAsync
+                import org.springframework.scheduling.`annotation`.EnableScheduling
 
+                @WutsiApplication
                 @SpringBootApplication
                 @EnableAsync
-                @EnableWutsiCore
-                @EnableWutsiSite
+                @EnableScheduling
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -70,8 +70,6 @@ internal class ServerLauncherCodeGeneratorTest {
     @Test
     fun `generate with security`() {
         val openAPI = createOpenAPI(true)
-        context.addService(Context.SERVICE_DATABASE)
-
         codegen.generate(openAPI, context)
 
         // Launcher
@@ -83,25 +81,17 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
-                import com.wutsi.platform.EnableWutsiCore
-                import com.wutsi.platform.EnableWutsiSecurity
-                import com.wutsi.platform.EnableWutsiSite
+                import com.wutsi.platform.core.WutsiApplication
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
                 import org.springframework.scheduling.`annotation`.EnableAsync
-                import org.springframework.security.config.`annotation`.method.configuration.EnableGlobalMethodSecurity
-                import org.springframework.security.config.`annotation`.web.configuration.EnableWebSecurity
-                import org.springframework.transaction.`annotation`.EnableTransactionManagement
+                import org.springframework.scheduling.`annotation`.EnableScheduling
 
+                @WutsiApplication
                 @SpringBootApplication
                 @EnableAsync
-                @EnableWutsiCore
-                @EnableTransactionManagement
-                @EnableWebSecurity
-                @EnableGlobalMethodSecurity(prePostEnabled = true)
-                @EnableWutsiSecurity
-                @EnableWutsiSite
+                @EnableScheduling
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -128,19 +118,19 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
-                import com.wutsi.platform.EnableWutsiCore
-                import com.wutsi.platform.EnableWutsiSite
+                import com.wutsi.platform.core.WutsiApplication
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
                 import org.springframework.scheduling.`annotation`.EnableAsync
+                import org.springframework.scheduling.`annotation`.EnableScheduling
                 import org.springframework.transaction.`annotation`.EnableTransactionManagement
 
+                @WutsiApplication
                 @SpringBootApplication
                 @EnableAsync
-                @EnableWutsiCore
+                @EnableScheduling
                 @EnableTransactionManagement
-                @EnableWutsiSite
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -167,19 +157,17 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
-                import com.wutsi.platform.EnableWutsiCore
-                import com.wutsi.platform.EnableWutsiSite
+                import com.wutsi.platform.core.WutsiApplication
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
-                import org.springframework.cache.`annotation`.EnableCaching
                 import org.springframework.scheduling.`annotation`.EnableAsync
+                import org.springframework.scheduling.`annotation`.EnableScheduling
 
+                @WutsiApplication
                 @SpringBootApplication
                 @EnableAsync
-                @EnableWutsiCore
-                @EnableCaching
-                @EnableWutsiSite
+                @EnableScheduling
                 public class Application
 
                 public fun main(vararg args: String): Unit {
@@ -206,19 +194,17 @@ internal class ServerLauncherCodeGeneratorTest {
             """
                 package com.wutsi.test
 
-                import com.wutsi.platform.EnableWutsiCore
-                import com.wutsi.platform.EnableWutsiSite
+                import com.wutsi.platform.core.WutsiApplication
                 import kotlin.String
                 import kotlin.Unit
                 import org.springframework.boot.autoconfigure.SpringBootApplication
                 import org.springframework.scheduling.`annotation`.EnableAsync
                 import org.springframework.scheduling.`annotation`.EnableScheduling
 
+                @WutsiApplication
                 @SpringBootApplication
                 @EnableAsync
-                @EnableWutsiCore
                 @EnableScheduling
-                @EnableWutsiSite
                 public class Application
 
                 public fun main(vararg args: String): Unit {

@@ -24,7 +24,6 @@ class ServerCodeGenerator(
         SwaggerCodeGenerator(),
         ServerReadmeCodeGenerator(),
         DatabaseCodeGenerator(),
-        SecurityCodeGenerator(),
         RenovateCodeGenerator()
     )
 ) : CodeGenerator {
