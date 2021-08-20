@@ -16,23 +16,23 @@ spring:
 
 wutsi:
   client-id: "{{name}}"
+  platform:
+    security:
+      jwt:
+        api-key: ${API_KEY}
   {{#cache}}
-  memcached:
-    enabled: true
+    cache:
+      type: memcached
+      memcached:
+        username: ${MEMCACHIER_USERNAME}
+        password: ${MEMCACHIER_PASSWORD}
+        servers: ${MEMCACHIER_SERVERS}
   {{/cache}}
   {{#mqueue}}
-  rabbitmq:
-    enabled: true
+    stream:
+      rabbitmq:
+        url: ${CLOUDAMQP_URL}
   {{/mqueue}}
 {{/services}}
-{{#security}}
-  security:
-    api-key:
-      id: ${API_KEY_ID}
-{{/security}}
 
-logging:
-  pattern:
-    console: "type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"
-    file: "type=%level logger=%class{20} thread=%thread request_id=%X{request_id} client_id=%X{client_id} device_id=%X{device_id} :%m%n"
 {{/scope}}

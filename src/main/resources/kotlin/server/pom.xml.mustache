@@ -38,7 +38,7 @@
     <flyway.version>7.8.2</flyway.version>
     {{/database}}
 {{/services}}
-    <wutsi-platform-core.version>0.0.10</wutsi-platform-core.version>
+    <wutsi-platform-core.version>0.0.19</wutsi-platform-core.version>
   </properties>
 
   <dependencies>
@@ -75,7 +75,6 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-{{#security}}
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
@@ -85,7 +84,6 @@
       <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
     </dependency>
-{{/security}}
 {{#services}}
     {{#database}}
     <dependency>

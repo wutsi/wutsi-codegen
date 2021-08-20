@@ -48,7 +48,7 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
             .writeTo(getSourceDirectory(context))
     }
 
-    private fun toRequestMather(api: Api): String {
+    private fun toRequestMatcher(api: Api): String {
         val items = api.endpoints
             .filter { it.isSecured() }
             .map { "org.springframework.security.web.util.matcher.AntPathRequestMatcher(\"${toAntPath(it)}\",\"${it.method}\")" }
@@ -86,7 +86,7 @@ class SecurityCodeGenerator : AbstractKotlinCodeGenerator() {
                 TypeSpec.companionObjectBuilder()
                     .addProperty(
                         PropertySpec.builder("SECURED_ENDPOINTS", RequestMatcher::class)
-                            .initializer(toRequestMather(api))
+                            .initializer(toRequestMatcher(api))
                             .build()
                     )
                     .build()
