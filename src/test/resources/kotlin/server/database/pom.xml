@@ -33,7 +33,7 @@
     <hikari-cp.version>4.0.3</hikari-cp.version>
     <postgresql.version>42.2.20</postgresql.version>
     <flyway.version>7.8.2</flyway.version>
-    <wutsi-platform-core.version>0.0.10</wutsi-platform-core.version>
+    <wutsi-platform-core.version>0.0.20</wutsi-platform-core.version>
   </properties>
 
   <dependencies>
@@ -69,6 +69,19 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
