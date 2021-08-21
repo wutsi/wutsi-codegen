@@ -63,17 +63,15 @@ spring:
   {{/database}}
 
 wutsi:
-  client-id: "{{name}}"
   application:
     name: {{name}}
   platform:
     security:
-      type: "jtw"
+      type: "jwt"
+      api-key: 00000
   {{#security}}
       secured-endpoints: {{{endpoints}}}
   {{/security}}
-      jwt:
-        api-key: 00000
     cache:
       type: local
     stream:

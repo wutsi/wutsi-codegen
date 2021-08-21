@@ -37,15 +37,13 @@ spring:
       - non_empty
 
 wutsi:
-  client-id: "test"
   application:
     name: test
   platform:
     security:
-      type: "jtw"
+      type: "jwt"
+      api-key: 00000
       secured-endpoints: "POST /v1/likes","GET /v1/likes/stats","DELETE /v1/likes/*"
-      jwt:
-        api-key: 00000
     cache:
       type: local
     stream:

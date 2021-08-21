@@ -37,14 +37,12 @@ spring:
       - non_empty
 
 wutsi:
-  client-id: "test"
   application:
     name: test
   platform:
     security:
-      type: "jtw"
-      jwt:
-        api-key: 00000
+      type: "jwt"
+      api-key: 00000
     cache:
       type: local
     stream:

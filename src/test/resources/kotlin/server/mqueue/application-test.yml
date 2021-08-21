@@ -1,9 +1,7 @@
 wutsi:
-  client-id: "test"
   platform:
     security:
-      jwt:
-        api-key: ${API_KEY}
+      api-key: ${API_KEY}
     stream:
       rabbitmq:
         url: ${CLOUDAMQP_URL}

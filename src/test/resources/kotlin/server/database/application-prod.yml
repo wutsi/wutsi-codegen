@@ -11,8 +11,6 @@ spring:
     password: ${SPRING_DATABASE_PASSWORD}
 
 wutsi:
-  client-id: "test"
   platform:
     security:
-      jwt:
-        api-key: ${API_KEY}
+      api-key: ${API_KEY}

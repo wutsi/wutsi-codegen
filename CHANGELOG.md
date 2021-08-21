@@ -1,8 +1,12 @@
 # See https://keepachangelog.com/en/1.0.0/
 
+## [0.0.53] 2021-08-21
+### Changed
+- Fix spring security configuration
+
 ## [0.0.52] 2021-08-20
 ### Changed
-- Spring Security and Cache dependencies always avaialble
+- Spring Security and Cache dependencies always available
 
 ## [0.0.49] 2021-08-16
 ### Added
