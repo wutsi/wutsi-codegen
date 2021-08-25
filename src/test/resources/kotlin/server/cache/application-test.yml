@@ -2,8 +2,12 @@ wutsi:
   client-id: "test"
   platform:
     security:
+<<<<<<< Updated upstream
       jwt:
         api-key: ${API_KEY}
+=======
+      type: "jwt"
+>>>>>>> Stashed changes
     cache:
       type: memcached
       memcached:
