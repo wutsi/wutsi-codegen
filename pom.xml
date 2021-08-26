@@ -21,7 +21,7 @@
     <kotlin.version>1.5.30</kotlin.version>
     <kotlin-ktlint.version>0.38.1</kotlin-ktlint.version>
     <kotlin-mockito.version>2.2.0</kotlin-mockito.version>
-    <kotlinpoet.version>1.8.0</kotlinpoet.version>
+    <kotlinpoet.version>1.9.0</kotlinpoet.version>
     <mustache.version>0.9.10</mustache.version>
     <servlet-api.version>2.5</servlet-api.version>
     <spring.version>5.3.9</spring.version>
