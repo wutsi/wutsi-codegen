@@ -1,6 +1,6 @@
 # See https://keepachangelog.com/en/1.0.0/
 
-## [0.0.54] 2021-08-24
+## [0.0.54] 2021-08-26
 ### Changed
 - Update security configuration
 

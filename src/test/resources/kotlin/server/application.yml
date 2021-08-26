@@ -42,13 +42,7 @@ wutsi:
     name: test
   platform:
     security:
-<<<<<<< Updated upstream
-      type: "jtw"
-      jwt:
-        api-key: 00000
-=======
       type: "jwt"
->>>>>>> Stashed changes
     cache:
       type: local
     stream:
