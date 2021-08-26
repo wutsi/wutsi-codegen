@@ -4,8 +4,6 @@ import com.wutsi.codegen.Context
 import com.wutsi.codegen.core.generator.AbstractMustacheCodeGenerator
 import com.wutsi.codegen.core.util.CaseUtil
 import com.wutsi.codegen.kotlin.KotlinMapper
-import com.wutsi.codegen.model.Api
-import com.wutsi.codegen.model.Endpoint
 import io.swagger.v3.oas.models.OpenAPI
 import java.io.File
 
@@ -14,10 +12,9 @@ class ServerConfigCodeGenerator : AbstractMustacheCodeGenerator() {
         val api = KotlinMapper(context).toAPI(openAPI)
         return mapOf(
             "services" to toServices(context),
-            "security" to toSecurity(api),
+            "security" to api.isSecured(),
             "basePackage" to context.basePackage,
-            "name" to context.apiName.toLowerCase(),
-            "securedEndpoints" to toSecureEndpoints(api)
+            "name" to context.apiName.toLowerCase()
         )
     }
 
@@ -51,36 +48,5 @@ class ServerConfigCodeGenerator : AbstractMustacheCodeGenerator() {
             openAPI = spec,
             context = context
         )
-    }
-
-    private fun toSecurity(api: Api): Map<String, Any?>? =
-        if (!api.isSecured())
-            null
-        else
-            mapOf(
-                "endpoints" to toSecureEndpoints(api)
-            )
-
-    private fun toSecureEndpoints(api: Api): String? {
-
-        val items = api.endpoints
-            .filter { it.isSecured() }
-            .map { "\"${it.method} ${toAntPath(it)}\"" }
-            .toSet()
-        return items.joinToString(separator = ",")
-    }
-
-    private fun toAntPath(endpoint: Endpoint): String {
-        val tokens = endpoint.path.split("/")
-        if (tokens.isEmpty())
-            return endpoint.path
-        else {
-            val xtokens = tokens
-                .filter { it.isNotEmpty() }
-                .map { if (it.startsWith("{")) "*" else it }
-            return "/" + xtokens.joinToString(separator = "/")
-        }
-
-        endpoint.path.replace("(\\{.+})".toRegex(), "*")
     }
 }

@@ -64,9 +64,7 @@ wutsi:
     name: test
   platform:
     security:
-      type: "jtw"
-      jwt:
-        api-key: 00000
+      type: "jwt"
     cache:
       type: local
     stream:

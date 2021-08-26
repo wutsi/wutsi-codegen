@@ -42,10 +42,7 @@ wutsi:
     name: test
   platform:
     security:
-      type: "jtw"
-      secured-endpoints: "POST /v1/likes","GET /v1/likes/stats","DELETE /v1/likes/*"
-      jwt:
-        api-key: 00000
+      type: "jwt"
     cache:
       type: local
     stream:
